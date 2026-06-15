@@ -4209,7 +4209,7 @@ input[type="checkbox"] {
 </div></div>
 
 
-<div id="subjectModal" class="modal"><div class="modalPanel programModalPanel" style="max-width:500px">
+<div id="subjectModal" class="modal" style="z-index: 1300 !important;"><div class="modalPanel programModalPanel" style="max-width:500px">
   <div class="programModalHeader">
     <div class="programModalHeaderIcon" style="background:#8b5cf6">
       <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg>
@@ -4226,7 +4226,7 @@ input[type="checkbox"] {
     </div>
     <div>
       <div class="programModalSectionLabel">Applicable Levels</div>
-      <div class="subjectTagChecks" style="margin-top:12px"><label><input id="subjectModalTag_Kinder" type="checkbox"> Kinder</label><label><input id="subjectModalTag_ES" type="checkbox"> ES</label><label><input id="subjectModalTag_JHS" type="checkbox"> JHS</label><label><input id="subjectModalTag_SHS" type="checkbox"> SHS</label></div>
+      <div class="subjectTagChecks" style="margin-top:12px; display:flex; flex-wrap:wrap; gap:16px;"><label style="display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700; cursor:pointer;"><input id="subjectModalTag_Kinder" type="checkbox" style="width:16px !important; height:16px !important; accent-color:var(--accent); cursor:pointer;"> Kinder</label><label style="display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700; cursor:pointer;"><input id="subjectModalTag_ES" type="checkbox" style="width:16px !important; height:16px !important; accent-color:var(--accent); cursor:pointer;"> ES</label><label style="display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700; cursor:pointer;"><input id="subjectModalTag_JHS" type="checkbox" style="width:16px !important; height:16px !important; accent-color:var(--accent); cursor:pointer;"> JHS</label><label style="display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700; cursor:pointer;"><input id="subjectModalTag_SHS" type="checkbox" style="width:16px !important; height:16px !important; accent-color:var(--accent); cursor:pointer;"> SHS</label></div>
       <div class="programModalNote" style="margin-top:12px;display:flex">ⓘ Only the selected level tags will be used when filtering subjects in the schedule matrix. Leave all unchecked to show in all levels.</div>
     </div>
   </div>
