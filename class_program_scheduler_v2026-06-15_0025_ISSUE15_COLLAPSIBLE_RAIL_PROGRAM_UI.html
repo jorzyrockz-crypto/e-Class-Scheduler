@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -160,6 +160,9 @@ input, select {
   border-radius: var(--radius-sm);
   padding: 0 12px;
   background: var(--panel);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13.5px;
   box-shadow: var(--shadow-sm);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -167,6 +170,16 @@ input:focus, select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-glow);
+}
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+  cursor: pointer;
 }
 
 /* Layout Structures */
@@ -1918,6 +1931,201 @@ thead .timecol {
   gap: 20px;
   animation: modalSlideIn 0.22s cubic-bezier(0.4,0,0.2,1);
 }
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+}
+.schedulerEmptyIcon svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+.schedulerEmptyTitle {
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+.schedulerEmptyDesc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 400px;
+}
+
+/* Scheduler Panel & Header Styling */
+.schedulerPanel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.schedulerPanelBody {
+  padding: 24px;
+}
+.schedulerListHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line-light);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.schedulerListTitle {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 850;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.schedulerListSub {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Diagnostic Alerts */
+.alert {
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+  border: 1px solid;
+  font-size: 13.5px;
+}
+.alert.ok {
+  background: var(--success-bg) !important;
+  border-color: var(--success-border) !important;
+  color: var(--success-text) !important;
+  border-left: 5px solid var(--success) !important;
+}
+.alert.badbg {
+  background: var(--danger-bg) !important;
+  border-color: var(--danger-border) !important;
+  color: var(--danger-text) !important;
+  border-left: 5px solid var(--danger) !important;
+}
+.diagTitle {
+  font-weight: 800;
+  font-size: 14.5px;
+}
+.diagDetails {
+  margin: 6px 0 6px 20px;
+  padding: 0;
+  list-style-type: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.diagHint {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+.conflictJump {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: currentColor;
+  text-decoration: underline;
+  font-weight: 750;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* Scheduler Toolbar & Dropdown elements */
+.schedulerToolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.viewToggle {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.viewToggle:hover {
+  background: var(--line-light);
+  color: var(--text);
+}
+.viewToggle.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent-glow);
+}
+.viewToggle svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke: currentColor;
+}
+.schedulerFilterSelect {
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  padding: 0 28px 0 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.schedulerFilterSelect:hover {
+  border-color: var(--text-muted);
+}
+.schedulerFilterSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal.show {
+  display: flex !important;
+}
+.modalPanel {
+  width: 100%;
+  max-width: 680px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: modalSlideIn 0.22s cubic-bezier(0.4,0,0.2,1);
+}
 @keyframes modalSlideIn {
   from { opacity: 0; transform: translateY(16px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -1926,9 +2134,12 @@ thead .timecol {
 /* Program Modal – Premium Redesign */
 .programModalPanel {
   max-width: 600px !important;
+  max-height: 90vh;
   padding: 0 !important;
   gap: 0 !important;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .programModalHeader {
   padding: 24px 28px 20px;
@@ -1984,6 +2195,12 @@ thead .timecol {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow-y: auto;
+}
+.checkPanel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
 }
 .programModalSectionLabel {
   font-size: 10.5px;
@@ -2070,6 +2287,7 @@ thead .timecol {
   gap: 10px;
   padding: 16px 28px 20px;
   border-top: 1px solid var(--line);
+  flex-shrink: 0;
 }
 .programModalNote {
   font-size: 12px;
@@ -3325,240 +3543,375 @@ thead .timecol {
   z-index: 3000;
 }
 
-/* Time allotment checker / Analytics views */
+/* --- Analytics Page Premium Redesign --- */
 .analyticsPage {
-  display: grid;
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  animation: analyticsFadeIn 0.4s ease-out;
 }
+
+@keyframes analyticsFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .timeHero {
+  position: relative;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  display: grid;
-  grid-template-columns: 1fr 180px;
-  gap: 20px;
+  padding: 32px 40px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--line);
+  overflow: hidden;
+  box-shadow: 0 10px 30px -10px var(--accent-glow);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
 }
-.timeHero.good { background: linear-gradient(135deg, #064e3b, #0f766e) !important; color: #fff; }
-.timeHero.warn { background: linear-gradient(135deg, #78350f, #d97706) !important; color: #fff; }
-.timeHero.bad { background: linear-gradient(135deg, #7f1d1d, #ef4444) !important; color: #fff; }
+
+.timeHero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.timeHero.excellent { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 10px 30px -10px rgba(16,185,129,0.3); }
+.timeHero.good { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 10px 30px -10px rgba(59,130,246,0.3); }
+.timeHero.warn { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 10px 30px -10px rgba(245,158,11,0.3); }
+.timeHero.bad { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 10px 30px -10px rgba(239,68,68,0.3); }
+.timeHero.empty { background: linear-gradient(135deg, var(--text-muted2) 0%, var(--text-muted) 100%); }
+
+.timeHero > div:first-child {
+  position: relative;
+  z-index: 2;
+  max-width: 70%;
+}
 
 .timeHero h2 {
-  font-family: var(--font-title);
-  font-size: 22px;
-  margin-bottom: 6px;
-}
-.timeHero p {
-  font-size: 13px;
-  line-height: 1.45;
-  opacity: 0.9;
-}
-.timeHeroScore {
-  height: 110px;
-  border-radius: var(--radius-md);
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.15);
-  display: grid;
-  place-items: center;
-  text-align: center;
-}
-.timeHeroScore b {
-  font-family: var(--font-title);
   font-size: 32px;
+  font-family: var(--font-title);
+  font-weight: 800;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+
+.timeHero p {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+}
+
+.timeHeroScore {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  padding: 24px 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.timeHeroScore b {
+  font-size: 48px;
+  font-weight: 800;
+  font-family: var(--font-title);
   line-height: 1;
 }
+
 .timeHeroScore span {
-  font-size: 10px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
 }
 
 .gradeCheckerGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
+
 .gradeCheckerCard {
+  background: var(--panel-glass);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  background: var(--panel);
-  padding: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  box-shadow: var(--shadow-sm);
+  gap: 16px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
 }
+
+.gradeCheckerCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+  border-color: var(--line-light);
+}
+
 .gradeCheckerHead {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
 }
+
 .gradeCheckerTitle {
+  font-size: 18px;
+  font-weight: 800;
   font-family: var(--font-title);
-  font-size: 15px;
-  font-weight: 800;
+  color: var(--text);
 }
+
 .gradeCompliancePill {
-  font-size: 10.5px;
-  font-weight: 800;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
   border-radius: 99px;
-  padding: 3px 8px;
-  border: 1px solid;
+  background: var(--line-light);
+  color: var(--text);
 }
-.gradeCompliancePill.good { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
-.gradeCompliancePill.warn { background: var(--warning-bg); border-color: var(--warning-border); color: var(--warning-text); }
-.gradeCompliancePill.bad { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger-text); }
+.gradeCompliancePill.excellent { background: rgba(16,185,129,0.15); color: var(--success); }
+.gradeCompliancePill.good { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.gradeCompliancePill.warn { background: rgba(245,158,11,0.15); color: var(--warning); }
+.gradeCompliancePill.bad { background: rgba(239,68,68,0.15); color: var(--danger); }
 
 .timeAllotmentTable {
   width: 100%;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
+  font-size: 13.5px;
 }
-.timeAllotmentTable th, .timeAllotmentTable td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--line-light);
-  border-right: 1px solid var(--line-light);
-}
+
 .timeAllotmentTable th {
-  background: var(--line-light);
-  font-weight: 800;
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 700;
   color: var(--text-muted);
+  border-bottom: 2px solid var(--line);
+  background: var(--line-light);
 }
-.statusText.good { color: var(--success); font-weight: 800; }
-.statusText.warn { color: var(--warning); font-weight: 800; }
-.statusText.bad { color: var(--danger); font-weight: 800; }
+
+.timeAllotmentTable th:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+.timeAllotmentTable th:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+
+.timeAllotmentTable td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line-light);
+  color: var(--text);
+}
+
+.timeAllotmentTable tr:last-child td { border-bottom: none; }
 
 .levelComplianceBox {
-  border-radius: var(--radius-md);
+  margin-top: auto;
+  padding: 16px;
   background: var(--line-light);
-  padding: 10px 14px;
-  font-size: 12px;
-  font-weight: 700;
+  border-radius: var(--radius-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.levelComplianceBox b {
+  font-size: 13.5px;
+  font-weight: 600;
   color: var(--text);
-}
-.levelComplianceBox span {
-  color: var(--text-muted);
 }
 
 .analyticsTimestamp {
-  border: 1px solid var(--info-border);
-  background: var(--info-bg);
-  color: var(--info-text);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  font-size: 11.5px;
-  font-weight: 700;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 16px;
 }
 
-/* Teaching Load Summary View */
+@media (max-width: 1024px) {
+  .gradeCheckerGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .timeHero { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .timeHero > div:first-child { max-width: 100%; }
+  .timeHeroScore { width: 100%; text-align: center; }
+  .timeAllotmentTable { display: block; overflow-x: auto; white-space: nowrap; }
+}
+
+
+/* Teaching Load Summary View Premium Redesign */
 .summaryControls {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 24px;
+  background: var(--panel);
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border: 1px solid var(--line);
+  animation: summaryFadeIn 0.4s ease-out;
 }
+
+@keyframes summaryFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .loadSummaryWrap {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
+
 .loadSummaryTable {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  border-spacing: 0 8px; /* Floating rows */
+  margin-top: -8px;
 }
+
 .loadSummaryTable th {
-  background: var(--line-light);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
   color: var(--text-muted);
-  font-weight: 800;
-  padding: 12px;
-  border-bottom: 1px solid var(--line);
-  border-right: 1px solid var(--line);
+  font-weight: 700;
+  padding: 12px 16px;
+  text-align: left;
+  border: none;
 }
+
 .loadSummaryTable td {
-  padding: 12px;
-  border-bottom: 1px solid var(--line-light);
-  border-right: 1px solid var(--line-light);
+  padding: 16px;
+  background: var(--panel);
   vertical-align: middle;
+  border-top: 1px solid var(--line-light);
+  border-bottom: 1px solid var(--line-light);
+  transition: all 0.2s ease;
 }
+
+.loadSummaryTable tr td:first-child {
+  border-left: 1px solid var(--line-light);
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.loadSummaryTable tr td:last-child {
+  border-right: 1px solid var(--line-light);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.loadSummaryTable tr:hover td {
+  background: var(--bg);
+  transform: scale(1.002);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
 .facultyCell {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
 }
+
 .facultyMark {
-  width: 8px;
-  height: 8px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.2), 0 2px 8px rgba(0,0,0,0.1);
+  flex-shrink: 0;
 }
+
 .facultyName {
-  font-weight: 750;
+  font-weight: 700;
+  font-family: var(--font-title);
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 4px;
 }
+
 .adviserBadge {
   display: inline-flex;
-  margin-top: 4px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: var(--warning-bg);
-  color: var(--warning-text);
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--warning) 0%, #f59e0b 100%);
+  color: #fff;
   font-size: 9.5px;
   font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
 }
+
 .positionPill {
   display: inline-flex;
-  padding: 2px 6px;
-  border-radius: 99px;
+  padding: 3px 8px;
+  border-radius: 6px;
   background: var(--line-light);
   color: var(--text-muted);
   font-size: 9.5px;
   font-weight: 800;
-  margin-right: 4px;
+  margin-right: 6px;
+  border: 1px solid var(--line);
 }
+
 .totalLoadCell {
   text-align: center;
   font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
 }
+
 .hoursText {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-muted);
-  margin-top: 2px;
+  font-weight: 600;
+  margin-top: 4px;
 }
+
 .statusPill {
-  display: inline-grid;
-  justify-items: center;
-  border-radius: 99px;
-  padding: 6px 12px;
-  font-size: 10.5px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
-  border: 1px solid;
+  border: 1px solid transparent;
+  min-width: 100px;
 }
+
 .statusPill small {
-  font-size: 9px;
+  font-size: 9.5px;
   text-transform: none;
-  font-weight: 700;
-  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+  opacity: 0.8;
 }
-.statusPill.status-underload { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
-.statusPill.status-met { background: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
-.statusPill.status-overload { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
+
+.statusPill.status-underload { 
+  background: rgba(59, 130, 246, 0.1); 
+  color: #3b82f6; 
+  border-color: rgba(59, 130, 246, 0.2); 
+}
+.statusPill.status-met { 
+  background: rgba(16, 185, 129, 0.1); 
+  color: var(--success); 
+  border-color: rgba(16, 185, 129, 0.2); 
+}
+.statusPill.status-overload { 
+  background: rgba(239, 68, 68, 0.1); 
+  color: var(--danger); 
+  border-color: rgba(239, 68, 68, 0.2); 
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {
@@ -4185,6 +4538,670 @@ input[type="checkbox"] {
 #subjectModal {
   z-index: 1300 !important;
 }
+/* Global Custom Glassmorphic Select Component */
+.customSelectWrap {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+}
+.customSelectWrap.active { z-index: 50; }
+
+.customSelectBtn {
+  width: 100%;
+  height: 38px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+  cursor: pointer;
+  user-select: none;
+}
+.customSelectBtn:hover {
+  background: var(--bg);
+}
+.customSelectWrap.active .customSelectBtn {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.customSelectArrow {
+  display: flex;
+  align-items: center;
+  color: #64748b;
+  transition: transform 0.2s;
+}
+.customSelectWrap.active .customSelectArrow {
+  transform: rotate(180deg);
+}
+.customSelectArrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.customSelectMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  min-width: max-content;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  z-index: 210;
+  display: none;
+  flex-direction: column;
+  padding: 4px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.customSelectMenu.show {
+  display: flex;
+  animation: customSelectFade 0.15s ease-out;
+}
+@keyframes customSelectFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.customSelectMenuItem {
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 13.5px;
+  font-family: var(--font-body);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.customSelectMenuItem:hover {
+  background: var(--line-light);
+}
+.customSelectMenuItem.active {
+  color: var(--primary);
+  font-weight: 700;
+  background: rgba(15, 118, 110, 0.05);
+}
+.contextHidden { display: none !important; }
+#classModal .programModalPanel {
+  overflow: visible !important;
+}
+#classModal .programModalHeader {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+#classModal .programModalFooter {
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+#viewControls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* CLASS SCHEDULER PREMIUM REDESIGN OVERRIDES */
+
+/* 1. Sidebar Panels */
+.grid > aside > .card.panel {
+  box-shadow: var(--shadow-md) !important;
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--line) !important;
+  background: var(--panel) !important;
+  transition: box-shadow 0.3s, border-color 0.3s !important;
+}
+.grid > aside > .card.panel:hover {
+  box-shadow: var(--shadow-lg) !important;
+  border-color: var(--text-muted2) !important;
+}
+.panelHead {
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.05) 0%, transparent 100%) !important;
+  border-bottom: 1px solid var(--line-light) !important;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+  padding: 16px 20px !important;
+}
+.panelTitle {
+  font-family: var(--font-title) !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.panelTitle svg {
+  color: var(--accent) !important;
+}
+
+/* 1.2 Teacher Workload List Items */
+.teacher {
+  grid-template-columns: 44px 1fr !important;
+  padding: 16px !important;
+  border-radius: var(--radius-md) !important;
+  margin-bottom: 12px !important;
+  background: var(--panel) !important;
+}
+.teacher .avatar {
+  width: 44px !important;
+  height: 44px !important;
+  font-family: var(--font-title) !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.teacherTop {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.teacherName {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
+}
+.teacherEditBtn {
+  font-size: 10px !important;
+  padding: 4px 8px !important;
+  height: auto !important;
+  background: var(--line-light) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text-muted) !important;
+}
+.teacherEditBtn:hover {
+  background: var(--line) !important;
+  color: var(--text) !important;
+}
+.teacherMeta {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  margin-top: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.teacherStatusRow {
+  margin-top: 10px !important;
+}
+.workloadStatusPill {
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  padding: 3px 10px !important;
+  border-radius: 99px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border: 1px solid !important;
+  cursor: pointer !important;
+  transition: transform 0.2s !important;
+  background: transparent !important;
+}
+.workloadStatusPill:hover {
+  transform: scale(1.05) !important;
+}
+
+/* 1.3 Diagnostics Alert */
+.alert {
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid !important;
+  box-shadow: var(--shadow-sm) !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 100%) !important;
+  padding: 16px 20px !important;
+}
+.alert.ok {
+  background-color: var(--success-bg) !important;
+  border-color: var(--success-border) !important;
+  color: var(--success) !important;
+  border-left: 6px solid var(--success) !important;
+}
+.alert.badbg {
+  background-color: var(--danger-bg) !important;
+  border-color: var(--danger-border) !important;
+  color: var(--danger) !important;
+  border-left: 6px solid var(--danger) !important;
+}
+
+/* 2. Program Header Card */
+.scheduleHead {
+  border-bottom: none !important;
+  padding: 24px 28px !important;
+}
+.scheduleTitle {
+  font-size: 24px !important;
+  letter-spacing: -0.02em !important;
+}
+.scheduleSub {
+  font-size: 14px !important;
+  color: var(--text-muted2) !important;
+}
+
+/* 3. Timetable Grid Layout */
+.scheduleHead + #content {
+  padding: 0 28px 28px 28px !important;
+}
+table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden !important;
+  background: var(--panel) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+th, td {
+  border: 1px solid var(--line-light) !important;
+  border-top: none !important;
+  border-left: none !important;
+}
+th {
+  background: var(--line-light) !important;
+  font-family: var(--font-title) !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--text) !important;
+  padding: 16px !important;
+}
+.timecol {
+  background: var(--panel) !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  color: var(--text) !important;
+  border-right: 1px solid var(--line) !important;
+}
+thead .timecol {
+  background: var(--line-light) !important;
+}
+
+/* 4. Schedule Blocks */
+.block {
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--card-color) !important;
+  border-left: 5px solid var(--card-color) !important;
+  background: linear-gradient(135deg, var(--panel) 0%, rgba(255,255,255,0.4) 100%) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
+  padding: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+.block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--card-color);
+  opacity: 0.04;
+  pointer-events: none;
+}
+.block:hover {
+  transform: translateY(-2px) scale(1.01) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06) !important;
+  z-index: 10 !important;
+}
+.blockTeacherRow {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-top: 2px !important;
+}
+.blockTeacherAvatar {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+}
+.blockTeacherName {
+  font-size: 12.5px !important;
+  font-weight: 750 !important;
+  color: var(--text) !important;
+}
+.blockMetaRow {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-top: 4px !important;
+}
+.blockMetaPill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: var(--line-light) !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 10px !important;
+  font-weight: 750 !important;
+  color: var(--text-muted) !important;
+}
+.blockMetaPill svg {
+  width: 10px !important;
+  height: 10px !important;
+}
+.blockMinsBadge {
+  position: absolute !important;
+  bottom: 8px !important;
+  right: 8px !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  color: var(--card-color) !important;
+  background: rgba(255,255,255,0.8) !important;
+  padding: 2px 6px !important;
+  border-radius: 99px !important;
+}
+.classSubject {
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* 5. Placeholders & Universal Blocks */
+.add {
+  border: 2px dashed var(--line) !important;
+  background: var(--panel) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text-muted) !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  padding: 16px !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transition: all 0.2s !important;
+  cursor: pointer !important;
+}
+.add:hover {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  background: var(--accent-light) !important;
+  transform: scale(1.02) !important;
+}
+.universalBlock {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--line-light),
+    var(--line-light) 10px,
+    var(--panel) 10px,
+    var(--panel) 20px
+  ) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text-muted) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--radius-md) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 12px !important;
+  box-shadow: none !important;
+}
+/* CLASS SCHEDULER PREMIUM REDESIGN OVERRIDES - BATCH 2 */
+
+.schedulerHeaderBlock {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-lg) !important;
+  background: linear-gradient(180deg, var(--panel) 0%, var(--bg) 100%) !important;
+  box-shadow: var(--shadow-sm) !important;
+  padding: 24px !important;
+  margin-bottom: 24px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+.schedulerHeaderBlock::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0; width: 6px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-light));
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+.schedulerHeaderTop {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  gap: 20px !important;
+}
+.schedulerHeaderTitleRow {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-bottom: 8px !important;
+}
+.schedulerHeaderTitle {
+  font-family: var(--font-title) !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
+  margin: 0 !important;
+}
+.schedulerHeaderBadge {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  padding: 4px 10px !important;
+  border-radius: 99px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border: 1px solid !important;
+}
+.schedulerHeaderSub {
+  font-size: 13px !important;
+  color: var(--text-muted) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  font-weight: 600 !important;
+}
+.schedulerHeaderSub span {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.schedulerHeaderSub svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+.schedulerHeaderProgress {
+  flex-shrink: 0 !important;
+  min-width: 250px !important;
+  text-align: right !important;
+}
+.schedulerProgressLabel {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: var(--text-muted) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-bottom: 8px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+.schedulerProgressTrack {
+  height: 8px !important;
+  background: var(--line) !important;
+  border-radius: 99px !important;
+  overflow: hidden !important;
+}
+.schedulerProgressFill {
+  height: 100% !important;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light)) !important;
+  border-radius: 99px !important;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 0 8px var(--accent-glow) !important;
+}
+/* FOCUS MODE CSS */
+body.focusMode .side {
+  display: none !important;
+}
+body.focusMode .schedulerRail {
+  display: none !important;
+}
+body.focusMode .grid > aside {
+  display: none !important;
+}
+body.focusMode .shell {
+  padding-left: 0 !important;
+}
+body.focusMode .grid {
+  grid-template-columns: 1fr !important;
+}
+/* FOCUS MODE CSS FIXES */
+body.focusMode .shell {
+  grid-template-columns: 1fr !important;
+}
+body.focusMode .shell.schedulerRailMode {
+  grid-template-columns: 1fr !important;
+}
+body.focusMode .shell.schedulerRailCollapsed {
+  grid-template-columns: 1fr !important;
+}
+body.focusMode .grid {
+  grid-template-columns: 1fr !important;
+}
+body.focusMode .shell {
+  display: block !important;
+}
+body.focusMode .grid {
+  display: block !important;
+}
+body.focusMode .main {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  padding: 24px !important;
+}
+body.focusMode section.card {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+/* COMPACT ROW HEIGHTS IN FOCUS MODE */
+body.focusMode th,
+body.focusMode td {
+  padding: 8px 12px !important;
+}
+body.focusMode .block {
+  padding: 8px 10px !important;
+  gap: 4px !important;
+}
+body.focusMode .blockTeacherRow {
+  margin-top: 0 !important;
+}
+body.focusMode .blockMetaRow {
+  margin-top: 2px !important;
+}
+body.focusMode .add {
+  padding: 8px !important;
+  font-size: 11.5px !important;
+}
+body.focusMode .universalBlock {
+  padding: 6px !important;
+}
+/* FIX STICKY AND ULTRA COMPACT MODE */
+table {
+  overflow: visible !important;
+}
+body.focusMode th,
+body.focusMode td {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+}
+body.focusMode th {
+  padding: 10px !important;
+  font-size: 12px !important;
+  z-index: 30 !important;
+}
+body.focusMode .block {
+  padding: 6px 8px !important;
+  gap: 2px !important;
+}
+body.focusMode .blockTeacherRow {
+  margin-top: 0 !important;
+}
+body.focusMode .blockTeacherAvatar {
+  width: 18px !important;
+  height: 18px !important;
+  font-size: 8px !important;
+}
+body.focusMode .blockTeacherName {
+  font-size: 11px !important;
+}
+body.focusMode .blockMetaRow {
+  margin-top: 1px !important;
+  gap: 4px !important;
+}
+body.focusMode .blockMetaPill {
+  padding: 1px 4px !important;
+  font-size: 9px !important;
+}
+body.focusMode .blockMinsBadge {
+  font-size: 9px !important;
+  bottom: 4px !important;
+  right: 4px !important;
+  padding: 1px 4px !important;
+}
+body.focusMode .classSubject {
+  font-size: 11.5px !important;
+}
+body.focusMode .add {
+  padding: 6px !important;
+  font-size: 11px !important;
+  min-height: 40px !important;
+}
+body.focusMode .universalBlock {
+  padding: 4px !important;
+  font-size: 10px !important;
+}
+body.focusMode .timecol {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+}
+body.focusMode .drop {
+  min-height: 40px !important;
+  padding: 4px !important;
+  gap: 2px !important;
+}
+/* FOCUS MODE HEADER COMPRESSION */
+body.focusMode .schoolTopbar {
+  display: none !important;
+}
+body.focusMode .main {
+  padding: 12px !important;
+}
+body.focusMode .scheduleHead {
+  padding: 10px 16px !important;
+}
+body.focusMode .scheduleTitle {
+  font-size: 16px !important;
+}
+body.focusMode .scheduleSub {
+  font-size: 11px !important;
+  margin-top: 2px !important;
+}
+body.focusMode .scheduleHead .btn {
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  height: 30px !important;
+}
+body.focusMode .scroll {
+  max-height: calc(100vh - 75px) !important;
+}
 </style></head>
 <body><div id="toastHost"></div><div id="floatingMenu" class="menu" onmouseenter="cancelMenuClose()" onmouseleave="scheduleMenuClose()"></div>
 <div class="shell"><aside class="side"><div class="brandrow"><div class="brand">CP</div><div><div class="brandtitle">Class Program</div><div class="brandsub">Scheduler</div></div></div><nav id="nav"></nav><div class="sideActions"><button class="btn" onclick="openSettings()"><span id="iSettings"></span>Settings</button><button class="btn" onclick="openResetModal()"><span id="iReset"></span>Reset</button><button class="btn" onclick="exportData()"><span id="iExport"></span>Export Backup</button><label class="btn"><span id="iImport"></span>Import Backup<input type="file" accept="application/json" hidden onchange="importData(event)"></label></div><div class="sideFooterArt" aria-hidden="true"><span class="star s1">✦</span><span class="star s2">✦</span><span class="star s3">✦</span><span class="star s4">✦</span><div class="bag"><span class="bagPocket"></span></div><div class="plant"><span class="stem"></span><span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span><span class="leaf l4"></span><span class="pot"></span></div><div class="books"><span class="book b1"></span><span class="book b2"></span><span class="book b3"></span></div></div></aside>
@@ -4202,7 +5219,7 @@ input[type="checkbox"] {
     </div>
   </div>
   <div id="classNotice" class="classNotice"></div>
-  <div class="programModalBody" style="padding-top:16px">
+  <div class="programModalBody" style="padding-top:16px; overflow: visible;">
     <div class="formGrid"><label class="label">Subject<select id="mSub" class="input"></select></label><label class="label">Teacher<select id="mTeach" class="input"></select></label></div>
     <div class="contextHidden"><select id="mGrade" class="input"></select><select id="mSlot" class="input"></select><select id="mDay" class="input"><option value="master">Master</option></select><select id="mSec" class="input"></select></div>
   </div>
@@ -4527,6 +5544,10 @@ function updateUndoRedoButtons() {
 }
 
 function get(a,id){return a.find(x=>x.id===id)||{name:'—',color:'#64748b'}} function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))} function rgba(hex,a){hex=teacherColor(hex).replace('#','');if(hex.length===3)hex=hex.split('').map(x=>x+x).join('');let r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);return `rgba(${r},${g},${b},${a})`} function initials(n){return String(n||'').split(/\s+/).filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function toggleFocusMode() {
+  document.body.classList.toggle('focusMode');
+  render();
+}
 function render(){hideContextMenu();menuRegistry={};menuCounter=0;renderHead();renderNav();renderSchedulerRail();renderMetrics();renderFaculty();renderDiag();populateModal();renderContent();applyLayoutMode();hydrateStaticIcons();renderThemeIcon();applySearch();updateUndoRedoButtons();} function applyLayoutMode(){let g=document.querySelector('.grid');g?.classList.toggle('full',activeView!=='scheduler'||!state.activeProgramId);g?.classList.toggle('dashboardView',activeView==='dashboard');g?.classList.toggle('analyticsView',activeView==='analytics');g?.classList.toggle('schedulerView',activeView==='scheduler');document.querySelector('.kpis')?.classList.toggle('hideForAnalytics',activeView==='analytics' || activeView==='dashboard' || activeView==='scheduler');document.querySelector('.shell')?.classList.toggle('schedulerRailMode',activeView==='scheduler');let rail=document.getElementById('schedulerRail');rail?.classList.toggle('visible',activeView==='scheduler');rail?.classList.toggle('collapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed);document.querySelector('.shell')?.classList.toggle('schedulerRailCollapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed)} function formatSchoolYearLabel(sy){sy=String(sy||'').trim();if(!sy)return 'No school year set';return /^S\.?Y\.?/i.test(sy)?sy:'S.Y. '+sy}
 function toggleSchoolYearDropdown(e){e.stopPropagation();let wrap=document.getElementById('topSchoolYearDropdown'),menu=document.getElementById('topSchoolYearMenu');if(wrap&&menu){let show=menu.classList.toggle('show');wrap.classList.toggle('active',show)}}
 function renderTopSchoolYearDropdown(){let menu=document.getElementById('topSchoolYearMenu'),label=document.getElementById('topSchoolYearLabel');if(!menu||!label)return;let years=availableSchoolYears(),current=currentSchoolYearName();if(!years.includes(current))years.unshift(current);label.textContent=formatSchoolYearLabel(current);let html=years.map(y=>`<button class="topSyMenuItem ${y===current?'active':''}" onclick="handleTopSchoolYearChange('${esc(y)}')">${esc(formatSchoolYearLabel(y))}</button>`).join('');html+=`<button class="topSyMenuItem addMenuBtn" onclick="handleTopSchoolYearChange('__add_new_sy__')">＋ Add New School Year</button>`;menu.innerHTML=html}
@@ -4714,7 +5735,7 @@ function readinessItemRows(data){let hasPrograms=data.programs.length>0,hasClass
 function readinessRowsHtml(rows){return rows.map(r=>`<div class="readyCheckLine"><span class="readyStatusIcon ${r.kind}">${readinessIcon(r.kind)}</span><span>${esc(r.label)}</span><span class="readyStatusChip ${r.kind}">${readinessStatusLabel(r.kind)}</span></div>`).join('')}
 function firstAnalyticsIssueText(data){if(data.conflicts.length){let c=data.conflicts[0];return `${c.gradeA} ${c.subjectA} — teacher conflict at ${c.time}.`}if(data.missingTeacher)return`${data.missingTeacher} scheduled subject(s) have no assigned teacher.`;if(data.missingSubject)return`${data.missingSubject} scheduled class(es) have no subject selected.`;let incomplete=data.programRows.find(r=>r.expected&&r.scheduled<r.expected);if(incomplete)return`${incomplete.p.name} has ${incomplete.expected-incomplete.scheduled} missing schedule slot(s).`;return'No active issue found.'}
 function analyticsInfoDate(){let d=new Date();return d.toLocaleString([], {year:'numeric',month:'long',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
-function renderAnalytics(){let overall=overallTimeCompliance();viewTitle.textContent='Analytics';viewSub.textContent='Grade-level weekly time-allotment checker.';viewControls.innerHTML='';let gradeCards=overall.summaries.map(g=>`<section class="gradeCheckerCard"><div class="gradeCheckerHead"><div class="gradeCheckerTitle">${esc(g.grade)} Time Allotment</div><span class="gradeCompliancePill ${g.kind}">${g.score}% • ${esc(g.label)}</span></div><table class="timeAllotmentTable"><thead><tr><th>Learning Area</th><th>Required (mins/wk)</th><th>Scheduled (mins/week)</th><th>Compliance Status</th></tr></thead><tbody>${timeAllotmentTableRows(g.rows)}</tbody></table><div class="levelComplianceBox"><b>Level of Compliance</b><span>${g.score}% — ${esc(g.label)}${g.missing?` • ${g.missing} missing area(s)`:''}</span></div>${g.aral||''}</section>`).join('')||`<section class="gradeCheckerCard"><div class="empty">No scheduled class program data available for checking.</div></section>`;content.innerHTML=`<div class="analyticsPage cleanAnalytics"><section class="timeHero ${overall.kind}"><div><h2>${esc(overall.label)}</h2><p>${esc(overall.message)}</p><p><b>Basis:</b> ${esc(curriculumScopeLabel())}. Required subjects are listed per grade level, including JHS profiles when Grade 7–10 schedules are encoded. ARAL is shown separately as an intervention block.</p></div><div class="timeHeroScore"><div><b>${overall.score}%</b><br><span>Overall Compliance</span></div></div></section><div class="gradeCheckerGrid">${gradeCards}</div><div class="analyticsTimestamp">ⓘ Time allotment analytics are based on the latest saved load-counted/master class programs as of ${esc(analyticsInfoDate())}.</div></div>`}
+function renderAnalytics(){let overall=overallTimeCompliance();viewTitle.textContent='Analytics';viewSub.textContent='Grade-level weekly time-allotment checker.';viewControls.innerHTML='';let gradeCards=overall.summaries.map(g=>`<section class="gradeCheckerCard"><div class="gradeCheckerHead"><div class="gradeCheckerTitle">${esc(g.grade)} Time Allotment</div><span class="gradeCompliancePill ${g.kind}">${g.score}% • ${esc(g.label)}</span></div><table class="timeAllotmentTable"><thead><tr><th>Learning Area</th><th>Required (mins/wk)</th><th>Scheduled (mins/week)</th><th>Compliance Status</th></tr></thead><tbody>${timeAllotmentTableRows(g.rows)}</tbody></table><div class="levelComplianceBox"><b>Level of Compliance</b><span>${g.score}% — ${esc(g.label)}${g.missing?` • ${g.missing} missing area(s)`:''}</span></div>${g.aral||''}</section>`).join('')||`<section class="gradeCheckerCard"><div class="empty">No scheduled class program data available for checking.</div></section>`;content.innerHTML=`<div class="analyticsPage cleanAnalytics"><section class="timeHero ${overall.kind}"><div><h2>${esc(overall.label)}</h2><p>${esc(overall.message)}</p><div style="margin-top:12px; display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:99px; font-size:12px; font-weight:600; cursor:help;" title="Required subjects are listed per grade level, including JHS profiles. ARAL is shown separately as an intervention block."><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><path stroke-width="2" d="M12 16v-4M12 8h.01"></path></svg> Basis: ${esc(curriculumScopeLabel())}</div></div><div class="timeHeroScore"><div><b>${overall.score}%</b><br><span>Overall Compliance</span></div></div></section><div class="gradeCheckerGrid">${gradeCards}</div><div class="analyticsTimestamp">ⓘ Time allotment analytics are based on the latest saved load-counted/master class programs as of ${esc(analyticsInfoDate())}.</div></div>`}
 function conflictLabel(c){let secA=c.sectionA?` - ${c.sectionA}`:'',secB=c.sectionB?` - ${c.sectionB}`:'';return `${esc(c.teacher)} is assigned twice at ${esc(c.time)}: ${esc(c.subjectA)} (${esc(c.gradeA)}${esc(secA)}) and ${esc(c.subjectB)} (${esc(c.gradeB)}${esc(secB)}).`}
 function conflictJumpButton(c){return `<button class="conflictJump" onclick="highlightConflict('${c.a.id}','${c.b.id}')" title="Open and highlight this conflict">${conflictLabel(c)}</button>`}
 function highlightConflict(aId,bId){let c=state.classes.find(x=>x.id===aId)||state.classes.find(x=>x.id===bId);if(c&&c.programId){state.activeProgramId=c.programId;state.schedulerExpanded=true;activeView='scheduler';state.activeTab='scheduler';selectedTeacher=c.teacherId||selectedTeacher;localStorage.setItem(STORE,JSON.stringify(state));render()}setTimeout(()=>{[aId,bId].forEach(id=>{let el=document.querySelector(`.block[data-class-id="${id}"]`);if(el){el.classList.add('conflictFocus');el.scrollIntoView({behavior:'smooth',block:'center',inline:'center'});setTimeout(()=>el.classList.remove('conflictFocus'),2600)}})},120)}
@@ -5125,7 +6146,7 @@ function renderProgramMatrix(p){
   let slots=slotsForProgram(p),cols=columnsForProgram(p);
   viewTitle.textContent='';
   viewSub.textContent='';
-  viewControls.innerHTML=`<button class="btn" onclick="backToPrograms()">${ico('chevron-left','currentColor')} Back to Programs</button><button class="btn" onclick="editProgram('${p.id}')">${ico('settings','currentColor')} Edit Program</button><button class="btn primary" onclick="addSlotAtEnd('${p.group||'g36'}','${p.id}')">${ico('plus','#fff')} Add Time Slot</button>`;
+  viewControls.innerHTML=`<button class="btn" onclick="toggleFocusMode()" title="Toggle Focus Mode">${document.body.classList.contains('focusMode')?ico('minimize','currentColor')+' Exit Focus':ico('maximize','currentColor')+' Focus Mode'}</button><button class="btn" onclick="backToPrograms()">${ico('chevron-left','currentColor')} Back to Programs</button><button class="btn" onclick="editProgram('${p.id}')">${ico('settings','currentColor')} Edit Program</button><button class="btn primary" onclick="addSlotAtEnd('${p.group||'g36'}','${p.id}')">${ico('plus','#fff')} Add Time Slot</button>`;
   if(!slots.length||!cols.length){
     content.innerHTML=`<div class="empty">This program needs at least one time slot and one column.</div>`;
     return;
@@ -5258,7 +6279,7 @@ function summaryRowText(r){return [r.teacher.name,(r.levelTags||[]).join(' '),r.
 function filterSummaryRows(rows){let q=(summarySearch||'').toLowerCase().trim();return rows.filter(r=>{let st=loadStatus(r.minutes).kind,hasAdv=(r.adviserEntries||[]).length>0,levelOk=summaryLevel==='all'||(r.levelTags||[]).includes(summaryLevel),statusOk=summaryStatus==='all'||st===summaryStatus,advOk=summaryAdviser==='all'||(summaryAdviser==='advisers'?hasAdv:!hasAdv),searchOk=!q||summaryRowText(r).includes(q);return levelOk&&statusOk&&advOk&&searchOk})}
 function sortSummaryRows(rows){let arr=[...rows];arr.sort((a,b)=>{let sa=loadStatus(a.minutes).kind,sb=loadStatus(b.minutes).kind,rank={overload:0,met:1,underload:2};if(summarySort==='name')return a.teacher.name.localeCompare(b.teacher.name);if(summarySort==='loadHigh')return b.minutes-a.minutes;if(summarySort==='loadLow')return a.minutes-b.minutes;if(summarySort==='subjectsHigh')return b.blocks-a.blocks;if(summarySort==='underloadFirst')return (sa==='underload'?0:1)-(sb==='underload'?0:1)||a.minutes-b.minutes;if(summarySort==='statusOver')return (rank[sa]-rank[sb])||b.minutes-a.minutes;let aa=advisorySortTuple(a),bb=advisorySortTuple(b);return (aa[0]-bb[0])||String(aa[1]).localeCompare(String(bb[1]))||String(aa[2]).localeCompare(String(bb[2]))});return arr}
 function renderSummaryControls(){return `<div class="summaryControls"><input class="input summarySearch" value="${esc(summarySearch)}" placeholder="Search teacher, subject, advisory, or status..." oninput="summarySearch=this.value;renderSummary()"><select class="input" onchange="summarySort=this.value;renderSummary()"><option value="advisory" ${summarySort==='advisory'?'selected':''}>Sort: Advisory Grade + Section</option><option value="statusOver" ${summarySort==='statusOver'?'selected':''}>Sort: Overloaded first</option><option value="underloadFirst" ${summarySort==='underloadFirst'?'selected':''}>Sort: Underloaded first</option><option value="loadHigh" ${summarySort==='loadHigh'?'selected':''}>Sort: Load high to low</option><option value="loadLow" ${summarySort==='loadLow'?'selected':''}>Sort: Load low to high</option><option value="subjectsHigh" ${summarySort==='subjectsHigh'?'selected':''}>Sort: Subject count</option><option value="name" ${summarySort==='name'?'selected':''}>Sort: Name A-Z</option></select><select class="input" onchange="summaryLevel=this.value;renderSummary()"><option value="all" ${summaryLevel==='all'?'selected':''}>All Levels</option><option value="K" ${summaryLevel==='K'?'selected':''}>K</option><option value="ES" ${summaryLevel==='ES'?'selected':''}>ES</option><option value="JHS" ${summaryLevel==='JHS'?'selected':''}>JHS</option><option value="SHS" ${summaryLevel==='SHS'?'selected':''}>SHS</option></select><select class="input" onchange="summaryStatus=this.value;renderSummary()"><option value="all" ${summaryStatus==='all'?'selected':''}>All Status</option><option value="overload" ${summaryStatus==='overload'?'selected':''}>Overloaded</option><option value="met" ${summaryStatus==='met'?'selected':''}>Met Load</option><option value="underload" ${summaryStatus==='underload'?'selected':''}>Underloaded</option></select><select class="input" onchange="summaryAdviser=this.value;renderSummary()"><option value="all" ${summaryAdviser==='all'?'selected':''}>All Teachers</option><option value="advisers" ${summaryAdviser==='advisers'?'selected':''}>Advisers Only</option><option value="non" ${summaryAdviser==='non'?'selected':''}>Non-Advisers</option></select></div>`}
-function renderSummary(){viewTitle.textContent='Teaching Load Summary';viewSub.textContent='Teaching load target is 6 hours / 360 minutes. Adviser assignment counts as 60 minutes.';viewControls.innerHTML='';let target=360,rows=sortSummaryRows(filterSummaryRows(loads()));content.innerHTML=`<div class="loadSummaryWrap">${renderSummaryControls()}<table class="loadSummaryTable"><thead><tr><th>Teacher</th><th>Level</th><th>Advisory Assignment</th><th>Scheduled Subjects</th><th>Total Teaching Load</th><th>Status</th></tr></thead><tbody>${rows.length?rows.map(r=>{let c=teacherColor(r.teacher),adv=r.adviserEntries.length?r.adviserEntries.map(x=>esc(x.label)).join('<br>'):'—',st=loadStatus(r.minutes,target),badge=r.adviserEntries.length?'<span class="adviserBadge">Adviser</span>':'',posBadge=r.teacher.position?`<span class="positionPill">${esc(r.teacher.position)}</span>`:'',subjects=subjectPillsForTeacher(r);return `<tr style="background:${rgba(c,.10)}"><td><div class="facultyCell"><span class="facultyMark" style="background:${c}"></span><div><div class="facultyName">${esc(r.teacher.name)}</div>${posBadge}${badge}</div></div></td><td>${renderLevelPills(r.levelTags||[])}</td><td class="advisoryCell">${adv}</td><td>${subjects}</td><td class="totalLoadCell"><div>${r.minutes} min</div><div class="hoursText">${(r.minutes/60).toFixed(2)} hrs</div></td><td style="text-align:center"><span class="statusPill status-${st.kind}">${st.label}<small>${st.detail}</small></span></td></tr>`}).join(''):`<tr><td colspan="6" class="empty">No teachers matched the selected filters.</td></tr>`}</tbody></table></div>`}
+function renderSummary(){viewTitle.textContent='Teaching Load Summary';viewSub.textContent='Teaching load target is 6 hours / 360 minutes. Adviser assignment counts as 60 minutes.';viewControls.innerHTML='';let target=360,rows=sortSummaryRows(filterSummaryRows(loads()));content.innerHTML=`<div class="loadSummaryWrap">${renderSummaryControls()}<table class="loadSummaryTable"><thead><tr><th>Teacher</th><th>Level</th><th>Advisory Assignment</th><th>Scheduled Subjects</th><th>Total Teaching Load</th><th>Status</th></tr></thead><tbody>${rows.length?rows.map(r=>{let c=teacherColor(r.teacher),adv=r.adviserEntries.length?r.adviserEntries.map(x=>esc(x.label)).join('<br>'):'—',st=loadStatus(r.minutes,target),badge=r.adviserEntries.length?'<span class="adviserBadge">Adviser</span>':'',posBadge=r.teacher.position?`<span class="positionPill">${esc(r.teacher.position)}</span>`:'',subjects=subjectPillsForTeacher(r);return `<tr class="summaryRow"><td><div class="facultyCell"><span class="facultyMark" style="background:${c}"></span><div><div class="facultyName">${esc(r.teacher.name)}</div>${posBadge}${badge}</div></div></td><td>${renderLevelPills(r.levelTags||[])}</td><td class="advisoryCell">${adv}</td><td>${subjects}</td><td class="totalLoadCell"><div>${r.minutes} min</div><div class="hoursText">${(r.minutes/60).toFixed(2)} hrs</div></td><td style="text-align:center"><span class="statusPill status-${st.kind}">${st.label}<small>${st.detail}</small></span></td></tr>`}).join(''):`<tr><td colspan="6" class="empty">No teachers matched the selected filters.</td></tr>`}</tbody></table></div>`}
 function sectionLabel(id){let sec=state.sections.find(s=>s.id===id);return sec?`${sec.grade} - ${sec.name}`:'No section'}
 function slotLabel(id){let ts=get(state.timeSlots,id);return ts.id?`${to12(ts.start)}–${to12(ts.end)} • ${ts.mins||0} min`:''}
 function showClassNotice(type,msg){classNotice.className=`classNotice show ${type||'info'}`;classNotice.innerHTML=msg}
@@ -5434,4 +6455,141 @@ document.addEventListener('keydown', e => {
   }
 });
 render();
+// --- Custom Select Dropdown Upgrade ---
+function upgradeSelectsToCustomDropdowns() {
+  document.querySelectorAll('select.input').forEach(sel => {
+    if (sel.nextElementSibling?.classList.contains('customSelectWrap')) {
+      let wrap = sel.nextElementSibling;
+      let menu = wrap.querySelector('.customSelectMenu');
+      let btn = wrap.querySelector('.customSelectBtn span');
+      if (menu && btn && menu.children.length !== sel.options.length) {
+         menu.innerHTML = '';
+         Array.from(sel.options).forEach((opt, idx) => {
+            let item = document.createElement('button');
+            item.className = 'customSelectMenuItem';
+            if (idx === sel.selectedIndex) item.classList.add('active');
+            item.textContent = opt.text;
+            item.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              sel.selectedIndex = idx;
+              btn.textContent = opt.text;
+              sel.dispatchEvent(new Event('change'));
+              menu.classList.remove('show');
+              wrap.classList.remove('active');
+            };
+            menu.appendChild(item);
+         });
+         btn.textContent = sel.options[sel.selectedIndex]?.text || '';
+      }
+      return;
+    }
+    
+    sel.style.display = 'none';
+    let wrap = document.createElement('div');
+    wrap.className = 'customSelectWrap';
+    
+    let btn = document.createElement('button');
+    btn.className = 'customSelectBtn';
+    
+    let getSelectedText = () => {
+      let opt = sel.options[sel.selectedIndex];
+      return opt ? opt.text : '';
+    };
+    
+    btn.innerHTML = `<span>${esc(getSelectedText())}</span> <span class="customSelectArrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>`;
+    
+    let menu = document.createElement('div');
+    menu.className = 'customSelectMenu';
+    
+    Array.from(sel.options).forEach((opt, idx) => {
+      let item = document.createElement('button');
+      item.className = 'customSelectMenuItem';
+      if (idx === sel.selectedIndex) item.classList.add('active');
+      item.textContent = opt.text;
+      item.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        sel.selectedIndex = idx;
+        btn.querySelector('span').textContent = opt.text;
+        sel.dispatchEvent(new Event('change'));
+        menu.classList.remove('show');
+        wrap.classList.remove('active');
+      };
+      menu.appendChild(item);
+    });
+    
+    btn.onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      document.querySelectorAll('.customSelectMenu.show').forEach(m => {
+        if (m !== menu) {
+           m.classList.remove('show');
+           m.parentElement.classList.remove('active');
+        }
+      });
+      let show = menu.classList.toggle('show');
+      wrap.classList.toggle('active', show);
+    };
+    
+    wrap.appendChild(btn);
+    wrap.appendChild(menu);
+    sel.parentNode.insertBefore(wrap, sel.nextSibling);
+    
+    sel.addEventListener('change', () => {
+      btn.querySelector('span').textContent = getSelectedText();
+      Array.from(menu.children).forEach((child, idx) => {
+        child.classList.toggle('active', idx === sel.selectedIndex);
+      });
+    });
+  });
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.customSelectWrap')) {
+    document.querySelectorAll('.customSelectMenu.show').forEach(m => {
+       m.classList.remove('show');
+       m.parentElement.classList.remove('active');
+    });
+  }
+});
+
+const selectObserver = new MutationObserver((mutations) => {
+  let shouldRun = false;
+  for (let m of mutations) {
+    if (m.type === 'childList' && m.addedNodes.length) {
+       shouldRun = true;
+       break;
+    }
+  }
+  if (shouldRun) {
+     setTimeout(upgradeSelectsToCustomDropdowns, 10);
+  }
+});
+document.addEventListener('DOMContentLoaded', () => {
+  selectObserver.observe(document.body, { childList: true, subtree: true });
+  upgradeSelectsToCustomDropdowns();
+});
+setTimeout(() => {
+  selectObserver.observe(document.body, { childList: true, subtree: true });
+  upgradeSelectsToCustomDropdowns();
+}, 200);
+// --- End Custom Select ---
 </script></body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
