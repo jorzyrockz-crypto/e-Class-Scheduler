@@ -1,6 +1,7 @@
 const CACHE_NAME = 'e-class-scheduler-v1';
 const ASSETS_TO_CACHE = [
-  './class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html',
+  './',
+  './index.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
@@ -58,7 +59,7 @@ self.addEventListener('fetch', (event) => {
           }
           // If the page is requested but not in cache, fallback to the main HTML
           if (event.request.headers.get('accept').includes('text/html')) {
-            return caches.match('./class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html');
+            return caches.match('./index.html');
           }
         });
       })
