@@ -1,0 +1,23 @@
+{
+  "name": "e-Class Scheduler",
+  "short_name": "Class Scheduler",
+  "description": "An interactive, visually stunning Class Program Matrix Scheduler for modern education.",
+  "start_url": "./class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#006b54",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

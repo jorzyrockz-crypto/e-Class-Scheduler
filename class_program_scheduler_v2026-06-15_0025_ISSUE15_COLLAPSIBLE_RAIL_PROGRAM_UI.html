@@ -1,9 +1,14 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Class Program Matrix</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#006b54">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -60,11 +65,30 @@
   --bg-avgload: linear-gradient(135deg, #fffbeb, #ffffff);
   --border-avgload: #fde68a;
 
+  /* Program Card Colors (Light) */
+  --bg-prog-k: linear-gradient(135deg, #f0fdf4, #ffffff);
+  --bg-prog-g12: linear-gradient(135deg, #eff6ff, #ffffff);
+  --bg-prog-g36: linear-gradient(135deg, #faf5ff, #ffffff);
+  --bg-prog-custom: linear-gradient(135deg, #f8fafc, #ffffff);
+
+  /* Sidebar Theme (Light) */
+  --nav-bg: var(--panel);
+  --nav-text: var(--text-muted);
+  --nav-text-hover: var(--text);
+  --nav-hover-bg: var(--line-light);
+  --nav-icon: var(--text-muted2);
+  --nav-icon-hover: var(--accent);
+  --nav-border: var(--line);
+  --nav-title: var(--text);
+  --nav-btn-bg: var(--bg);
+  --nav-btn-border: var(--line);
+  --nav-btn-hover-bg: var(--line-light);
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
   
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -119,6 +143,25 @@ body.dark-theme {
   --border-conflicts: #7f1d1d;
   --bg-avgload: linear-gradient(135deg, #451a03, #0f172a);
   --border-avgload: #78350f;
+
+  /* Program Card Colors (Dark) */
+  --bg-prog-k: linear-gradient(135deg, #022c22, #0f172a);
+  --bg-prog-g12: linear-gradient(135deg, #172554, #0f172a);
+  --bg-prog-g36: linear-gradient(135deg, #3b0764, #0f172a);
+  --bg-prog-custom: linear-gradient(135deg, #1e293b, #0f172a);
+
+  /* Sidebar Theme (Dark) */
+  --nav-bg: linear-gradient(180deg, #090d16 0%, #030712 100%);
+  --nav-text: #94a3b8;
+  --nav-text-hover: #f8fafc;
+  --nav-hover-bg: rgba(255, 255, 255, 0.03);
+  --nav-icon: #64748b;
+  --nav-icon-hover: #f8fafc;
+  --nav-border: rgba(255, 255, 255, 0.03);
+  --nav-title: #f8fafc;
+  --nav-btn-bg: #0f172a;
+  --nav-btn-border: #1e293b;
+  --nav-btn-hover-bg: rgba(255, 255, 255, 0.05);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
@@ -185,14 +228,14 @@ select {
 /* Layout Structures */
 .shell {
   display: grid;
-  grid-template-columns: 270px 1fr;
+  grid-template-columns: 270px minmax(0, 1fr);
   min-height: 100vh;
 }
 .shell.schedulerRailMode {
-  grid-template-columns: 270px 250px 1fr !important;
+  grid-template-columns: 270px 250px minmax(0, 1fr) !important;
 }
 .shell.schedulerRailCollapsed {
-  grid-template-columns: 270px 72px 1fr !important;
+  grid-template-columns: 270px 72px minmax(0, 1fr) !important;
 }
 
 /* Sidebar Styling Redesign */
@@ -200,14 +243,14 @@ select {
   position: sticky;
   top: 0;
   height: 100vh;
-  background: linear-gradient(180deg, #090d16 0%, #030712 100%) !important;
-  color: #94a3b8;
-  border-right: 1px solid rgba(255, 255, 255, 0.03);
+  background: var(--nav-bg) !important;
+  color: var(--nav-text);
+  border-right: 1px solid var(--nav-border);
   padding: 28px 18px 20px !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden;
-  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.05);
   z-index: 60;
 }
 .brandrow {
@@ -238,7 +281,7 @@ select {
   font-family: var(--font-title);
   font-weight: 800 !important;
   font-size: 16px !important;
-  color: #f8fafc !important;
+  color: var(--nav-title) !important;
   line-height: 1.15 !important;
   letter-spacing: -0.01em;
 }
@@ -260,7 +303,7 @@ select {
   padding: 0 16px !important;
   border-radius: var(--radius-md) !important;
   background: transparent !important;
-  color: #94a3b8 !important;
+  color: var(--nav-text) !important;
   font-weight: 700 !important;
   font-size: 14px !important;
   display: flex !important;
@@ -275,16 +318,16 @@ select {
   height: 1.25em !important;
   max-width: 20px !important;
   max-height: 20px !important;
-  stroke: #64748b;
+  stroke: var(--nav-icon);
   transition: stroke 0.25s ease, transform 0.25s ease;
 }
 .nav:hover {
-  background: rgba(255, 255, 255, 0.03) !important;
-  color: #f8fafc !important;
+  background: var(--nav-hover-bg) !important;
+  color: var(--nav-text-hover) !important;
   transform: translateX(4px);
 }
 .nav:hover svg {
-  stroke: #f8fafc;
+  stroke: var(--nav-icon-hover);
   transform: scale(1.05);
 }
 .nav.active {
@@ -306,7 +349,7 @@ select {
   gap: 12px !important;
 }
 .chev {
-  color: #475569 !important;
+  color: var(--nav-icon) !important;
   font-size: 12px !important;
   transition: transform 0.2s ease;
 }
@@ -314,7 +357,7 @@ select {
 .subnav {
   margin: 4px 0 10px 24px !important;
   padding-left: 14px !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-left: 1px solid var(--nav-border) !important;
   display: grid;
   gap: 6px !important;
 }
@@ -322,12 +365,6 @@ select {
   display: none;
 }
 .subitem {
-  width: 100%;
-  min-height: 34px !important;
-  padding: 6px 12px !important;
-  background: transparent !important;
-  color: #64748b !important;
-  border-radius: var(--radius-sm) !important;
   text-align: left;
   font-weight: 600 !important;
   font-size: 13px !important;
@@ -354,15 +391,15 @@ select {
 .pill {
   margin-left: auto;
   font-size: 9.5px;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  background: rgba(255, 255, 255, 0.04) !important;
-  color: #94a3b8 !important;
+  border: 1px solid var(--nav-border) !important;
+  background: var(--nav-btn-hover-bg) !important;
+  color: var(--nav-text) !important;
   border-radius: 99px !important;
   padding: 1px 6px !important;
 }
 
 .sideActions {
-  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-top: 1px solid var(--nav-border) !important;
   margin-top: 20px !important;
   padding: 20px 4px 0 !important;
   display: grid !important;
@@ -371,9 +408,9 @@ select {
 .sideActions .btn, .sideActions label.btn {
   height: 36px !important;
   border-radius: var(--radius-md) !important;
-  background: rgba(255, 255, 255, 0.01) !important;
-  border: 1px solid rgba(255, 255, 255, 0.03) !important;
-  color: #94a3b8 !important;
+  background: var(--nav-btn-bg) !important;
+  border: 1px solid var(--nav-btn-border) !important;
+  color: var(--nav-text) !important;
   box-shadow: none !important;
   font-weight: 700 !important;
   font-size: 13px !important;
@@ -386,20 +423,20 @@ select {
   cursor: pointer;
 }
 .sideActions .btn:hover, .sideActions label.btn:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  color: #f8fafc !important;
+  background: var(--nav-btn-hover-bg) !important;
+  border-color: var(--nav-border) !important;
+  color: var(--nav-text-hover) !important;
 }
 .sideActions svg {
   width: 1.25em !important;
   height: 1.25em !important;
   max-width: 20px !important;
   max-height: 20px !important;
-  stroke: #64748b !important;
+  stroke: var(--nav-icon) !important;
   transition: stroke 0.25s ease;
 }
 .sideActions .btn:hover svg, .sideActions label.btn:hover svg {
-  stroke: #f8fafc !important;
+  stroke: var(--nav-icon-hover) !important;
 }
 
 .sideFooterArt {
@@ -407,8 +444,8 @@ select {
   height: 120px !important;
   margin: 18px 4px 0 !important;
   border-radius: var(--radius-md) !important;
-  background: rgba(255, 255, 255, 0.02) !important;
-  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  background: var(--nav-hover-bg) !important;
+  border: 1px solid var(--nav-border) !important;
   overflow: hidden;
 }
 .sideFooterArt:before {
@@ -1183,11 +1220,12 @@ select {
 /* Workload & Grid layout */
 .grid {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 280px minmax(0, 1fr);
   gap: 20px;
+  flex-grow: 1;
 }
 .grid.full {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 .grid.full > aside {
   display: none;
@@ -1351,15 +1389,21 @@ select {
 
 .scroll {
   overflow: auto;
-  max-height: 72vh;
+  flex-grow: 1;
   background: var(--panel);
   border-bottom-left-radius: var(--radius-lg);
   border-bottom-right-radius: var(--radius-lg);
+}
+section.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 table {
   border-collapse: separate;
   border-spacing: 0;
   width: 100%;
+  margin-bottom: 14px;
 }
 th {
   position: sticky;
@@ -1481,6 +1525,7 @@ thead .timecol {
   flex-wrap: wrap;
   gap: 4px;
   margin-top: 2px;
+  padding-right: 32px;
 }
 .blockMetaPill {
   background: var(--line-light);
@@ -3195,9 +3240,10 @@ thead .timecol {
   box-shadow: var(--shadow-md);
   border-color: var(--text-muted2);
 }
-.programCard.kindergarten { background: linear-gradient(135deg, #f0fdf4, #ffffff); }
-.programCard.g12 { background: linear-gradient(135deg, #eff6ff, #ffffff); }
-.programCard.g36 { background: linear-gradient(135deg, #faf5ff, #ffffff); }
+.programCard.kindergarten { background: var(--bg-prog-k); }
+.programCard.g12 { background: var(--bg-prog-g12); }
+.programCard.g36 { background: var(--bg-prog-g36); }
+.programCard.custom { background: var(--bg-prog-custom); }
 
 .programStatusPill {
   position: absolute;
@@ -3368,7 +3414,7 @@ thead .timecol {
 }
 .settingsNav {
   border-right: 1px solid var(--line);
-  padding: 16px 10px;
+  padding: 16px 0;
   background: var(--line-light);
   display: flex;
   flex-direction: column;
@@ -3376,6 +3422,7 @@ thead .timecol {
 }
 .settingsNavBtn {
   height: 38px;
+  margin: 0 10px;
   padding: 0 12px;
   border-radius: var(--radius-sm);
   text-align: left;
@@ -3392,6 +3439,8 @@ thead .timecol {
   box-shadow: var(--shadow-sm);
 }
 .settingsNavBtn.active {
+  margin-left: 0;
+  padding-left: 22px;
   border-left: 3px solid var(--accent);
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -3502,30 +3551,40 @@ thead .timecol {
 .menu {
   display: none;
   position: fixed;
-  min-width: 180px;
+  min-width: 200px;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
   z-index: 2000;
   overflow: hidden;
-  padding: 4px;
+  padding: 6px;
+  backdrop-filter: blur(8px);
 }
 .menu.show {
   display: block;
+  animation: fadeIn 0.15s ease-out;
 }
 .menu button {
   display: block;
   width: 100%;
   text-align: left;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: var(--radius-sm);
-  font-size: 12.5px;
-  font-weight: 700;
-  transition: background-color 0.2s;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.2s;
+  margin-bottom: 2px;
+  border: none;
+  background: transparent;
+}
+.menu button:last-child {
+  margin-bottom: 0;
 }
 .menu button:hover {
   background: var(--line-light);
+  transform: translateX(2px);
 }
 
 /* Toast alert */
@@ -5054,32 +5113,7 @@ body.focusMode .side {
 body.focusMode .schedulerRail {
   display: none !important;
 }
-body.focusMode .grid > aside {
-  display: none !important;
-}
 body.focusMode .shell {
-  padding-left: 0 !important;
-}
-body.focusMode .grid {
-  grid-template-columns: 1fr !important;
-}
-/* FOCUS MODE CSS FIXES */
-body.focusMode .shell {
-  grid-template-columns: 1fr !important;
-}
-body.focusMode .shell.schedulerRailMode {
-  grid-template-columns: 1fr !important;
-}
-body.focusMode .shell.schedulerRailCollapsed {
-  grid-template-columns: 1fr !important;
-}
-body.focusMode .grid {
-  grid-template-columns: 1fr !important;
-}
-body.focusMode .shell {
-  display: block !important;
-}
-body.focusMode .grid {
   display: block !important;
 }
 body.focusMode .main {
@@ -5087,6 +5121,47 @@ body.focusMode .main {
   max-width: 100vw !important;
   padding: 24px !important;
 }
+
+/* WORKLOAD COLLAPSE CSS */
+.grid.workloadCollapsed:not(.full) {
+  grid-template-columns: 64px minmax(0, 1fr) !important;
+}
+.grid.workloadCollapsed > aside {
+  width: 64px;
+  overflow: hidden !important;
+}
+.grid.workloadCollapsed .wtText,
+.grid.workloadCollapsed .wtClear,
+.grid.workloadCollapsed #diagCard,
+.grid.workloadCollapsed .teacher > div:not(.avatar) {
+  display: none !important;
+}
+.grid.workloadCollapsed .panel {
+  padding: 16px 8px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.grid.workloadCollapsed .wtToggle {
+  transform: rotate(180deg);
+  margin-bottom: 12px;
+}
+.grid.workloadCollapsed .facultyList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.grid.workloadCollapsed .teacher {
+  grid-template-columns: 1fr !important;
+  padding: 8px 4px !important;
+  justify-content: center;
+  align-items: center;
+}
+.grid.workloadCollapsed .avatar {
+  margin: 0 auto;
+}
+
 body.focusMode section.card {
   width: 100% !important;
   max-width: 100% !important;
@@ -5196,18 +5271,28 @@ body.focusMode .scheduleSub {
 }
 body.focusMode .scheduleHead .btn {
   padding: 4px 12px !important;
-  font-size: 12px !important;
-  height: 30px !important;
-}
 body.focusMode .scroll {
   max-height: calc(100vh - 75px) !important;
 }
+/* Radial Bubble Menu */
+#floatingBubbleMenu { position: fixed; z-index: 10000; width: 0; height: 0; pointer-events: none; }
+#floatingBubbleMenu.show { pointer-events: auto; }
+.radialNode { position: absolute; left: 0; top: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 1; }
+.radialNode.active { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1); opacity: 1; }
+.radialNode:hover { z-index: 10; }
+.radialBubble { background: var(--bubble-color, linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: var(--bubble-text, #fff); padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.15); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); user-select: none; max-width: 180px; white-space: normal; text-align: center; line-height: 1.2; animation: bubble-float 3s ease-in-out infinite; text-shadow: var(--bubble-shadow, 0 1px 3px rgba(0,0,0,0.4)); }
+.radialNode:hover .radialBubble { transform: scale(1.15) translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 20px var(--bubble-color, rgba(59, 130, 246, 0.5)); border-color: rgba(255,255,255,0.5); filter: brightness(1.15); }
+.radialSkip { background: rgba(15, 23, 42, 0.9); font-size: 12px; color: #94a3b8; padding: 8px 16px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 12px rgba(0,0,0,0.5); animation: none; transform: none; white-space: nowrap; max-width: none; border-radius: 8px; }
+.radialNode:hover .radialSkip { background: rgba(255,255,255,0.15); color: #fff; transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.2); }
+@keyframes bubble-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 </style></head>
 <body><div id="toastHost"></div><div id="floatingMenu" class="menu" onmouseenter="cancelMenuClose()" onmouseleave="scheduleMenuClose()"></div>
 <div class="shell"><aside class="side"><div class="brandrow"><div class="brand">CP</div><div><div class="brandtitle">Class Program</div><div class="brandsub">Scheduler</div></div></div><nav id="nav"></nav><div class="sideActions"><button class="btn" onclick="openSettings()"><span id="iSettings"></span>Settings</button><button class="btn" onclick="openResetModal()"><span id="iReset"></span>Reset</button><button class="btn" onclick="exportData()"><span id="iExport"></span>Export Backup</button><label class="btn"><span id="iImport"></span>Import Backup<input type="file" accept="application/json" hidden onchange="importData(event)"></label></div><div class="sideFooterArt" aria-hidden="true"><span class="star s1">✦</span><span class="star s2">✦</span><span class="star s3">✦</span><span class="star s4">✦</span><div class="bag"><span class="bagPocket"></span></div><div class="plant"><span class="stem"></span><span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span><span class="leaf l4"></span><span class="pot"></span></div><div class="books"><span class="book b1"></span><span class="book b2"></span><span class="book b3"></span></div></div></aside>
 <aside id="schedulerRail" class="schedulerRail"></aside>
 <section><header class="top schoolTopbar"><div class="schoolIdentity"><div class="schoolSeal" id="schoolLogoMark" aria-hidden="true"><span>OES</span></div><div class="schoolText"><div class="school" id="schoolName"></div><div class="meta" id="schoolMeta"></div></div></div><div class="topActions schoolTopActions"><span id="autoSaveIndicator" class="autoSaveIndicator">Saved</span><input id="search" class="topSearchHidden" placeholder="Search current page..." oninput="applySearch()"><button id="themeToggleBtn" class="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle dark mode"><span id="themeIcon"></span></button><div class="topSyWrap" id="topSchoolYearDropdown"><span id="iTopCalendar" class="topSyIcon"></span><button class="topSyBtn" onclick="toggleSchoolYearDropdown(event)"><span id="topSchoolYearLabel">S.Y. Current School Year</span><span class="topSyArrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="topSyMenu" id="topSchoolYearMenu"></div></div><button class="topExportBtn" onclick="window.print()" title="Export or print report"><span id="iTopExport" class="topExportIcon"></span>Export Report</button></div></header>
-<main class="main"><div class="kpis" id="metrics"></div><div class="grid"><aside><div class="card panel"><div class="panelHead"><div class="panelTitle"><span id="iFaculty"></span>Teacher Workload</div><button class="btn" onclick="clearTeacher()">Clear</button></div><div class="facultyList" id="faculty"></div></div><div style="height:14px"></div><div id="diagCard" class="card panel" style="display:none"><div class="panelTitle" style="margin-bottom:12px"><span id="iDiag"></span>Diagnostics</div><div id="diagnostics"></div></div></aside><section class="card"><div class="scheduleHead"><div><div class="scheduleTitle" id="viewTitle"></div><div class="scheduleSub" id="viewSub"></div></div><div id="viewControls"></div></div><div id="content" class="scroll"></div></section></div></main></section></div>
+<main class="main"><div class="kpis" id="metrics"></div><div class="grid"><aside><div class="card panel"><div class="panelHead"><div class="panelTitle" style="display:flex;align-items:center;gap:6px;"><span id="iFaculty"></span><span class="wtText">Teacher Workload</span></div><div class="wtActions" style="display:flex;align-items:center;gap:4px;"><button class="btn wtClear" onclick="clearTeacher()">Clear</button><button class="btn wtToggle" style="padding:4px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;" onclick="toggleWorkload()" title="Toggle Workload Panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="m15 18-6-6 6-6"/></svg></button></div></div><div class="facultyList" id="faculty"></div></div><div style="height:14px"></div><div id="diagCard" class="card panel" style="display:none"><div class="panelTitle" style="margin-bottom:12px"><span id="iDiag"></span>Diagnostics</div><div id="diagnostics"></div></div></aside><section class="card"><div class="scheduleHead"><div><div class="scheduleTitle" id="viewTitle"></div><div class="scheduleSub" id="viewSub"></div></div><div id="viewControls"></div></div><div id="content" class="scroll"></div></section></div></main></section></div>
+<div id="floatingBubbleMenu" class="floatingBubbleMenu"></div>
+
 <div id="classModal" class="modal"><div class="modalPanel programModalPanel" style="max-width:520px">
   <div class="programModalHeader">
     <div class="programModalHeaderIcon" style="background:var(--accent)">
@@ -5264,9 +5349,51 @@ body.focusMode .scroll {
     <div>
       <div class="programModalSectionLabel">Teacher Info</div>
       <div class="formGrid" style="grid-template-columns:1fr;margin-top:12px">
-        <label class="label">Teacher Name <span class="requiredMark">*</span><input id="teacherNameInput" class="input" placeholder="e.g. JOHN RUSSELL GUADALUPE" oninput="updateTeacherAvatarPreview()"></label>
-        <label class="label">Teaching Position <span class="requiredMark">*</span><input id="teacherPositionInput" class="input" placeholder="e.g. Teacher III"></label>
-        <label class="label">Room<input id="teacherRoomInput" class="input" placeholder="e.g. Grade 4 / ICT Room"></label>
+        <label class="label"><div>Teacher Name <span class="requiredMark">*</span></div><input id="teacherNameInput" class="input" placeholder="e.g. JOHN RUSSELL GUADALUPE" oninput="updateTeacherAvatarPreview()"></label>
+        <label class="label"><div>Teaching Position <span class="requiredMark">*</span></div>
+          <select id="teacherPositionInput" class="input">
+            <option value="">Select Position...</option>
+            <optgroup label="Teacher">
+              <option value="Teacher I">Teacher I</option>
+              <option value="Teacher II">Teacher II</option>
+              <option value="Teacher III">Teacher III</option>
+              <option value="Teacher IV">Teacher IV</option>
+              <option value="Teacher V">Teacher V</option>
+              <option value="Teacher VI">Teacher VI</option>
+              <option value="Teacher VII">Teacher VII</option>
+            </optgroup>
+            <optgroup label="Master Teacher">
+              <option value="Master Teacher I">Master Teacher I</option>
+              <option value="Master Teacher II">Master Teacher II</option>
+              <option value="Master Teacher III">Master Teacher III</option>
+              <option value="Master Teacher IV">Master Teacher IV</option>
+              <option value="Master Teacher V">Master Teacher V</option>
+            </optgroup>
+            <optgroup label="Special Education (SPED) Teacher">
+              <option value="SPED Teacher I">SPED Teacher I</option>
+              <option value="SPED Teacher II">SPED Teacher II</option>
+              <option value="SPED Teacher III">SPED Teacher III</option>
+              <option value="SPED Teacher IV">SPED Teacher IV</option>
+            </optgroup>
+            <optgroup label="Special Science Teacher">
+              <option value="Special Science Teacher I">Special Science Teacher I</option>
+            </optgroup>
+            <optgroup label="Head Teacher">
+              <option value="Head Teacher I">Head Teacher I</option>
+              <option value="Head Teacher II">Head Teacher II</option>
+              <option value="Head Teacher III">Head Teacher III</option>
+              <option value="Head Teacher IV">Head Teacher IV</option>
+              <option value="Head Teacher V">Head Teacher V</option>
+              <option value="Head Teacher VI">Head Teacher VI</option>
+            </optgroup>
+          </select>
+        </label>
+        <label class="label"><div>Room</div><input id="teacherRoomInput" class="input" placeholder="e.g. Grade 4 / ICT Room"></label>
+        <label class="label" title="Subjects previously taught can also be encoded here to improve recommendations."><div>Subject Specializations <span style="cursor:help; font-size:12px; color:var(--text-muted)" title="Subjects previously taught can also be encoded here to improve recommendations.">ℹ️</span></div><input id="teacherSpecializationsInput" class="input" placeholder="e.g. Math, Science (comma separated)"></label>
+      </div>
+      <div style="margin-top:12px; padding:12px; background:var(--bg); border-radius:var(--radius); border:1px solid var(--line);">
+        <div style="font-size:12px; font-weight:600; margin-bottom:4px; color:var(--text-muted)">Auto-Learned Teaching History</div>
+        <div id="teacherHistoryDisplay" style="font-size:13px; color:var(--text); line-height:1.4">No history yet. Subjects will appear here automatically when assigned.</div>
       </div>
     </div>
     <div>
@@ -5482,7 +5609,7 @@ const DEFAULT_SUBJECT_NAMES=['FILIPINO','SCIENCE','MATH','MATHEMATICS','ENGLISH'
 function ensureDefaultSubjects(){if(state.defaultSubjectsInitialized)return;let existing=new Set(state.subjects.map(s=>String(s.name||'').trim().toLowerCase()));DEFAULT_SUBJECT_NAMES.forEach(n=>{if(!existing.has(n.toLowerCase())){state.subjects.push({id:uid('s'),name:n,tags:[]});existing.add(n.toLowerCase())}});state.defaultSubjectsInitialized=true}
 function presetSlotsForGroup(g){g=normGroup(g);let rows=g==='kinder'?[['07:30',15,''],['07:45',45,''],['08:30',15,'SUPERVISED RECESS','universal'],['08:45',10,'QUIET / NAP TIME','universal'],['08:55',40,''],['09:35',35,''],['10:10',20,''],['10:30',10,'DISMISSAL TIME','universal']]:g==='g12'?[['07:30',60,''],['08:30',40,''],['09:10',10,'HEALTH BREAK','universal'],['09:20',40,''],['10:00',40,''],['10:40',40,''],['11:20',40,''],['12:00',60,'HEALTH BREAK (LUNCH)','universal'],['13:00',40,''],['13:40',40,'']]:[['07:20',10,'FLAG CEREMONY','universal','all'],['07:30',60,''],['08:30',45,''],['09:15',10,'HEALTH BREAK','universal'],['09:25',45,''],['10:10',45,''],['10:55',45,''],['11:40',80,'HEALTH BREAK (LUNCH)','universal'],['13:00',40,''],['13:40',40,''],['14:20',40,''],['15:00',40,''],['15:40',20,'FLAG LOWERING','universal','all']];return rows.map((r)=>{let group=r[4]||g,type=r[3]||'academic',start=r[0],mins=Number(r[1]);return{id:uid('ts'),start,mins,end:addMins(start,mins),label:r[2]||'',type,group}})}
 function ensureGroupDefaults(group){group=normGroup(group);ensureDefaultSubjects();let hasGroup=state.timeSlots.some(ts=>normGroup(ts.group)===group||normGroup(ts.group)==='all');if(!hasGroup){state.timeSlots.push(...presetSlotsForGroup(group));toastMsg(`Default ${group==='kinder'?'Kindergarten':group==='g12'?'Grades 1–2':'Grades 3–6'} time blocks and subjects loaded.`)}}
-function migrate(s){s=JSON.parse(JSON.stringify(s||{}));s.subjects||=[];s.defaultSubjectsInitialized=!!s.defaultSubjectsInitialized||s.subjects.length>0;s.teachers||=[];s.classes||=[];s.timeSlots||=[];s.grades||=['Kindergarten','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10'];s.sections||=[];s.programs||=[];s.activeProgramId||='';if(typeof s.schedulerExpanded!=='boolean')s.schedulerExpanded=true;if(!['dashboard','scheduler','summary','analytics'].includes(s.activeTab))s.activeTab='dashboard';s.advisers||={};s.sectionAdvisers||={};s.schoolConfig||={};s.subjects=s.subjects.map(x=>({id:x.id||uid('s'),name:x.name||'NEW SUBJECT',tags:Array.isArray(x.tags)?x.tags:[]}));s.teachers=s.teachers.map((t,i)=>({...t,position:t.position||'',room:t.room||'',color:teacherColor(t.color||palette[i%palette.length])}));s.classes=s.classes.map(c=>({id:c.id||uid('c'),subjectId:c.subjectId||'',teacherId:c.teacherId||'',grade:c.grade||'Grade 3',timeSlotId:c.timeSlotId||'',day:c.day||'master',sectionId:c.sectionId||'',programId:c.programId||''}));s.timeSlots=s.timeSlots.map(ts=>{let m=Number(ts.mins)||mins(ts.start||'07:30',ts.end||'08:10'),start=ts.start||'07:30';return {id:ts.id||uid('ts'),start,mins:m,end:addMins(start,m),label:ts.label||'',type:ts.type||'academic',group:normGroup(ts.group||'g36'),programId:ts.programId||''}});s.programs=s.programs.map((p,i)=>({id:p.id||uid('prog'),name:p.name||'Class Program',type:p.type||'single',grades:Array.isArray(p.grades)?p.grades:[],useSections:!!p.useSections,sectionIds:Array.isArray(p.sectionIds)?p.sectionIds:[],group:normGroup(p.group||'g36'),advisers:Array.isArray(p.advisers)?p.advisers:[],order:Number.isFinite(Number(p.order))?Number(p.order):i,countsTowardLoad:p.countsTowardLoad!==false,viewType:p.viewType||((p.countsTowardLoad===false)?'learner':'master')}));if(!s.programs.length&&(s.classes.length||s.timeSlots.length)){s.programs=[{id:'prog-kinder',name:'Kindergarten Program',type:'kindergarten',grades:['Kindergarten'],useSections:false,sectionIds:[],group:'kinder',advisers:[],order:0,countsTowardLoad:true,viewType:'master'},{id:'prog-g12',name:'Grades 1–2 Program',type:'custom',grades:['Grade 1','Grade 2'],useSections:false,sectionIds:[],group:'g12',advisers:[],order:1,countsTowardLoad:true,viewType:'master'},{id:'prog-g36',name:'Grades 3–6 Program',type:'custom',grades:['Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10'],useSections:false,sectionIds:[],group:'g36',advisers:[],order:2,countsTowardLoad:true,viewType:'master'}]};if(s.programs.length){s.classes=s.classes.map(c=>{if(c.programId&&s.programs.some(p=>p.id===c.programId))return c;let sl=s.timeSlots.find(ts=>ts.id===c.timeSlotId)||{};let p=s.programs.find(p=>p.id===s.activeProgramId&&(p.grades||[]).includes(c.grade)&&(p.group===sl.group||sl.group==='all'))||s.programs.find(p=>(p.grades||[]).includes(c.grade)&&(p.group===sl.group||sl.group==='all'))||s.programs.find(p=>p.id===s.activeProgramId&&(p.grades||[]).includes(c.grade))||s.programs.find(p=>(p.grades||[]).includes(c.grade));return {...c,programId:p?p.id:''}})};return finalizeSchoolYears(s)}
+function migrate(s){s=JSON.parse(JSON.stringify(s||{}));s.subjects||=[];s.defaultSubjectsInitialized=!!s.defaultSubjectsInitialized||s.subjects.length>0;s.teachers||=[];s.classes||=[];s.timeSlots||=[];s.grades||=['Kindergarten','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10'];s.sections||=[];s.programs||=[];s.activeProgramId||='';if(typeof s.schedulerExpanded!=='boolean')s.schedulerExpanded=true;if(!['dashboard','scheduler','summary','analytics'].includes(s.activeTab))s.activeTab='dashboard';s.advisers||={};s.sectionAdvisers||={};s.schoolConfig||={};s.subjects=s.subjects.map(x=>({id:x.id||uid('s'),name:x.name||'NEW SUBJECT',tags:Array.isArray(x.tags)?x.tags:[]}));s.teachers=s.teachers.map((t,i)=>({...t,position:t.position||'',room:t.room||'',color:teacherColor(t.color||palette[i%palette.length])}));s.classes=s.classes.map(c=>({id:c.id||uid('c'),subjectId:c.subjectId||'',teacherId:c.teacherId||'',grade:c.grade||'Grade 3',timeSlotId:c.timeSlotId||'',day:c.day||'master',sectionId:c.sectionId||'',programId:c.programId||''}));s.timeSlots=s.timeSlots.map(ts=>{let m=Number(ts.mins)||mins(ts.start||'07:30',ts.end||'08:10'),start=ts.start||'07:30';return {id:ts.id||uid('ts'),start,mins:m,end:addMins(start,m),label:ts.label||'',type:ts.type||'academic',group:normGroup(ts.group||'g36'),programId:ts.programId||''}});s.programs=s.programs.map((p,i)=>({id:p.id||uid('prog'),name:p.name||'Class Program',type:p.type||'single',grades:Array.isArray(p.grades)?p.grades:[],useSections:!!p.useSections,sectionIds:Array.isArray(p.sectionIds)?p.sectionIds:[],group:normGroup(p.group||'g36'),advisers:Array.isArray(p.advisers)?p.advisers:[],order:Number.isFinite(Number(p.order))?Number(p.order):i,countsTowardLoad:p.countsTowardLoad!==false,viewType:p.viewType||((p.countsTowardLoad===false)?'learner':'master')}));if(!s.programs.length&&(s.classes.length||s.timeSlots.length)){s.programs=[{id:'prog-kinder',name:'Kindergarten Program',type:'kindergarten',grades:['Kindergarten'],useSections:false,sectionIds:[],group:'kinder',advisers:[],order:0,countsTowardLoad:true,viewType:'master'},{id:'prog-g12',name:'Grades 1–2 Program',type:'custom',grades:['Grade 1','Grade 2'],useSections:false,sectionIds:[],group:'g12',advisers:[],order:1,countsTowardLoad:true,viewType:'master'},{id:'prog-g36',name:'Grades 3–6 Program',type:'custom',grades:['Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10'],useSections:false,sectionIds:[],group:'g36',advisers:[],order:2,countsTowardLoad:true,viewType:'master'}]};s=finalizeSchoolYears(s);if(s.programs.length){let fix=c=>{if(c.programId&&s.programs.some(p=>p.id===c.programId))return c;let sl=s.timeSlots.find(ts=>ts.id===c.timeSlotId)||{};let p=s.programs.find(p=>p.id===s.activeProgramId&&(p.grades||[]).includes(c.grade)&&(p.group===sl.group||sl.group==='all'))||s.programs.find(p=>(p.grades||[]).includes(c.grade)&&(p.group===sl.group||sl.group==='all'))||s.programs.find(p=>p.id===s.activeProgramId&&(p.grades||[]).includes(c.grade))||s.programs.find(p=>(p.grades||[]).includes(c.grade));return {...c,programId:p?p.id:''}};s.classes=s.classes.map(fix);Object.values(s.schoolYears||{}).forEach(sy=>{if(sy.classes)sy.classes=sy.classes.map(fix)})};if(s.teachers){s.teachers.forEach(t=>{if(!t.subjectsTaught)t.subjectsTaught=[]});let check=c=>{let t=s.teachers.find(x=>x.id===c.teacherId),sub=s.subjects.find(x=>x.id===c.subjectId);if(t&&sub&&!t.subjectsTaught.includes(sub.name))t.subjectsTaught.push(sub.name)};if(s.classes)s.classes.forEach(check);Object.values(s.schoolYears||{}).forEach(sy=>{if(sy.classes)sy.classes.forEach(check)})}return s}
 let undoStack = [];
 let redoStack = [];
 let lastSavedStateStr = typeof state !== 'undefined' ? JSON.stringify(state) : '{}';
@@ -5548,7 +5675,12 @@ function toggleFocusMode() {
   document.body.classList.toggle('focusMode');
   render();
 }
-function render(){hideContextMenu();menuRegistry={};menuCounter=0;renderHead();renderNav();renderSchedulerRail();renderMetrics();renderFaculty();renderDiag();populateModal();renderContent();applyLayoutMode();hydrateStaticIcons();renderThemeIcon();applySearch();updateUndoRedoButtons();} function applyLayoutMode(){let g=document.querySelector('.grid');g?.classList.toggle('full',activeView!=='scheduler'||!state.activeProgramId);g?.classList.toggle('dashboardView',activeView==='dashboard');g?.classList.toggle('analyticsView',activeView==='analytics');g?.classList.toggle('schedulerView',activeView==='scheduler');document.querySelector('.kpis')?.classList.toggle('hideForAnalytics',activeView==='analytics' || activeView==='dashboard' || activeView==='scheduler');document.querySelector('.shell')?.classList.toggle('schedulerRailMode',activeView==='scheduler');let rail=document.getElementById('schedulerRail');rail?.classList.toggle('visible',activeView==='scheduler');rail?.classList.toggle('collapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed);document.querySelector('.shell')?.classList.toggle('schedulerRailCollapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed)} function formatSchoolYearLabel(sy){sy=String(sy||'').trim();if(!sy)return 'No school year set';return /^S\.?Y\.?/i.test(sy)?sy:'S.Y. '+sy}
+function toggleWorkload() {
+  state.workloadCollapsed = !state.workloadCollapsed;
+  save();
+  applyLayoutMode();
+}
+function render(){hideContextMenu();menuRegistry={};menuCounter=0;renderHead();renderNav();renderSchedulerRail();renderMetrics();renderFaculty();renderDiag();populateModal();renderContent();applyLayoutMode();hydrateStaticIcons();renderThemeIcon();applySearch();updateUndoRedoButtons();} function applyLayoutMode(){let g=document.querySelector('.grid');g?.classList.toggle('full',activeView!=='scheduler'||!state.activeProgramId);g?.classList.toggle('dashboardView',activeView==='dashboard');g?.classList.toggle('analyticsView',activeView==='analytics');g?.classList.toggle('schedulerView',activeView==='scheduler');g?.classList.toggle('workloadCollapsed',!!state.workloadCollapsed);document.querySelector('.kpis')?.classList.toggle('hideForAnalytics',activeView==='analytics' || activeView==='dashboard' || activeView==='scheduler');document.querySelector('.shell')?.classList.toggle('schedulerRailMode',activeView==='scheduler');let rail=document.getElementById('schedulerRail');rail?.classList.toggle('visible',activeView==='scheduler');rail?.classList.toggle('collapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed);document.querySelector('.shell')?.classList.toggle('schedulerRailCollapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed)} function formatSchoolYearLabel(sy){sy=String(sy||'').trim();if(!sy)return 'No school year set';return /^S\.?Y\.?/i.test(sy)?sy:'S.Y. '+sy}
 function toggleSchoolYearDropdown(e){e.stopPropagation();let wrap=document.getElementById('topSchoolYearDropdown'),menu=document.getElementById('topSchoolYearMenu');if(wrap&&menu){let show=menu.classList.toggle('show');wrap.classList.toggle('active',show)}}
 function renderTopSchoolYearDropdown(){let menu=document.getElementById('topSchoolYearMenu'),label=document.getElementById('topSchoolYearLabel');if(!menu||!label)return;let years=availableSchoolYears(),current=currentSchoolYearName();if(!years.includes(current))years.unshift(current);label.textContent=formatSchoolYearLabel(current);let html=years.map(y=>`<button class="topSyMenuItem ${y===current?'active':''}" onclick="handleTopSchoolYearChange('${esc(y)}')">${esc(formatSchoolYearLabel(y))}</button>`).join('');html+=`<button class="topSyMenuItem addMenuBtn" onclick="handleTopSchoolYearChange('__add_new_sy__')">＋ Add New School Year</button>`;menu.innerHTML=html}
 function handleTopSchoolYearChange(value){let wrap=document.getElementById('topSchoolYearDropdown'),menu=document.getElementById('topSchoolYearMenu');if(wrap&&menu){menu.classList.remove('show');wrap.classList.remove('active')}if(value==='__add_new_sy__'){let sy=prompt('Enter new school year, e.g. 2027–2028');if(!sy){renderTopSchoolYearDropdown();return}switchSchoolYear(sy.trim());return}switchSchoolYear(value)}
@@ -5674,7 +5806,17 @@ function gradeLevelTag(grade){let g=String(grade||'').toLowerCase();if(g.include
 function subjectAllowedForGrade(subject,grade){let tags=Array.isArray(subject.tags)?subject.tags:[];if(!tags.length)return true;let tag=gradeLevelTag(grade);if(tag==='K')tag='Kinder';return tags.includes(tag)}
 function subjectAllowedForProgram(subject,p,grade=''){if(!p)return subjectAllowedForGrade(subject,grade||activeGrade);let grades=grade?[grade]:(p.grades||[]);return !(Array.isArray(subject.tags)&&subject.tags.length)||grades.some(g=>subjectAllowedForGrade(subject,g))}
 function subjectOptionsForContext(grade='',selectedId=''){let p=activeProgram(),list=state.subjects.filter(s=>subjectAllowedForProgram(s,p,grade));if(selectedId&&!list.some(s=>s.id===selectedId)){let s=state.subjects.find(x=>x.id===selectedId);if(s)list.unshift(s)}return list}
-function refreshSubjectOptions(grade='',selectedId=''){let list=subjectOptionsForContext(grade,selectedId);mSub.innerHTML=list.length?list.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join(''):'<option value="">No matching subject tags</option>';if(selectedId&&list.some(s=>s.id===selectedId))mSub.value=selectedId}
+function refreshSubjectOptions(grade='',selectedId=''){
+  let list=subjectOptionsForContext(grade,selectedId);
+  let html=list.length?list.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join(''):'<option value="">No matching subject tags</option>';
+  mSub.innerHTML=html;
+  if(selectedId&&list.some(s=>s.id===selectedId))mSub.value=selectedId;
+}
+
+function populateTeacherOptions(selectedId='') {
+  mTeach.innerHTML='<option value="">Select Teacher...</option>' + (state.teachers.length?state.teachers.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join(''):'<option value="">Add teachers first</option>');
+  if(selectedId) mTeach.value = selectedId;
+}
 function isMultigradeProgram(p){return !!p&&p.type==='multigrade'}
 function adviserNameFromEntry(a){if(!a)return'';if(a.teacherId)return get(state.teachers,a.teacherId).name;return a.name||''}
 function adviserForColumn(p,grade,sectionId=''){if(isMultigradeProgram(p)){let a=(p.advisers||[])[0];return adviserNameFromEntry(a)||''}if(sectionId&&state.sectionAdvisers&&state.sectionAdvisers[sectionId])return get(state.teachers,state.sectionAdvisers[sectionId]).name;if(state.advisers&&state.advisers[grade])return get(state.teachers,state.advisers[grade]).name;let a=(p?.advisers||[]).find(x=>x.grade===grade||(!x.grade&&!x.sectionId));return adviserNameFromEntry(a)||''}
@@ -5688,7 +5830,7 @@ function countedTeachingMinutesForTeacher(items){let total=0,seen=new Set();item
 function countedTeachingBlocksForTeacher(items){let seen=new Set(),count=0;items.forEach(c=>{let p=state.programs.find(x=>x.id===c.programId);if(p&&isMultigradeProgram(p)){let key=[c.teacherId,c.programId,c.timeSlotId,c.day||'master'].join('|');if(seen.has(key))return;seen.add(key)}count++});return count}
 function loads(){let list=workloadSourceClasses();return state.teachers.map(t=>{let assigned=list.filter(c=>c.teacherId===t.id),scheduledMinutes=countedTeachingMinutesForTeacher(assigned),adviserEntries=adviserEntriesForTeacher(t.id),adviserMinutes=adviserEntries.reduce((a,x)=>a+x.minutes,0),base={teacher:t,items:assigned,blocks:countedTeachingBlocksForTeacher(assigned),scheduledMinutes,adviserMinutes,adviserCount:adviserEntries.length,adviserEntries,minutes:scheduledMinutes+adviserMinutes};base.levelTags=teacherLevelTagsFromLoad(base);return base})}
 function loadStatus(total,target=360){let diff=total-target;if(diff>0)return{label:'OVERLOADED',detail:`${diff} min over`,kind:'overload'};if(diff<0)return{label:'UNDERLOADED',detail:`${Math.abs(diff)} min short`,kind:'underload'};return{label:'MET LOAD',detail:'6 hours met',kind:'met'}}
-function diag(){let list=((activeView==='scheduler'&&activeProgram())?scopedClasses():state.classes).filter(classCountsTowardLoad),conflicts=[];for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){let a=list[i],b=list[j];if(a.teacherId&&a.teacherId===b.teacherId&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master')){let pa=state.programs.find(p=>p.id===a.programId),pb=state.programs.find(p=>p.id===b.programId);if(pa&&pb&&pa.id===pb.id&&isMultigradeProgram(pa))continue;let ts=get(state.timeSlots,a.timeSlotId),tea=get(state.teachers,a.teacherId),sa=get(state.subjects,a.subjectId),sb=get(state.subjects,b.subjectId);conflicts.push({a,b,teacher:tea.name,time:`${to12(ts.start)}–${to12(ts.end)}`,slot:ts,subjectA:sa.name,subjectB:sb.name,gradeA:a.grade,gradeB:b.grade,sectionA:a.sectionId?get(state.sections,a.sectionId).name:'',sectionB:b.sectionId?get(state.sections,b.sectionId).name:'',day:(a.day||'master')})}}return{conflicts}}
+function diag(){let list=state.classes.filter(classCountsTowardLoad),conflicts=[];for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){let a=list[i],b=list[j];if(a.teacherId&&a.teacherId===b.teacherId&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master')){let pa=state.programs.find(p=>p.id===a.programId),pb=state.programs.find(p=>p.id===b.programId);if(pa&&pb&&pa.id===pb.id&&isMultigradeProgram(pa))continue;let ts=get(state.timeSlots,a.timeSlotId),tea=get(state.teachers,a.teacherId),sa=get(state.subjects,a.subjectId),sb=get(state.subjects,b.subjectId);conflicts.push({a,b,teacher:tea.name,time:`${to12(ts.start)}–${to12(ts.end)}`,slot:ts,subjectA:sa.name,subjectB:sb.name,gradeA:a.grade,gradeB:b.grade,sectionA:a.sectionId?get(state.sections,a.sectionId).name:'',sectionB:b.sectionId?get(state.sections,b.sectionId).name:'',day:(a.day||'master')})}}return{conflicts}}
 function renderMetrics(){let l=loads(),avg=l.length?l.reduce((a,b)=>a+b.minutes,0)/l.length/60:0,d=diag(),confSub=d.conflicts.length?`${d.conflicts.length} need review`:`Everything's perfect! 🎉`,data=[{cls:'teachers',label:'Teachers',value:state.teachers.length,icon:'users',color:'#0f766e',sub:'Dedicated educators'},{cls:'subjects',label:'Subjects',value:state.subjects.length,icon:'book',color:'#3b82f6',sub:'Across all programs'},{cls:'scheduled',label:'Scheduled Subjects',value:state.classes.length,icon:'calendar',color:'#8b5cf6',sub:'Planned & organized'},{cls:'conflicts',label:'Conflicts',value:d.conflicts.length,icon:'alert',color:'#ef4444',sub:confSub},{cls:'avgload',label:'Avg. Load',value:avg.toFixed(1)+'h',icon:'clock',color:'#f59e0b',sub:'Per teacher'}];metrics.innerHTML=data.map(x=>`<div class="card metric ${x.cls}"><div class="metricIcon">${ico(x.icon,x.color)}</div><div class="metricVal">${x.value}</div><div class="metricLab">${x.label}</div><div class="metricSub">${x.sub}</div></div>`).join('')}
 function renderFaculty(){faculty.innerHTML=loads().length?loads().sort((a,b)=>b.minutes-a.minutes).map(x=>{let c=teacherColor(x.teacher),pos=x.teacher.position?esc(x.teacher.position):'No teaching position set',room=x.teacher.room?` • Room: ${esc(x.teacher.room)}`:'',st=loadStatus(x.minutes);let pill=`<button type="button" class="workloadStatusPill status-${st.kind}" onclick="event.stopPropagation();openSummaryForStatus('${st.kind}')" title="Open Teaching Load Summary filtered by ${st.label}">${st.label}</button>`;return`<div class="teacher ${selectedTeacher===x.teacher.id?'active':''}" data-status="${st.kind}" draggable="true" ondragstart="dragTeacher(event,'${x.teacher.id}')" onclick="selectedTeacher='${x.teacher.id}';render()" title="Drag this teacher to an empty schedule cell to add a scheduled subject"><div class="avatar" style="background:${c}">${initials(x.teacher.name)}</div><div style="min-width:0"><div class="teacherTop"><div class="teacherName">${esc(x.teacher.name)}</div><button class="btn teacherEditBtn" onclick="event.stopPropagation();editTeacherProfile('${x.teacher.id}')" title="Edit teacher profile">Edit</button></div><div class="teacherMeta"><span class="dot" style="background:${c}"></span>${pos}${room}</div><div class="teacherStatusRow">${pill}</div></div></div>`}).join(''):'<div class="muted">No teachers yet. Add teachers in Settings.</div>'}
 function openSummaryForStatus(kind){summaryStatus=kind||'all';activeView='summary';state.activeTab='summary';save()}
@@ -5716,7 +5858,7 @@ function curriculumPctFromRows(rows){return rows.length?Math.round(rows.reduce((
 function curriculumScopeLabel(){let counted=state.programs.filter(p=>p.countsTowardLoad!==false).length,display=state.programs.filter(p=>p.countsTowardLoad===false).length;return `${counted} load-counted/master program(s) checked${display?`; ${display} display-only program(s) excluded`:''}`}
 function statusForCompliance(pct,scheduled){if(!scheduled)return{kind:'bad',label:'Missing'};if(pct>=100)return{kind:'good',label:'Compliant'};if(pct>=80)return{kind:'warn',label:'Flexible / Review'};return{kind:'bad',label:'Needs Review'}}
 function gradeLevelsForTimeChecker(){let source=curriculumSourceClasses(),grades=[...new Set(source.map(c=>c.grade).filter(Boolean))];if(!grades.length)grades=(state.grades||[]);return grades.sort(programGradeSort)}
-function timeAllotmentRowsByGrade(grade){let cats=depedSubjectProfileForGrade(grade),source=curriculumSourceClasses().filter(c=>c.grade===grade),isWeekly=curriculumIsWeeklyEncoded(source),classKeys=[...new Set(source.map(curriculumClassKey))];return cats.map(cat=>{let byKey={};source.forEach(c=>{let subj=get(state.subjects,c.subjectId).name;if(isAralSubject(subj))return;let ts=get(state.timeSlots,c.timeSlotId),mins=Number(ts.mins)||0,areas=matchedLearningAreasForGrade(subj,grade);if(!areas.includes(cat.area))return;let freq=curriculumFrequencyForArea(cat.area,isWeekly,grade),weekly=isWeekly?mins:mins*freq,key=curriculumClassKey(c);byKey[key]=(byKey[key]||0)+weekly});let vals=classKeys.map(k=>byKey[k]||0),scheduled=classKeys.length?Math.round(vals.reduce((a,b)=>a+b,0)/classKeys.length):0,pct=safePct(Math.min(scheduled,cat.required),cat.required),st=statusForCompliance(pct,scheduled);return{grade,area:cat.area,required:cat.required,scheduled,pct,status:st.label,kind:st.kind}})}
+function timeAllotmentRowsByGrade(grade,programId){let cats=depedSubjectProfileForGrade(grade),source=curriculumSourceClasses().filter(c=>c.grade===grade);if(programId)source=source.filter(c=>c.programId===programId);let isWeekly=curriculumIsWeeklyEncoded(source),classKeys=[...new Set(source.map(curriculumClassKey))];return cats.map(cat=>{let byKey={};source.forEach(c=>{let subj=get(state.subjects,c.subjectId).name;if(isAralSubject(subj))return;let ts=get(state.timeSlots,c.timeSlotId),mins=Number(ts.mins)||0,areas=matchedLearningAreasForGrade(subj,grade);if(!areas.includes(cat.area))return;let freq=curriculumFrequencyForArea(cat.area,isWeekly,grade),weekly=isWeekly?mins:mins*freq,key=curriculumClassKey(c);byKey[key]=(byKey[key]||0)+weekly});let vals=classKeys.map(k=>byKey[k]||0),scheduled=classKeys.length?Math.round(vals.reduce((a,b)=>a+b,0)/classKeys.length):0,pct=safePct(Math.min(scheduled,cat.required),cat.required),st=statusForCompliance(pct,scheduled);return{grade,area:cat.area,required:cat.required,scheduled,pct,status:st.label,kind:st.kind}})}
 function aralRowsByGrade(grade){let source=curriculumSourceClasses().filter(c=>c.grade===grade&&isAralSubject(get(state.subjects,c.subjectId).name));if(!source.length)return'';let total=source.reduce((s,c)=>s+(Number(get(state.timeSlots,c.timeSlotId).mins)||0),0);return `<div class="levelComplianceBox"><b>ARAL Intervention Block</b><span>${Math.round(total)} raw scheduled minute(s) encoded separately from required learning-area compliance.</span></div>`}
 function gradeComplianceSummary(grade){let rows=timeAllotmentRowsByGrade(grade),score=rows.length?Math.round(rows.reduce((s,r)=>s+r.pct,0)/rows.length):0,missing=rows.filter(r=>!r.scheduled).length,kind=score>=90&&!missing?'good':score>=75?'warn':'bad',label=kind==='good'?'Compliant':kind==='warn'?'Needs Review':'Incomplete';return{grade,rows,score,missing,kind,label,aral:aralRowsByGrade(grade)}}
 function overallTimeCompliance(){let grades=gradeLevelsForTimeChecker(),summaries=grades.map(gradeComplianceSummary),score=summaries.length?Math.round(summaries.reduce((s,g)=>s+g.score,0)/summaries.length):0,compliant=summaries.filter(g=>g.kind==='good').length,kind=score>=90?'good':score>=75?'warn':'bad',label=kind==='good'?'Time Allotment Compliant':kind==='warn'?'Time Allotment Needs Review':'Time Allotment Incomplete',message=summaries.length?`${compliant} of ${summaries.length} grade level(s) are fully compliant. ${curriculumModeLabel()}`:'No scheduled class program data found yet.';return{grades,summaries,score,compliant,kind,label,message}}
@@ -6155,8 +6297,8 @@ function renderProgramMatrix(p){
   let totalExpected = slots.filter(s=>s.type!=='universal').length * cols.length;
   let scheduledCount = state.classes.filter(c=>classBelongsToProgram(c,p)).length;
   let pct = totalExpected > 0 ? Math.round((scheduledCount / totalExpected) * 100) : 0;
-  let badgeClass = p.type==='multigrade'?'MG':p.type==='multi_section'?'SEC':p.type==='kindergarten'?'K':'SG';
-  let badgeText = p.type==='multigrade'?'MG':p.type==='multi_section'?'SECTIONS':p.type==='kindergarten'?'KINDER':'SINGLE GRADE';
+  let badgeClass = p.type==='multigrade'?'MG':p.type==='multi_section'?'SEC':p.type==='kindergarten'?'K':p.type==='custom'?'CUST':'SG';
+  let badgeText = p.type==='multigrade'?'MG':p.type==='multi_section'?'SECTIONS':p.type==='kindergarten'?'KINDER':p.type==='custom'?'CUSTOM':'SINGLE GRADE';
   
   let adviserElements=cols.map(c=>{
     let name=adviserForColumn(p,c.grade,c.sectionId);
@@ -6187,7 +6329,7 @@ function renderProgramMatrix(p){
         </div>
         <div class="schedulerHeaderProgress">
           <div class="schedulerProgressLabel">
-            <span>Timetable Completeness</span>
+            <span>Timetable Completeness</span>&nbsp;
             <span>${scheduledCount}/${totalExpected} slots (${pct}%)</span>
           </div>
           <div class="schedulerProgressTrack">
@@ -6210,7 +6352,9 @@ function renderProgramMatrix(p){
       let items=state.classes.filter(c=>classBelongsToProgram(c,p)&&c.grade===col.grade&&c.timeSlotId===ts.id&&(!c.day||c.day==='master')&&(p.useSections?(c.sectionId||'')===col.sectionId:true));
       html+=`<td><div class="drop" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="dropClass(event,'${ts.id}','${esc(col.grade)}','${esc(col.sectionId)}')">`;
       items.forEach(c=>html+=block(c,ts.id,col.grade,col.sectionId));
-      if(items.length===0)html+=`<button class="add" onclick="openClassModal('${ts.id}','${esc(col.grade)}','${esc(col.sectionId)}')">${ico('plus','currentColor')} Assign Subject</button>`;
+      if(items.length===0) {
+        html+=`<button class="add" onclick="showSubjectContextMenu(event, this, '${ts.id}','${esc(col.grade)}','${esc(col.sectionId)}')">${ico('plus','currentColor')} Add Class</button>`;
+      }
       html+=`</div></td>`
     });
     html+='</tr>'
@@ -6218,7 +6362,28 @@ function renderProgramMatrix(p){
   content.innerHTML=html+'</tbody></table>';
   applySearch();
 }
-function menuButton(items){let id='menu-'+(++menuCounter);menuRegistry[id]=items;return `<button class="kebab" onclick="toggleContextMenu(event,'${id}')" onmouseenter="hoverContextMenu(event,'${id}')" onmouseleave="scheduleMenuClose()">⋯</button>`} function hoverContextMenu(e,id){cancelMenuClose();showContextMenu(e.currentTarget,id)} function toggleContextMenu(e,id){e.stopPropagation();cancelMenuClose();if(activeMenuId===id&&floatingMenu.classList.contains('show'))return hideContextMenu();showContextMenu(e.currentTarget,id)} function showContextMenu(anchor,id){activeMenuId=id;let items=menuRegistry[id]||[];floatingMenu.innerHTML=items.map((it,i)=>`<button class="${it.danger?'danger':''}" onclick="runMenuAction('${id}',${i})">${esc(it.label)}</button>`).join('');floatingMenu.classList.add('show');let r=anchor.getBoundingClientRect(),mw=190,mh=Math.max(44,items.length*40);floatingMenu.style.left=Math.min(window.innerWidth-mw-8,Math.max(8,r.right-mw))+'px';let top=r.bottom+6;if(top+mh>window.innerHeight-8)top=Math.max(8,r.top-mh-6);floatingMenu.style.top=top+'px'} function runMenuAction(id,i){let item=(menuRegistry[id]||[])[i];hideContextMenu();if(item&&typeof item.action==='function')item.action()} function scheduleMenuClose(){cancelMenuClose();closeTimer=setTimeout(hideContextMenu,380)} function cancelMenuClose(){if(closeTimer)clearTimeout(closeTimer)} function hideContextMenu(){floatingMenu.classList.remove('show');floatingMenu.innerHTML='';activeMenuId=null} document.addEventListener('click',e=>{if(!e.target.closest('.menu')&&!e.target.closest('.kebab'))hideContextMenu();let wrap=document.getElementById('topSchoolYearDropdown'),menu=document.getElementById('topSchoolYearMenu');if(wrap&&menu&&!e.target.closest('#topSchoolYearDropdown')){menu.classList.remove('show');wrap.classList.remove('active')}});window.addEventListener('scroll',hideContextMenu,true);window.addEventListener('resize',hideContextMenu);
+function subjectColor(item) {
+  let colors = ['#fef08a', '#fed7aa', '#bfdbfe', '#99f6e4', '#a7f3d0', '#d9f99d', '#ddd6fe', '#bae6fd', '#fbcfe8', '#fecaca'];
+  let hash = 0, str = item.id || item.name || '';
+  for(let k=0; k<str.length; k++) hash = str.charCodeAt(k) + ((hash << 5) - hash);
+  return colors[Math.abs(hash) % colors.length];
+}
+function pastelTeacherColor(item) {
+  const map = {
+    '#f59e0b': '#fef08a',
+    '#f97316': '#fed7aa',
+    '#3b82f6': '#bfdbfe',
+    '#0f766e': '#99f6e4',
+    '#10b981': '#a7f3d0',
+    '#65a30d': '#d9f99d',
+    '#8b5cf6': '#ddd6fe',
+    '#0284c7': '#bae6fd',
+    '#64748b': '#e2e8f0'
+  };
+  let tc = teacherColor(item).toLowerCase();
+  return map[tc] || '#f1f5f9';
+}
+function menuButton(items){let id='menu-'+(++menuCounter);menuRegistry[id]=items;return `<button class="kebab" onclick="toggleContextMenu(event,'${id}')" onmouseenter="hoverContextMenu(event,'${id}')" onmouseleave="scheduleMenuClose()">⋯</button>`} function hoverContextMenu(e,id){cancelMenuClose();showContextMenu(e.currentTarget,id)} function toggleContextMenu(e,id){e.stopPropagation();cancelMenuClose();if(activeMenuId===id&&floatingMenu.classList.contains('show'))return hideContextMenu();showContextMenu(e.currentTarget,id)} function showContextMenu(anchor,id){cancelMenuClose();activeMenuId=id;let items=menuRegistry[id]||[];floatingMenu.innerHTML=items.map((it,i)=>{let style=''; if(it.color){ if(id==='rapid-subject'||id==='rapid-teacher') style=`background-color: ${it.color}; color: #0f172a; border-bottom: 1px solid rgba(0,0,0,0.05); margin-bottom: 4px;`; else style=`border-left: 4px solid ${it.color};`; } return `<button class="${it.danger?'danger':''}" style="${style}" onclick="runMenuAction(event,'${id}',${i})">${esc(it.label)}</button>`}).join('');floatingMenu.classList.add('show');let r=anchor.getBoundingClientRect(),mw=190,mh=Math.max(44,items.length*40);floatingMenu.style.left=Math.min(window.innerWidth-mw-8,Math.max(8,r.right-mw))+'px';let top=r.bottom+6;if(top+mh>window.innerHeight-8)top=Math.max(8,r.top-mh-6);floatingMenu.style.top=top+'px'} function runMenuAction(e,id,i){let item=(menuRegistry[id]||[])[i];hideContextMenu();if(item&&typeof item.action==='function')item.action(e)} function scheduleMenuClose(){cancelMenuClose();closeTimer=setTimeout(hideContextMenu,380)} function cancelMenuClose(){if(closeTimer)clearTimeout(closeTimer)} function hideContextMenu(){floatingMenu.classList.remove('show');floatingMenu.innerHTML='';activeMenuId=null} document.addEventListener('click',e=>{if(!e.target.closest('.menu')&&!e.target.closest('.kebab'))hideContextMenu();let wrap=document.getElementById('topSchoolYearDropdown'),menu=document.getElementById('topSchoolYearMenu');if(wrap&&menu&&!e.target.closest('#topSchoolYearDropdown')){menu.classList.remove('show');wrap.classList.remove('active')}});window.addEventListener('scroll',hideContextMenu,true);window.addEventListener('resize',hideContextMenu);
 function renderMatrix(g){
   currentGroup=g;
   let grades=gradesForGroup(g),slots=slotsForGroup(g);
@@ -6236,8 +6401,10 @@ function renderMatrix(g){
     else grades.forEach(gr=>{
       let items=state.classes.filter(c=>c.grade===gr&&c.timeSlotId===ts.id&&(!c.day||c.day==='master'));
       html+=`<td><div class="drop" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="dropClass(event,'${ts.id}','${esc(gr)}')">`;
-      items.forEach(c=>block(c,ts.id,gr));
-      if(items.length===0)html+=`<button class="add" onclick="openClassModal('${ts.id}','${esc(gr)}')">${ico('plus','currentColor')} Assign Subject</button>`;
+      items.forEach(c=>html+=block(c,ts.id,gr));
+      if(items.length===0) {
+        html+=`<button class="add" onclick="showSubjectContextMenu(event, this, '${ts.id}','${esc(gr)}')">${ico('plus','currentColor')} Add Class</button>`;
+      }
       html+=`</div></td>`
     });
     html+='</tr>'
@@ -6288,22 +6455,278 @@ function currentPositionText(){return `${mGrade.value||'—'} • ${slotLabel(mS
 function classConflictPreview(){if(!mTeach.value||!mSlot.value)return null;let p=activeProgram(),sameTeacher=state.classes.filter(c=>c.id!==editId&&c.teacherId===mTeach.value&&c.timeSlotId===mSlot.value&&(c.day||'master')==='master');let conflict=sameTeacher.find(c=>!(p&&isMultigradeProgram(p)&&c.programId===p.id));if(conflict){let sub=get(state.subjects,conflict.subjectId).name;return `${esc(get(state.teachers,mTeach.value).name)} already has ${esc(sub)} in ${esc(conflict.grade)} at ${esc(slotLabel(mSlot.value))}.`}let duplicate=state.classes.find(c=>c.id!==editId&&c.subjectId===mSub.value&&c.grade===mGrade.value&&c.timeSlotId===mSlot.value&&(c.sectionId||'')===(mSec.value||''));if(duplicate){return `${esc(get(state.subjects,mSub.value).name)} is already scheduled for ${esc(mGrade.value)} at ${esc(slotLabel(mSlot.value))}.`}return null}
 function updateClassNotice(){let problem=classConflictPreview();if(problem)showClassNotice('error',`<b>Possible conflict:</b> ${problem}`);else showClassNotice('info',`This subject will be added to <b>${esc(currentPositionText())}</b>.`)}
 function refreshSectionOptions(grade,selected=''){let opts=['<option value="">No section</option>'].concat(state.sections.filter(s=>!grade||s.grade===grade).map(s=>`<option value="${s.id}" ${selected===s.id?'selected':''}>${esc(s.name)}</option>`));mSec.innerHTML=opts.join('')}
-function populateModal(){refreshSubjectOptions(activeGrade,'');mTeach.innerHTML=state.teachers.length?state.teachers.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join(''):'<option value="">Add teachers first</option>';mGrade.innerHTML=state.grades.map(g=>`<option>${esc(g)}</option>`).join('');mSlot.innerHTML=state.timeSlots.length?state.timeSlots.map(ts=>`<option value="${ts.id}">${to12(ts.start)}–${to12(ts.end)} • ${ts.mins} min</option>`).join(''):'<option value="">Add time slots first</option>';refreshSectionOptions(mGrade.value||activeGrade,'')}
-function bindClassModalEvents(){mSub.onchange=updateClassNotice;mTeach.onchange=updateClassNotice;mGrade.onchange=()=>{refreshSectionOptions(mGrade.value,mSec.value);refreshSubjectOptions(mGrade.value,mSub.value);updateClassNotice()};mSlot.onchange=updateClassNotice;mSec.onchange=updateClassNotice}
-function openClassModal(slot='',grade='',sectionId='',teacherId=''){editId=null;modalTitle.textContent='Add Scheduled Subject';populateModal();let resolvedGrade=grade||activeGrade;mGrade.value=resolvedGrade;mSlot.value=slot||state.timeSlots.find(x=>x.type==='academic')?.id||'';refreshSectionOptions(resolvedGrade,sectionId||'');refreshSubjectOptions(resolvedGrade,'');mSec.value=sectionId||'';if(teacherId)mTeach.value=teacherId;let p=state.programs.find(x=>x.id===state.activeProgramId);mSec.disabled=!!(p&&p.type==='multigrade');bindClassModalEvents();updateClassNotice();classModal.classList.add('show')}
-function editClass(id){let c=state.classes.find(x=>x.id===id);if(!c)return;editId=id;modalTitle.textContent='Edit Scheduled Subject';populateModal();mTeach.value=c.teacherId;mGrade.value=c.grade;refreshSectionOptions(c.grade,c.sectionId||'');refreshSubjectOptions(c.grade,c.subjectId);mSub.value=c.subjectId;mSlot.value=c.timeSlotId;mSec.value=c.sectionId||'';let p=state.programs.find(x=>x.id===state.activeProgramId);mSec.disabled=!!(p&&p.type==='multigrade');bindClassModalEvents();updateClassNotice();classModal.classList.add('show')}
+function populateModal(){}
+let activeBubbleBtn = null;
+let pendingBubbleArgs = null;
+function renderRadialBubbles(list, type) {
+  let menu = document.getElementById('floatingBubbleMenu');
+  if(!activeBubbleBtn) return;
+  let r = activeBubbleBtn.getBoundingClientRect();
+  menu.style.left = (r.left + r.width / 2) + 'px';
+  menu.style.top = (r.top + r.height / 2) + 'px';
+  menu.classList.add('show');
+  
+  let html = '';
+  let maxRadius = 0;
+  
+  list.forEach((item, i) => {
+    let ring, ringItems, indexInRing, r;
+    if (list.length <= 8) {
+      ring = 0; ringItems = list.length; indexInRing = i; r = 120;
+    } else {
+      if (i < 6) { ring = 0; ringItems = 6; indexInRing = i; r = 100; }
+      else if (i < 18) { ring = 1; ringItems = Math.min(list.length - 6, 12); indexInRing = i - 6; r = 180; }
+      else { ring = 2; ringItems = list.length - 18; indexInRing = i - 18; r = 260; }
+    }
+    
+    let angleOffset = ring === 1 ? Math.PI / ringItems : 0;
+    let angle = (indexInRing / ringItems) * 2 * Math.PI + angleOffset - Math.PI / 2;
+    
+    let tx = Math.cos(angle) * r * 1.5;
+    let ty = Math.sin(angle) * r * 1.1;
+    maxRadius = Math.max(maxRadius, r * 1.1);
+    
+    let colorVal, textVal, shadowVal;
+    if (type === 'teacher') {
+      colorVal = teacherColor(item);
+      textVal = '#fff';
+      shadowVal = '0 1px 3px rgba(0,0,0,0.4)';
+    } else {
+      colorVal = subjectColor(item);
+      textVal = '#0f172a';
+      shadowVal = 'none';
+    }
+    
+    let colorStyle = `--bubble-color: ${colorVal}; --bubble-text: ${textVal}; --bubble-shadow: ${shadowVal};`;
+    let clickFn = type === 'teacher' ? `selectTeacherBubble(event, '${item.id}')` : `selectBubble(event, '${item.id}')`;
+    let floatDelay = (i % 5) * 0.2;
+    
+    html += `<div class="radialNode" style="--tx:${tx}px; --ty:${ty}px; transition-delay: ${i*15}ms;" onclick="${clickFn}">
+               <div class="radialBubble" style="animation-delay: ${floatDelay}s; ${colorStyle}">${esc(item.name)}</div>
+             </div>`;
+  });
+  
+  let skipTy = maxRadius + 50;
+  html += `<div class="radialNode" style="--tx:0px; --ty:${skipTy}px; transition-delay: ${list.length*15}ms;" onclick="closeBubblesAndSkip(event)">
+             <div class="radialBubble radialSkip">Open full class modal</div>
+           </div>`;
+  menu.innerHTML = html;
+  
+  setTimeout(() => {
+    [...menu.querySelectorAll('.radialNode')].forEach(b => b.classList.add('active'));
+  }, 10);
+}
+function showSubjectBubbles(e, btn, slot, grade, sectionId='') {
+  if(e) e.stopPropagation();
+  let menu = document.getElementById('floatingBubbleMenu');
+  if(activeBubbleBtn === btn && menu.classList.contains('show')) return closeBubbles();
+  activeBubbleBtn = btn;
+  pendingBubbleArgs = {slot, grade, sectionId};
+  let list = subjectOptionsForContext(grade, '');
+  if(!list.length) return openClassModal(slot, grade, sectionId, '', '');
+  renderRadialBubbles(list, 'subject');
+}
+function showTeacherBubbles() {
+  let list = state.teachers || [];
+  if(!list.length) return closeBubblesAndSkip();
+  renderRadialBubbles(list, 'teacher');
+}
+
+function showSubjectContextMenu(e, btn, slot, grade, sectionId='') {
+  if(e) e.stopPropagation();
+  activeBubbleBtn = btn;
+  pendingBubbleArgs = {slot, grade, sectionId};
+  let list = subjectOptionsForContext(grade, '');
+  if(!list.length) return openClassModal(slot, grade, sectionId, '', '');
+  
+  let menuId = 'rapid-subject';
+  menuRegistry[menuId] = list.map(s => ({
+    label: s.name,
+    color: subjectColor(s),
+    action: (ev) => selectBubble(ev, s.id)
+  }));
+  menuRegistry[menuId].push({ label: 'Open full class modal', action: (ev) => closeBubblesAndSkip(ev) });
+  
+  showContextMenu(btn, menuId);
+}
+function showTeacherContextMenu() {
+  let list = state.teachers || [];
+  if(!list.length) return closeBubblesAndSkip();
+  
+  let menuId = 'rapid-teacher';
+  menuRegistry[menuId] = list.map(t => ({
+    label: t.name,
+    color: pastelTeacherColor(t),
+    action: (ev) => selectTeacherBubble(ev, t.id)
+  }));
+  menuRegistry[menuId].push({ label: 'Open full class modal', action: (ev) => closeBubblesAndSkip(ev) });
+  
+  let anchor = activeBubbleBtn;
+  if (window.lastBubbleClickEvent) {
+    let {clientX, clientY} = window.lastBubbleClickEvent;
+    anchor = { getBoundingClientRect: () => ({ left: clientX, right: clientX, top: clientY, bottom: clientY, width: 0, height: 0 }) };
+  }
+  
+  if (anchor && anchor.getBoundingClientRect) {
+    showContextMenu(anchor, menuId);
+  } else {
+    showContextMenu(document.body, menuId);
+  }
+}
+
+function closeBubbles() {
+  let rMenu = document.getElementById('floatingBubbleMenu');
+  if(rMenu) {
+    [...rMenu.querySelectorAll('.radialNode')].forEach(b => b.classList.remove('active'));
+    setTimeout(() => rMenu.classList.remove('show'), 300);
+  }
+  hideContextMenu();
+  activeBubbleBtn = null;
+  window.lastBubbleClickEvent = null;
+}
+function closeBubblesAndSkip(e) {
+  if(e) e.stopPropagation();
+  closeBubbles();
+  if(pendingBubbleArgs) openClassModal(pendingBubbleArgs.slot, pendingBubbleArgs.grade, pendingBubbleArgs.sectionId, '', pendingBubbleArgs.subjectId || '');
+}
+function selectBubble(e, subjectId) {
+  if(e) {
+    e.stopPropagation();
+    if(e.clientX && e.clientY) window.lastBubbleClickEvent = {clientX: e.clientX, clientY: e.clientY};
+  }
+  if(pendingBubbleArgs) {
+    pendingBubbleArgs.subjectId = subjectId;
+    if(state.useRadialBubbles !== false) {
+      let rMenu = document.getElementById('floatingBubbleMenu');
+      if(rMenu) [...rMenu.querySelectorAll('.radialNode')].forEach(b => b.classList.remove('active'));
+      setTimeout(showTeacherBubbles, 250);
+    } else {
+      setTimeout(showTeacherContextMenu, 50);
+    }
+  }
+}
+function selectTeacherBubble(e, teacherId) {
+  if(e) e.stopPropagation();
+  closeBubbles();
+  if(pendingBubbleArgs) {
+    let p = state.programs.find(x => x.id === state.activeProgramId);
+    let c = {
+      id: uid('c'),
+      programId: p ? p.id : '',
+      subjectId: pendingBubbleArgs.subjectId,
+      teacherId: teacherId,
+      grade: pendingBubbleArgs.grade,
+      timeSlotId: pendingBubbleArgs.slot,
+      sectionId: (p && p.type === 'multigrade') ? '' : (pendingBubbleArgs.sectionId || ''),
+      day: 'master',
+      room: ''
+    };
+    state.classes.push(c);
+    
+    let teacher = state.teachers.find(t=>t.id===teacherId);
+    let subject = state.subjects.find(s=>s.id===pendingBubbleArgs.subjectId);
+    if(teacher && subject) {
+      if(!teacher.subjectsTaught) teacher.subjectsTaught = [];
+      if(!teacher.subjectsTaught.includes(subject.name)) teacher.subjectsTaught.push(subject.name);
+    }
+    
+    save();
+    toastMsg('Class added');
+    
+    if(activeView==='scheduler'){
+      let p=activeProgram();
+      if(p) renderProgram(p);
+      else renderMatrix();
+    }
+    renderMetrics();
+    renderFaculty();
+  }
+}
+document.addEventListener('click', e => {
+  if(!e.target.closest('#floatingBubbleMenu') && !e.target.closest('.add')) closeBubbles();
+});
+function bindClassModalEvents(){
+  mSub.onchange=updateClassNotice;
+  mTeach.onchange=updateClassNotice;
+  mGrade.onchange=()=>{
+    refreshSectionOptions(mGrade.value,mSec.value);
+    refreshSubjectOptions(mGrade.value,mSub.value);
+    updateClassNotice();
+  };
+  mSlot.onchange=updateClassNotice;
+  mSec.onchange=updateClassNotice;
+}
+function openClassModal(slot='',grade='',sectionId='',teacherId='',preSubjectId=''){
+  editId=null;
+  modalTitle.textContent='Add Scheduled Subject';
+  let resolvedGrade=grade||activeGrade;
+  mGrade.innerHTML=state.grades.map(g=>`<option>${esc(g)}</option>`).join('');
+  mSlot.innerHTML=state.timeSlots.length?state.timeSlots.map(ts=>`<option value="${ts.id}">${to12(ts.start)}–${to12(ts.end)} • ${ts.mins} min</option>`).join(''):'<option value="">Add time slots first</option>';
+  mGrade.value=resolvedGrade;
+  mSlot.value=slot||state.timeSlots.find(x=>x.type==='academic')?.id||'';
+  refreshSectionOptions(resolvedGrade,sectionId||'');
+  refreshSubjectOptions(resolvedGrade, preSubjectId||'');
+  populateTeacherOptions(teacherId||'');
+  mSec.value=sectionId||'';
+  let p=state.programs.find(x=>x.id===state.activeProgramId);
+  mSec.disabled=!!(p&&p.type==='multigrade');
+  bindClassModalEvents();
+  updateClassNotice();
+  classModal.classList.add('show');
+}
+function editClass(id){
+  let c=state.classes.find(x=>x.id===id);
+  if(!c)return;
+  editId=id;
+  modalTitle.textContent='Edit Scheduled Subject';
+  mGrade.innerHTML=state.grades.map(g=>`<option>${esc(g)}</option>`).join('');
+  mSlot.innerHTML=state.timeSlots.length?state.timeSlots.map(ts=>`<option value="${ts.id}">${to12(ts.start)}–${to12(ts.end)} • ${ts.mins} min</option>`).join(''):'<option value="">Add time slots first</option>';
+  mGrade.value=c.grade;
+  mSlot.value=c.timeSlotId;
+  refreshSectionOptions(c.grade,c.sectionId||'');
+  refreshSubjectOptions(c.grade,c.subjectId);
+  populateTeacherOptions(c.teacherId);
+  mSub.value=c.subjectId;
+  mSec.value=c.sectionId||'';
+  let p=state.programs.find(x=>x.id===state.activeProgramId);
+  mSec.disabled=!!(p&&p.type==='multigrade');
+  bindClassModalEvents();
+  updateClassNotice();
+  classModal.classList.add('show');
+}
 function closeClassModal(){clearClassNotice();classModal.classList.remove('show')}
-function saveClass(){if(!mSub.value||!mTeach.value||!mSlot.value){showClassNotice('error','Add at least one matching subject, teacher, and time slot first.');return}let problem=classConflictPreview();if(problem){showClassNotice('error',`<b>Cannot save yet:</b> ${problem}`);return}let p=state.programs.find(x=>x.id===state.activeProgramId);let existing=state.classes.find(x=>x.id===editId);let c={id:editId||uid('c'),subjectId:mSub.value,teacherId:mTeach.value,grade:mGrade.value,timeSlotId:mSlot.value,day:'master',sectionId:(p&&p.type==='multigrade')?'':mSec.value,programId:p?p.id:(existing?.programId||'')};if(editId)state.classes=state.classes.map(x=>x.id===editId?c:x);else state.classes.push(c);closeClassModal();save()}
+function saveClass(){
+  if(!mSub.value||!mTeach.value||!mSlot.value){showClassNotice('error','Add at least one matching subject, teacher, and time slot first.');return}
+  let problem=classConflictPreview();
+  if(problem){showClassNotice('error',`<b>Cannot save yet:</b> ${problem}`);return}
+  let p=state.programs.find(x=>x.id===state.activeProgramId);
+  let existing=state.classes.find(x=>x.id===editId);
+  let c={id:editId||uid('c'),subjectId:mSub.value,teacherId:mTeach.value,grade:mGrade.value,timeSlotId:mSlot.value,day:'master',sectionId:(p&&p.type==='multigrade')?'':mSec.value,programId:p?p.id:(existing?.programId||'')};
+  if(editId)state.classes=state.classes.map(x=>x.id===editId?c:x);
+  else state.classes.push(c);
+  
+  let teacher = state.teachers.find(t=>t.id===mTeach.value);
+  let subject = state.subjects.find(s=>s.id===mSub.value);
+  if(teacher && subject && !editId) {
+    if(!teacher.subjectsTaught) teacher.subjectsTaught = [];
+    if(!teacher.subjectsTaught.includes(subject.name)) teacher.subjectsTaught.push(subject.name);
+  }
+  
+  closeClassModal();
+  save();
+}
 function deleteClass(id){askConfirm('Delete scheduled subject','This removes the selected scheduled subject only.',()=>{state.classes=state.classes.filter(c=>c.id!==id);save()})}
 function dragTeacher(e,id){dragTeacherId=id;dragId=null;e.dataTransfer.effectAllowed='copy';try{e.dataTransfer.setData('text/plain',id)}catch(err){}}
 function dragClass(e,id){dragId=id;dragTeacherId=null;e.dataTransfer.effectAllowed='move'} function allowDrop(e){e.preventDefault();if(dragTeacherId)e.currentTarget.classList.add('teacherReady')} function leaveDrop(e){e.currentTarget.classList.remove('teacherReady')} function dropClass(e,slot,grade,sectionId=''){e.preventDefault();e.currentTarget.classList.remove('teacherReady');if(dragTeacherId){let teacherId=dragTeacherId;dragTeacherId=null;openClassModal(slot,grade,sectionId,teacherId);return}let c=state.classes.find(x=>x.id===dragId);if(c){let p=state.programs.find(x=>x.id===state.activeProgramId);c.timeSlotId=slot;c.grade=grade;c.sectionId=(p&&p.type==='multigrade')?'':(sectionId||c.sectionId||'');save()}} function applySearch(){let q=(search?.value||'').trim().toLowerCase();let targets=[];if(activeView==='dashboard'||(activeView==='scheduler'&&!activeProgram()))targets=[...document.querySelectorAll('.programCard')];else if(activeView==='scheduler'&&activeProgram())targets=[...document.querySelectorAll('.block')];else targets=[...document.querySelectorAll('.teacherProfileCard,.subjectCard,.sectionGradeGroup,.adviserLiteGroup')];targets.forEach(el=>{let hay=(el.dataset.search||el.innerText||'').toLowerCase();el.classList.toggle('searchHidden',!!q&&!hay.includes(q))})}
 function openResetModal(){resetModal.classList.add('show')} function closeResetModal(){resetModal.classList.remove('show')} function confirmResetScheduleOnly(){askConfirm('Reset schedule only','This will clear all scheduled subjects from the schedule matrix. Teachers, subjects, school profile, sections, advisers, and custom time slots will remain.',()=>{state.classes=[];closeResetModal();toastMsg('Schedule cleared.');save()})} function confirmResetAllBlank(){askConfirm('Reset all to blank','This will clear all app data and return to a blank starter setup. Use Import Backup if you want to restore previous data.',()=>{state=migrate(JSON.parse(JSON.stringify(BLANK_STATE)));activeView='dashboard';state.schedulerExpanded=true;closeResetModal();toastMsg('App reset to blank.');save()})}
-function renderSettingsNav(){let tabs=[['school','School Profile','settings'],['schoolyear','School Year & Migration','calendar'],['teachers','Teachers','users'],['subjects','Subjects','book'],['sections','Sections','book'],['advisers','Advisers','users']];settingsNav.innerHTML=tabs.map(([id,label,ic])=>`<button class="settingsNavBtn ${activeSettingsTab===id?'active':''}" onclick="settingsTab('${id}')">${ico(ic,id==='school'?'#0f766e':'#52637a')}<span>${label}</span></button>`).join('')}
-function openSettings(){settingsModal.classList.add('show');settingsTab(activeSettingsTab||'school')} function closeSettings(){settingsModal.classList.remove('show')} function settingsTab(tab){if(tab==='slots')tab='school';activeSettingsTab=tab;renderSettingsNav();if(tab==='school')return schoolSettings();if(tab==='schoolyear')return schoolYearSettings();if(tab==='teachers')return teacherSettings();if(tab==='subjects')return settingsList('subjects');if(tab==='sections')return sectionSettings();if(tab==='advisers')return adviserSettings()}
+function renderSettingsNav(){let tabs=[['school','School Profile','settings'],['schoolyear','School Year & Migration','calendar'],['teachers','Teachers','users'],['subjects','Subjects','book'],['sections','Sections','book'],['advisers','Advisers','users'],['personalization','Personalization','settings']];settingsNav.innerHTML=tabs.map(([id,label,ic])=>`<button class="settingsNavBtn ${activeSettingsTab===id?'active':''}" onclick="settingsTab('${id}')">${ico(ic,id==='school'?'#0f766e':'#52637a')}<span>${label}</span></button>`).join('')}
+function openSettings(){settingsModal.classList.add('show');settingsTab(activeSettingsTab||'school')} function closeSettings(){settingsModal.classList.remove('show')} function settingsTab(tab){if(tab==='slots')tab='school';activeSettingsTab=tab;renderSettingsNav();if(tab==='school')return schoolSettings();if(tab==='schoolyear')return schoolYearSettings();if(tab==='teachers')return teacherSettings();if(tab==='subjects')return settingsList('subjects');if(tab==='sections')return sectionSettings();if(tab==='advisers')return adviserSettings();if(tab==='personalization')return personalizationSettings()}
+function personalizationSettings(){settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Personalization</h3><p>Customize the behavior and appearance of the application.</p></div></div><div class="settingsCard"><p class="muted">No settings available.</p></div>`}
+function toggleRadialBubbles(val){state.useRadialBubbles=val;save();toastMsg(val?'Radial Bubbles enabled':'Context Menu enabled');if(activeView==='scheduler'){let p=activeProgram();if(p)renderProgram(p);else renderMatrix()}}
 
 function schoolYearSettings(){let years=availableSchoolYears(),target=currentSchoolYearName(),sourceOptions=years.filter(y=>y!==target).map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join(''),history=(state.migrationHistory||[]).filter(h=>h.targetSchoolYear===target&&h.active!==false).sort((a,b)=>String(b.migratedAt).localeCompare(String(a.migratedAt)));settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>School Year & Migration</h3><p>Save schedules by school year and migrate selected levels without overwriting other migrated levels.</p></div></div><div class="settingsCard"><div class="syGrid"><label class="settingsField"><span>Active School Year</span><input id="syActiveInput" class="input" value="${esc(target)}" placeholder="e.g. 2026-2027"></label><label class="settingsField"><span>Switch to Available SY</span><select id="sySwitchSelect" class="input">${years.map(y=>`<option value="${esc(y)}" ${y===target?'selected':''}>${esc(y)}</option>`).join('')}</select></label></div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="switchSchoolYear(syActiveInput.value)">Create / Load School Year</button><button class="btn" onclick="switchSchoolYear(sySwitchSelect.value)">Switch to Selected</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migrate Schedule</h3><p>Same level migration replaces that level only. Other migrated levels are preserved.</p></div><div class="syGrid" style="margin-top:14px"><label class="settingsField"><span>Migrate From SY</span><select id="migSourceYear" class="input">${sourceOptions||'<option value="">No other school year available</option>'}</select></label><label class="settingsField"><span>Level</span><select id="migLevel" class="input"><option>All Levels</option><option>Elementary</option><option>JHS</option><option>SHS</option></select></label></div><div class="note migrationDanger" style="margin-top:12px">If the selected level was migrated before, only that migrated level will be replaced. Different migrated levels will remain intact.</div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="migrateScheduleFromSchoolYear()">Migrate Schedule</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migration History for ${esc(target)}</h3><p>Shows active migrated levels saved under this school year.</p></div><div class="migrationHistory">${history.length?history.map(h=>`<div class="migrationHistoryItem"><div><span class="migrationBadge">${esc(h.level)}</span></div><b>From ${esc(h.sourceSchoolYear)} to ${esc(h.targetSchoolYear)}</b><div class="migrationNote">Migrated: ${esc(new Date(h.migratedAt).toLocaleString())}</div></div>`).join(''):'<div class="muted">No migration history for this school year yet.</div>'}</div></div>`}
 
-function teacherSettings(){let rows=loads();settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Teachers</h3><p>Add and update teacher profiles used in class programs.</p></div><button class="btn primary" onclick="openTeacherModal()">${ico('plus','#fff')} Add Teacher</button></div><div class="teacherSettingsList">${state.teachers.length?state.teachers.map(t=>{let c=teacherColor(t),load=rows.find(r=>r.teacher.id===t.id)||{blocks:0,minutes:0,adviserMinutes:0};return `<div class="teacherProfileCard"><div class="teacherProfileAvatar" style="background:${c}">${initials(t.name)}</div><div><div class="teacherProfileName">${esc(t.name)}</div><div class="teacherProfileMeta"><span class="teacherProfilePill">Teaching Position: ${esc(t.position||'No teaching position set')}</span><span class="teacherProfilePill">Room: ${esc(t.room||'Not set')}</span></div><div class="teacherProfileLoad">${load.blocks} scheduled subjects${load.adviserMinutes?` + ${load.adviserMinutes} adviser min`:''} • ${(load.minutes/60).toFixed(1)} hrs</div></div><div class="teacherProfileActions"><button class="btn" onclick="editTeacherProfile('${t.id}')">Edit</button><button class="btn danger" onclick="deleteResource('teachers','${t.id}')">Delete</button></div></div>`}).join(''):`<div class="empty">No teachers yet. Click <b>Add Teacher</b> to create a teacher profile.</div>`}</div>`}
+function teacherSettings(){let rows=loads();settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Teachers</h3><p>Add and update teacher profiles used in class programs.</p></div><button class="btn primary" onclick="openTeacherModal()">${ico('plus','#fff')} Add Teacher</button></div><div class="teacherSettingsList">${state.teachers.length?state.teachers.map(t=>{let c=teacherColor(t),load=rows.find(r=>r.teacher.id===t.id)||{blocks:0,minutes:0,adviserMinutes:0};let allSpecs=Array.from(new Set([...(t.specializations||[]),...(t.subjectsTaught||[])])).join(', ');let specsPill=allSpecs?`<span class="teacherProfilePill" style="background:var(--accent-light);color:var(--accent);border-color:var(--accent);font-weight:600" title="Specializations & History: ${esc(allSpecs)}">✨ ${esc(allSpecs)}</span>`:'';return `<div class="teacherProfileCard"><div class="teacherProfileAvatar" style="background:${c}">${initials(t.name)}</div><div><div class="teacherProfileName">${esc(t.name)}</div><div class="teacherProfileMeta"><span class="teacherProfilePill">Teaching Position: ${esc(t.position||'No teaching position set')}</span><span class="teacherProfilePill">Room: ${esc(t.room||'Not set')}</span>${specsPill}</div></div><div class="teacherProfileActions"><button class="btn" onclick="editTeacherProfile('${t.id}')">Edit</button><button class="btn danger" onclick="deleteResource('teachers','${t.id}')">Delete</button></div></div>`}).join(''):`<div class="empty">No teachers yet. Click <b>Add Teacher</b> to create a teacher profile.</div>`}</div>`}
 
 function subjectActionIcon(type){return type==='delete'?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6M14 11v6"></path></svg>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>`}
 function subjectTags(s){return Array.isArray(s.tags)?s.tags.filter(t=>['Kinder','ES','JHS','SHS'].includes(t)):[]}
@@ -6362,6 +6785,9 @@ function openTeacherModal(id=''){
   teacherNameInput.value=t.name||'';
   teacherPositionInput.value=t.position||'';
   teacherRoomInput.value=t.room||'';
+  teacherSpecializationsInput.value=(t.specializations||[]).join(', ');
+  let history=(t.subjectsTaught||[]);
+  teacherHistoryDisplay.innerHTML=history.length?history.map(s=>`<span style="display:inline-block; padding:2px 6px; background:var(--accent); color:#fff; border-radius:4px; font-size:11px; margin-right:4px; margin-bottom:4px">${esc(s)}</span>`).join(''):'No history yet. Subjects will appear here automatically when assigned.';
   renderTeacherColorChoices(t.color || palette[0]);
   updateTeacherAvatarPreview();
   teacherModal.classList.add('show');
@@ -6370,7 +6796,7 @@ function editTeacherProfile(id){openTeacherModal(id)}
 function closeTeacherModal(){teacherModal.classList.remove('show');editTeacherId=null}
 function updateTeacherAvatarPreview(){let name=(teacherNameInput?.value||'').trim();teacherAvatarPreview.textContent=name?initials(name):'--'}
 function saveTeacherProfile(){
-  let name=(teacherNameInput.value||'').trim(),position=(teacherPositionInput.value||'').trim(),room=(teacherRoomInput.value||'').trim();
+  let name=(teacherNameInput.value||'').trim(),position=(teacherPositionInput.value||'').trim(),room=(teacherRoomInput.value||'').trim(),specs=(teacherSpecializationsInput.value||'').split(',').map(s=>s.trim()).filter(Boolean);
   if(!name){toastMsg('Teacher name is required.');teacherNameInput.focus();return}
   if(!position){toastMsg('Teaching Position is required.');teacherPositionInput.focus();return}
   if(editTeacherId){
@@ -6379,10 +6805,11 @@ function saveTeacherProfile(){
       t.name=name;
       t.position=position;
       t.room=room;
+      t.specializations=specs;
       t.color=selectedTeacherColor;
     }
   } else {
-    state.teachers.push({id:uid('t'),name,position,room,color:selectedTeacherColor});
+    state.teachers.push({id:uid('t'),name,position,room,specializations:specs,subjectsTaught:[],color:selectedTeacherColor});
   }
   closeTeacherModal();
   save();
@@ -6575,6 +7002,13 @@ setTimeout(() => {
   upgradeSelectsToCustomDropdowns();
 }, 200);
 // --- End Custom Select ---
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then((reg) => console.log('Service Worker Registered'))
+      .catch((err) => console.log('Service Worker Registration Failed', err));
+  });
+}
 </script></body></html>
 
 
