@@ -1,9 +1,14 @@
+<<<<<<< Updated upstream
 <!doctype html>
+=======
+﻿<!doctype html>
+>>>>>>> Stashed changes
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Class Program Matrix</title>
+<<<<<<< Updated upstream
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#006b54">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -5274,6 +5279,7 @@ body.focusMode .scheduleHead .btn {
 body.focusMode .scroll {
   max-height: calc(100vh - 75px) !important;
 }
+<<<<<<<< Updated upstream:index.html
 /* Radial Bubble Menu */
 #floatingBubbleMenu { position: fixed; z-index: 10000; width: 0; height: 0; pointer-events: none; }
 #floatingBubbleMenu.show { pointer-events: auto; }
@@ -5285,14 +5291,163 @@ body.focusMode .scroll {
 .radialSkip { background: rgba(15, 23, 42, 0.9); font-size: 12px; color: #94a3b8; padding: 8px 16px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 12px rgba(0,0,0,0.5); animation: none; transform: none; white-space: nowrap; max-width: none; border-radius: 8px; }
 .radialNode:hover .radialSkip { background: rgba(255,255,255,0.15); color: #fff; transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.2); }
 @keyframes bubble-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+========
+/* V1.1 UI CONSISTENCY & DENSITY OPTIMIZATION */
+:root {
+  --radius-lg: 12px !important;
+  --radius-xl: 12px !important;
+}
+
+/* 1. Sidebar Width Reduction (15-20%) */
+.shell {
+  grid-template-columns: 220px 1fr !important;
+}
+.shell.schedulerRailMode {
+  grid-template-columns: 220px 250px 1fr !important;
+}
+.shell.schedulerRailCollapsed {
+  grid-template-columns: 220px 72px 1fr !important;
+}
+.brandrow {
+  padding: 16px !important;
+}
+.navItem {
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+}
+
+/* 2. Card Padding Reduction */
+.card {
+  padding: 16px !important;
+  border-radius: 12px !important;
+}
+.card.panel {
+  padding: 16px !important;
+}
+.panelHead {
+  margin-bottom: 12px !important;
+}
+
+/* 3. Standardize Buttons & Rows */
+.btn {
+  height: 44px !important;
+  border-radius: 12px !important;
+}
+.scheduleHead .btn {
+  height: 44px !important;
+}
+/* Re-override focus mode buttons which are meant to be tiny */
+body.focusMode .scheduleHead .btn {
+  height: 30px !important;
+}
+th, td {
+  height: 44px; /* Set baseline row height */
+}
+body.focusMode th, body.focusMode td {
+  height: auto; /* Allow compact shrinking */
+}
+/* EMPTY STATES v1.1 */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--panel);
+  border: 2px dashed var(--line);
+  border-radius: 12px;
+  margin: 16px 0;
+}
+.emptyState svg {
+  width: 48px;
+  height: 48px;
+  color: var(--text-muted2);
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+.emptyState h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 8px 0;
+}
+.emptyState p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 24px 0;
+  max-width: 320px;
+}
+.emptyState .btn {
+  height: 40px !important;
+  font-size: 14px !important;
+  padding: 0 20px !important;
+}
+>>>>>>>> Stashed changes:class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html
 </style></head>
 <body><div id="toastHost"></div><div id="floatingMenu" class="menu" onmouseenter="cancelMenuClose()" onmouseleave="scheduleMenuClose()"></div>
 <div class="shell"><aside class="side"><div class="brandrow"><div class="brand">CP</div><div><div class="brandtitle">Class Program</div><div class="brandsub">Scheduler</div></div></div><nav id="nav"></nav><div class="sideActions"><button class="btn" onclick="openSettings()"><span id="iSettings"></span>Settings</button><button class="btn" onclick="openResetModal()"><span id="iReset"></span>Reset</button><button class="btn" onclick="exportData()"><span id="iExport"></span>Export Backup</button><label class="btn"><span id="iImport"></span>Import Backup<input type="file" accept="application/json" hidden onchange="importData(event)"></label></div><div class="sideFooterArt" aria-hidden="true"><span class="star s1">✦</span><span class="star s2">✦</span><span class="star s3">✦</span><span class="star s4">✦</span><div class="bag"><span class="bagPocket"></span></div><div class="plant"><span class="stem"></span><span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span><span class="leaf l4"></span><span class="pot"></span></div><div class="books"><span class="book b1"></span><span class="book b2"></span><span class="book b3"></span></div></div></aside>
 <aside id="schedulerRail" class="schedulerRail"></aside>
+<<<<<<<< Updated upstream:index.html
 <section><header class="top schoolTopbar"><div class="schoolIdentity"><div class="schoolSeal" id="schoolLogoMark" aria-hidden="true"><span>OES</span></div><div class="schoolText"><div class="school" id="schoolName"></div><div class="meta" id="schoolMeta"></div></div></div><div class="topActions schoolTopActions"><span id="autoSaveIndicator" class="autoSaveIndicator">Saved</span><input id="search" class="topSearchHidden" placeholder="Search current page..." oninput="applySearch()"><button id="themeToggleBtn" class="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle dark mode"><span id="themeIcon"></span></button><div class="topSyWrap" id="topSchoolYearDropdown"><span id="iTopCalendar" class="topSyIcon"></span><button class="topSyBtn" onclick="toggleSchoolYearDropdown(event)"><span id="topSchoolYearLabel">S.Y. Current School Year</span><span class="topSyArrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="topSyMenu" id="topSchoolYearMenu"></div></div><button class="topExportBtn" onclick="window.print()" title="Export or print report"><span id="iTopExport" class="topExportIcon"></span>Export Report</button></div></header>
 <main class="main"><div class="kpis" id="metrics"></div><div class="grid"><aside><div class="card panel"><div class="panelHead"><div class="panelTitle" style="display:flex;align-items:center;gap:6px;"><span id="iFaculty"></span><span class="wtText">Teacher Workload</span></div><div class="wtActions" style="display:flex;align-items:center;gap:4px;"><button class="btn wtClear" onclick="clearTeacher()">Clear</button><button class="btn wtToggle" style="padding:4px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;" onclick="toggleWorkload()" title="Toggle Workload Panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="m15 18-6-6 6-6"/></svg></button></div></div><div class="facultyList" id="faculty"></div></div><div style="height:14px"></div><div id="diagCard" class="card panel" style="display:none"><div class="panelTitle" style="margin-bottom:12px"><span id="iDiag"></span>Diagnostics</div><div id="diagnostics"></div></div></aside><section class="card"><div class="scheduleHead"><div><div class="scheduleTitle" id="viewTitle"></div><div class="scheduleSub" id="viewSub"></div></div><div id="viewControls"></div></div><div id="content" class="scroll"></div></section></div></main></section></div>
 <div id="floatingBubbleMenu" class="floatingBubbleMenu"></div>
 
+========
+=======
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3"></head>
+<body><div id="toastHost"></div><div id="floatingMenu" class="menu" onmouseenter="cancelMenuClose()" onmouseleave="scheduleMenuClose()"></div>
+<div class="shell"><aside class="side"><div class="brandrow"><div class="brand">CP</div><div><div class="brandtitle">Class Program</div><div class="brandsub">Scheduler</div></div></div><nav id="nav"></nav><div class="sideActions"><button class="btn" onclick="openSettings()"><span id="iSettings"></span>Settings</button><button class="btn" onclick="openResetModal()"><span id="iReset"></span>Reset</button><button class="btn" onclick="exportData()"><span id="iExport"></span>Export Backup</button><label class="btn"><span id="iImport"></span>Import Backup<input type="file" accept="application/json" hidden onchange="importData(event)"></label></div><div class="sideFooterArt" aria-hidden="true"><span class="star s1">✦</span><span class="star s2">✦</span><span class="star s3">✦</span><span class="star s4">✦</span><div class="bag"><span class="bagPocket"></span></div><div class="plant"><span class="stem"></span><span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span><span class="leaf l4"></span><span class="pot"></span></div><div class="books"><span class="book b1"></span><span class="book b2"></span><span class="book b3"></span></div></div></aside>
+<aside id="schedulerRail" class="schedulerRail"></aside>
+>>>>>>> Stashed changes
+<section><header class="top schoolTopbar"><div class="schoolIdentity"><div class="schoolSeal" id="schoolLogoMark" aria-hidden="true"><span>OES</span></div><div class="schoolText"><div class="school" id="schoolName"></div><div class="meta" id="schoolMeta"></div></div></div><div class="topActions schoolTopActions"><span id="autoSaveIndicator" class="autoSaveIndicator">Saved</span><input id="search" class="topSearchHidden" placeholder="Search current page..." oninput="applySearch()"><button id="themeToggleBtn" class="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle dark mode"><span id="themeIcon"></span></button><div class="topSyWrap" id="topSchoolYearDropdown"><span id="iTopCalendar" class="topSyIcon"></span><button class="topSyBtn" onclick="toggleSchoolYearDropdown(event)"><span id="topSchoolYearLabel">S.Y. Current School Year</span><span class="topSyArrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="topSyMenu" id="topSchoolYearMenu"></div></div><button class="topExportBtn" onclick="openExportModal()" title="Export Center"><span id="iTopExport" class="topExportIcon"></span>Export Report</button></div></header>
+<main class="main"><div class="kpis" id="metrics"></div><div class="grid"><aside><div class="card panel"><div class="panelHead"><div class="panelTitle"><span id="iFaculty"></span>Teacher Workload</div><button class="btn" onclick="clearTeacher()">Clear</button></div><div class="facultyList" id="faculty"></div></div><div style="height:14px"></div><div id="diagCard" class="card panel" style="display:none"><div class="panelTitle" style="margin-bottom:12px"><span id="iDiag"></span>Diagnostics</div><div id="diagnostics"></div></div></aside><section class="card"><div class="scheduleHead"><div><div class="scheduleTitle" id="viewTitle"></div><div class="scheduleSub" id="viewSub"></div></div><div id="viewControls"></div></div><div id="content" class="scroll"></div></section></div></main></section></div>
+<div id="exportModal" class="modal">
+  <div class="modalPanel programModalPanel" style="max-width:520px">
+    <div class="programModalHeader">
+      <div class="programModalHeaderIcon" style="background:#10b981">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </div>
+      <div class="programModalTitle">
+        <h2>Export Center</h2>
+        <span>Generate printable reports and schedules for administrators.</span>
+      </div>
+      <button class="modalClose" onclick="closeExportModal()">✕</button>
+    </div>
+    <div style="padding:24px;">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <button class="btn" style="justify-content:flex-start; height:auto; padding:16px; border:1px solid var(--line);" onclick="window.print();closeExportModal();">
+          <div style="text-align:left;">
+            <div style="font-weight:600; font-size:15px; margin-bottom:4px;">Print Current Schedule / View</div>
+            <div style="font-size:13px; color:var(--text-muted); font-weight:400; white-space:normal;">Print the currently visible matrix, dashboard, or analytics page as a PDF.</div>
+          </div>
+        </button>
+        <button class="btn" style="justify-content:flex-start; height:auto; padding:16px; border:1px solid var(--line);" onclick="exportTeacherLoad();closeExportModal();">
+          <div style="text-align:left;">
+            <div style="font-weight:600; font-size:15px; margin-bottom:4px;">Teacher Load Report</div>
+            <div style="font-size:13px; color:var(--text-muted); font-weight:400; white-space:normal;">Export a comprehensive list of all teachers, their teaching loads, and subjects assigned.</div>
+          </div>
+        </button>
+        <button class="btn" style="justify-content:flex-start; height:auto; padding:16px; border:1px solid var(--line);" onclick="exportConsolidated();closeExportModal();">
+          <div style="text-align:left;">
+            <div style="font-weight:600; font-size:15px; margin-bottom:4px;">Consolidated Matrix</div>
+            <div style="font-size:13px; color:var(--text-muted); font-weight:400; white-space:normal;">Print all master programs and grade levels back-to-back.</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="modalActions" style="justify-content:flex-end;">
+      <button class="btn" onclick="closeExportModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+<<<<<<< Updated upstream
+>>>>>>>> Stashed changes:class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html
+=======
+>>>>>>> Stashed changes
 <div id="classModal" class="modal"><div class="modalPanel programModalPanel" style="max-width:520px">
   <div class="programModalHeader">
     <div class="programModalHeaderIcon" style="background:var(--accent)">
@@ -5349,6 +5504,7 @@ body.focusMode .scroll {
     <div>
       <div class="programModalSectionLabel">Teacher Info</div>
       <div class="formGrid" style="grid-template-columns:1fr;margin-top:12px">
+<<<<<<< Updated upstream
         <label class="label"><div>Teacher Name <span class="requiredMark">*</span></div><input id="teacherNameInput" class="input" placeholder="e.g. JOHN RUSSELL GUADALUPE" oninput="updateTeacherAvatarPreview()"></label>
         <label class="label"><div>Teaching Position <span class="requiredMark">*</span></div>
           <select id="teacherPositionInput" class="input">
@@ -5394,6 +5550,11 @@ body.focusMode .scroll {
       <div style="margin-top:12px; padding:12px; background:var(--bg); border-radius:var(--radius); border:1px solid var(--line);">
         <div style="font-size:12px; font-weight:600; margin-bottom:4px; color:var(--text-muted)">Auto-Learned Teaching History</div>
         <div id="teacherHistoryDisplay" style="font-size:13px; color:var(--text); line-height:1.4">No history yet. Subjects will appear here automatically when assigned.</div>
+=======
+        <label class="label">Teacher Name <span class="requiredMark">*</span><input id="teacherNameInput" class="input" placeholder="e.g. JOHN RUSSELL GUADALUPE" oninput="updateTeacherAvatarPreview()"></label>
+        <label class="label">Teaching Position <span class="requiredMark">*</span><input id="teacherPositionInput" class="input" placeholder="e.g. Teacher III"></label>
+        <label class="label">Room<input id="teacherRoomInput" class="input" placeholder="e.g. Grade 4 / ICT Room"></label>
+>>>>>>> Stashed changes
       </div>
     </div>
     <div>
@@ -5549,6 +5710,7 @@ body.focusMode .scroll {
   </div>
   <div class="programModalFooter"><button class="btn" onclick="closeConfirm()">Cancel</button><button class="btn danger" onclick="runConfirm()">Continue</button></div>
 </div></div>
+<<<<<<< Updated upstream
 <script>
 function initTheme() {
   const savedTheme = localStorage.getItem('theme') || 'light';
@@ -5830,9 +5992,28 @@ function countedTeachingMinutesForTeacher(items){let total=0,seen=new Set();item
 function countedTeachingBlocksForTeacher(items){let seen=new Set(),count=0;items.forEach(c=>{let p=state.programs.find(x=>x.id===c.programId);if(p&&isMultigradeProgram(p)){let key=[c.teacherId,c.programId,c.timeSlotId,c.day||'master'].join('|');if(seen.has(key))return;seen.add(key)}count++});return count}
 function loads(){let list=workloadSourceClasses();return state.teachers.map(t=>{let assigned=list.filter(c=>c.teacherId===t.id),scheduledMinutes=countedTeachingMinutesForTeacher(assigned),adviserEntries=adviserEntriesForTeacher(t.id),adviserMinutes=adviserEntries.reduce((a,x)=>a+x.minutes,0),base={teacher:t,items:assigned,blocks:countedTeachingBlocksForTeacher(assigned),scheduledMinutes,adviserMinutes,adviserCount:adviserEntries.length,adviserEntries,minutes:scheduledMinutes+adviserMinutes};base.levelTags=teacherLevelTagsFromLoad(base);return base})}
 function loadStatus(total,target=360){let diff=total-target;if(diff>0)return{label:'OVERLOADED',detail:`${diff} min over`,kind:'overload'};if(diff<0)return{label:'UNDERLOADED',detail:`${Math.abs(diff)} min short`,kind:'underload'};return{label:'MET LOAD',detail:'6 hours met',kind:'met'}}
+<<<<<<<< Updated upstream:index.html
 function diag(){let list=state.classes.filter(classCountsTowardLoad),conflicts=[];for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){let a=list[i],b=list[j];if(a.teacherId&&a.teacherId===b.teacherId&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master')){let pa=state.programs.find(p=>p.id===a.programId),pb=state.programs.find(p=>p.id===b.programId);if(pa&&pb&&pa.id===pb.id&&isMultigradeProgram(pa))continue;let ts=get(state.timeSlots,a.timeSlotId),tea=get(state.teachers,a.teacherId),sa=get(state.subjects,a.subjectId),sb=get(state.subjects,b.subjectId);conflicts.push({a,b,teacher:tea.name,time:`${to12(ts.start)}–${to12(ts.end)}`,slot:ts,subjectA:sa.name,subjectB:sb.name,gradeA:a.grade,gradeB:b.grade,sectionA:a.sectionId?get(state.sections,a.sectionId).name:'',sectionB:b.sectionId?get(state.sections,b.sectionId).name:'',day:(a.day||'master')})}}return{conflicts}}
 function renderMetrics(){let l=loads(),avg=l.length?l.reduce((a,b)=>a+b.minutes,0)/l.length/60:0,d=diag(),confSub=d.conflicts.length?`${d.conflicts.length} need review`:`Everything's perfect! 🎉`,data=[{cls:'teachers',label:'Teachers',value:state.teachers.length,icon:'users',color:'#0f766e',sub:'Dedicated educators'},{cls:'subjects',label:'Subjects',value:state.subjects.length,icon:'book',color:'#3b82f6',sub:'Across all programs'},{cls:'scheduled',label:'Scheduled Subjects',value:state.classes.length,icon:'calendar',color:'#8b5cf6',sub:'Planned & organized'},{cls:'conflicts',label:'Conflicts',value:d.conflicts.length,icon:'alert',color:'#ef4444',sub:confSub},{cls:'avgload',label:'Avg. Load',value:avg.toFixed(1)+'h',icon:'clock',color:'#f59e0b',sub:'Per teacher'}];metrics.innerHTML=data.map(x=>`<div class="card metric ${x.cls}"><div class="metricIcon">${ico(x.icon,x.color)}</div><div class="metricVal">${x.value}</div><div class="metricLab">${x.label}</div><div class="metricSub">${x.sub}</div></div>`).join('')}
 function renderFaculty(){faculty.innerHTML=loads().length?loads().sort((a,b)=>b.minutes-a.minutes).map(x=>{let c=teacherColor(x.teacher),pos=x.teacher.position?esc(x.teacher.position):'No teaching position set',room=x.teacher.room?` • Room: ${esc(x.teacher.room)}`:'',st=loadStatus(x.minutes);let pill=`<button type="button" class="workloadStatusPill status-${st.kind}" onclick="event.stopPropagation();openSummaryForStatus('${st.kind}')" title="Open Teaching Load Summary filtered by ${st.label}">${st.label}</button>`;return`<div class="teacher ${selectedTeacher===x.teacher.id?'active':''}" data-status="${st.kind}" draggable="true" ondragstart="dragTeacher(event,'${x.teacher.id}')" onclick="selectedTeacher='${x.teacher.id}';render()" title="Drag this teacher to an empty schedule cell to add a scheduled subject"><div class="avatar" style="background:${c}">${initials(x.teacher.name)}</div><div style="min-width:0"><div class="teacherTop"><div class="teacherName">${esc(x.teacher.name)}</div><button class="btn teacherEditBtn" onclick="event.stopPropagation();editTeacherProfile('${x.teacher.id}')" title="Edit teacher profile">Edit</button></div><div class="teacherMeta"><span class="dot" style="background:${c}"></span>${pos}${room}</div><div class="teacherStatusRow">${pill}</div></div></div>`}).join(''):'<div class="muted">No teachers yet. Add teachers in Settings.</div>'}
+========
+function diag(){let list=((activeView==='scheduler'&&activeProgram())?scopedClasses():state.classes).filter(classCountsTowardLoad),conflicts=[];for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){let a=list[i],b=list[j];if(a.teacherId&&a.teacherId===b.teacherId&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master')){let pa=state.programs.find(p=>p.id===a.programId),pb=state.programs.find(p=>p.id===b.programId);if(pa&&pb&&pa.id===pb.id&&isMultigradeProgram(pa))continue;let ts=get(state.timeSlots,a.timeSlotId),tea=get(state.teachers,a.teacherId),sa=get(state.subjects,a.subjectId),sb=get(state.subjects,b.subjectId);conflicts.push({a,b,teacher:tea.name,time:`${to12(ts.start)}–${to12(ts.end)}`,slot:ts,subjectA:sa.name,subjectB:sb.name,gradeA:a.grade,gradeB:b.grade,sectionA:a.sectionId?get(state.sections,a.sectionId).name:'',sectionB:b.sectionId?get(state.sections,b.sectionId).name:'',day:(a.day||'master')})}}return{conflicts}}
+function renderMetrics(){
+  let d=diag();
+  let overall=overallTimeCompliance();
+  let compScore=overall.score;
+  let confSub=d.conflicts.length ? d.conflicts.length + ' need review' : 'Perfect!';
+  let data=[
+    {cls:'subjects',label:'Total Sections',value:(state.sections||[]).length,icon:'grid',color:'#3b82f6',sub:'Across grades'},
+    {cls:'teachers',label:'Total Teachers',value:(state.teachers||[]).length,icon:'users',color:'#0f766e',sub:'Faculty count'},
+    {cls:'scheduled',label:'Subjects Assigned',value:(state.classes||[]).length,icon:'calendar',color:'#8b5cf6',sub:'Total schedule blocks'},
+    {cls:'avgload',label:'Completion Rate',value:compScore+'%',icon:'flag',color:'#f59e0b',sub:'Time allotment'},
+    {cls:'conflicts',label:'Conflicts',value:d.conflicts.length,icon:'alert',color:'#ef4444',sub:confSub}
+  ];
+  metrics.innerHTML=data.map(x=>'<div class="card metric '+x.cls+'"><div class="metricIcon">'+ico(x.icon,x.color)+'</div><div class="metricVal">'+x.value+'</div><div class="metricLab">'+x.label+'</div><div class="metricSub">'+x.sub+'</div></div>').join('');
+}
+function renderFaculty(){faculty.innerHTML=loads().length?loads().sort((a,b)=>b.minutes-a.minutes).map(x=>{let c=teacherColor(x.teacher),pos=x.teacher.position?esc(x.teacher.position):'No teaching position set',room=x.teacher.room?` • Room: ${esc(x.teacher.room)}`:'',st=loadStatus(x.minutes);let pill=`<button type="button" class="workloadStatusPill status-${st.kind}" onclick="event.stopPropagation();openSummaryForStatus('${st.kind}')" title="Open Teaching Load Summary filtered by ${st.label}">${st.label}</button>`;return`<div class="teacher ${selectedTeacher===x.teacher.id?'active':''}" data-status="${st.kind}" draggable="true" ondragstart="dragTeacher(event,'${x.teacher.id}')" onclick="selectedTeacher='${x.teacher.id}';render()" title="Drag this teacher to an empty schedule cell to add a scheduled subject"><div class="avatar" style="background:${c}">${initials(x.teacher.name)}</div><div style="min-width:0"><div class="teacherTop"><div class="teacherName">${esc(x.teacher.name)}</div><button class="btn teacherEditBtn" onclick="event.stopPropagation();editTeacherProfile('${x.teacher.id}')" title="Edit teacher profile">Edit</button></div><div class="teacherMeta"><span class="dot" style="background:${c}"></span>${pos}${room}</div><div class="teacherStatusRow">${pill}</div></div></div>`}).join(''):'<div class="emptyState">'+ico('users')+'<h3>No teachers added</h3><p>Start by adding your teaching staff.</p><button class="btn primary" onclick="openSettingsModal();settingsTab(\'teachers\');openTeacherModal()">Add Teacher</button></div>'}
+>>>>>>>> Stashed changes:class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html
 function openSummaryForStatus(kind){summaryStatus=kind||'all';activeView='summary';state.activeTab='summary';save()}
 function clearTeacher(){selectedTeacher='';search.value='';render()} function renderDiag(){let d=diag();diagnostics.innerHTML=d.conflicts.length?`<div class="alert badbg"><b>${d.conflicts.length} conflict(s) detected.</b><br>${d.conflicts.slice(0,2).map(conflictJumpButton).join('<br>')}</div>`:`<div class="alert ok">No teacher double-booking detected.</div>`}
 function groupForView(){return activeView==='master_kinder'?'kinder':activeView==='master_g12'?'g12':'g36'} function gradesForGroup(g){return g==='kinder'?['Kindergarten']:g==='g12'?['Grade 1','Grade 2']:['Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10']} function slotsForGroup(g){g=normGroup(g);return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&!ts.programId).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function slotsForProgram(p){let g=normGroup(p?.group||'g36'),pid=p?.id||'';return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&(!ts.programId||ts.programId===pid)).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function renderContent(){if(activeView==='dashboard')return renderDashboard();if(activeView==='summary')return renderSummary();if(activeView==='analytics')return renderAnalytics();if(activeView==='scheduler')return renderScheduler();renderMatrix(groupForView())}
@@ -6044,7 +6225,7 @@ function dashboardProgramsHtml(){
       <div class="db-card-title">${ico('book', 'var(--accent)')}<span>Class Programs Matrix</span></div>
       <button class="db-card-action-btn" onclick="openSchedulerHome()">View All Programs</button>
     </div>
-    ${cards ? `<div class="db-programs-grid">${cards}</div>` : `<div class="ultraEmpty">No class programs encoded yet. Create a program to begin.</div>`}
+    ${cards ? `<div class="db-programs-grid">${cards}</div>` : `<div class="emptyState">${ico('calendar')}<h3>No schedules generated</h3><p>Generate your first class schedule.</p><button class="btn primary" onclick="openProgramModal()">Generate Schedule</button></div>`}
   </div>`;
 }
 
@@ -6416,15 +6597,16 @@ function timeCell(ts,g,programId=''){let items=[{label:'Edit time slot',action:(
 function openSlotModal(id){let ts=state.timeSlots.find(x=>x.id===id);if(!ts)return;editSlotId=id;slotStart.value=ts.start||'07:30';slotMins.value=ts.mins||40;slotLabel.value=ts.label||'';slotType.value=ts.type||'academic';slotGroup.value=normGroup(ts.group||'g36');updateSlotEndPreview();slotModal.classList.add('show')}
 function slotSequenceForCascade(ts){let p=ts.programId?state.programs.find(x=>x.id===ts.programId):null,seq=p?slotsForProgram(p):slotsForGroup(normGroup(ts.group||'g36'));let indexMap=new Map(state.timeSlots.map((x,i)=>[x.id,i]));return seq.slice().sort((a,b)=>(a.start||'').localeCompare(b.start||'')||(indexMap.get(a.id)||0)-(indexMap.get(b.id)||0))}
 function cascadeFollowingSlots(slotId){let ts=state.timeSlots.find(x=>x.id===slotId);if(!ts)return;let seq=slotSequenceForCascade(ts),idx=seq.findIndex(x=>x.id===slotId);if(idx<0)return;seq[idx].end=addMins(seq[idx].start||'07:30',Number(seq[idx].mins)||0);for(let i=idx+1;i<seq.length;i++){seq[i].start=seq[i-1].end;seq[i].end=addMins(seq[i].start,Number(seq[i].mins)||0)}} function closeSlotModal(){slotModal.classList.remove('show');editSlotId=null} function updateSlotEndPreview(){let end=addMins(slotStart.value||'07:30',Number(slotMins.value)||0);if(typeof slotEndPreview!=='undefined'&&slotEndPreview)slotEndPreview.textContent=`Auto end time: ${to12(end)}`} function saveSlotEdit(){let ts=state.timeSlots.find(x=>x.id===editSlotId);if(!ts)return closeSlotModal();let m=Number(slotMins.value)||40;ts.start=slotStart.value||'07:30';ts.mins=m;ts.end=addMins(ts.start,m);ts.label=slotLabel.value||'';ts.type=slotType.value||'academic';ts.group=normGroup(slotGroup.value||'g36');cascadeFollowingSlots(ts.id);closeSlotModal();toastMsg('Time slot updated. Following time slots auto-adjusted.');save()} function addSlotAfter(id,g,programId=''){g=normGroup(g);let p=programId?state.programs.find(x=>x.id===programId):null,seq=p?slotsForProgram(p):slotsForGroup(g),idx=seq.findIndex(x=>x.id===id),base=seq[idx]||seq.at(-1),m=40,start=base?base.end:defaultStartForGroup(g),slot={id:uid('ts'),start,mins:m,end:addMins(start,m),label:'',type:'academic',group:g,programId:programId||''};let real=state.timeSlots.findIndex(x=>x.id===id);if(real>=0)state.timeSlots.splice(real+1,0,slot);else state.timeSlots.push(slot);cascadeFollowingSlots(slot.id);toastMsg('Time slot added and following time slots auto-adjusted.');save()} function addSlotAtEnd(g,programId=''){g=normGroup(g);let p=programId?state.programs.find(x=>x.id===programId):null,seq=p?slotsForProgram(p):slotsForGroup(g),last=seq.at(-1),start=last?last.end:defaultStartForGroup(g),m=40;state.timeSlots.push({id:uid('ts'),start,mins:m,end:addMins(start,m),label:'',type:'academic',group:g,programId:programId||''});if(p)p.group=g;toastMsg(programId?'Time slot added to this class program.':'Time slot added.');save()} function deleteSlot(id,g){askConfirm('Delete time slot','Classes assigned to this time slot will also be cleared.',()=>{state.timeSlots=state.timeSlots.filter(x=>x.id!==id);state.classes=state.classes.filter(c=>c.timeSlotId!==id);save()})}
+function getSubjectColor(name) { let n = (name || '').toLowerCase(); if (n.includes('english')) return '#3b82f6'; if (n.includes('filipino')) return '#06b6d4'; if (n.includes('math')) return '#10b981'; if (n.includes('science')) return '#8b5cf6'; if (n.includes('ap') || n.includes('araling panlipunan')) return '#f97316'; if (n.includes('mapeh')) return '#ec4899'; if (n.includes('esp') || n.includes('edukasyon sa pagpapakatao')) return '#eab308'; if (n.includes('homeroom')) return '#64748b'; return '#94a3b8'; }
 function block(c,slotId,grade,sectionId=''){
-  let sub=get(state.subjects,c.subjectId),tea=get(state.teachers,c.teacherId),ts=get(state.timeSlots,c.timeSlotId),tc=teacherColor(tea),muted=selectedTeacher&&selectedTeacher!==c.teacherId?'opacity:.25':'';
+  let sub=get(state.subjects,c.subjectId),tea=get(state.teachers,c.teacherId),ts=get(state.timeSlots,c.timeSlotId),tc=teacherColor(tea),sc=getSubjectColor(sub.name),muted=selectedTeacher&&selectedTeacher!==c.teacherId?'opacity:.25':'';
   let init=initials(tea.name)||'--';
   let roomLabel=c.room||tea.room?`Room: ${esc(c.room||tea.room)}`:'';
   let posLabel=tea.position?esc(tea.position):'';
   let items=[{label:'Add another subject',action:()=>openClassModal(slotId,grade,sectionId)},{label:'Edit class',action:()=>editClass(c.id)},{label:'Delete class',danger:true,action:()=>deleteClass(c.id)}];
-  return `<div class="block" data-class-id="${c.id}" draggable="true" ondragstart="dragClass(event,'${c.id}')" style="--card-color:${tc};border-color:${tc};background:${rgba(tc,.07)} !important;${muted}">
+  return `<div class="block" data-class-id="${c.id}" draggable="true" ondragstart="dragClass(event,'${c.id}')" style="--card-color:${sc};border-color:${sc};background:${rgba(sc,.07)} !important;${muted}">
     <div class="classHead">
-      <div class="classSubject">${esc(sub.name)}</div>
+      <div class="classSubject" style="color:${sc}; font-weight:700;">${esc(sub.name)}</div>
       ${menuButton(items)}
     </div>
     <div class="blockTeacherRow">
@@ -6726,7 +6908,11 @@ function toggleRadialBubbles(val){state.useRadialBubbles=val;save();toastMsg(val
 
 function schoolYearSettings(){let years=availableSchoolYears(),target=currentSchoolYearName(),sourceOptions=years.filter(y=>y!==target).map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join(''),history=(state.migrationHistory||[]).filter(h=>h.targetSchoolYear===target&&h.active!==false).sort((a,b)=>String(b.migratedAt).localeCompare(String(a.migratedAt)));settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>School Year & Migration</h3><p>Save schedules by school year and migrate selected levels without overwriting other migrated levels.</p></div></div><div class="settingsCard"><div class="syGrid"><label class="settingsField"><span>Active School Year</span><input id="syActiveInput" class="input" value="${esc(target)}" placeholder="e.g. 2026-2027"></label><label class="settingsField"><span>Switch to Available SY</span><select id="sySwitchSelect" class="input">${years.map(y=>`<option value="${esc(y)}" ${y===target?'selected':''}>${esc(y)}</option>`).join('')}</select></label></div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="switchSchoolYear(syActiveInput.value)">Create / Load School Year</button><button class="btn" onclick="switchSchoolYear(sySwitchSelect.value)">Switch to Selected</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migrate Schedule</h3><p>Same level migration replaces that level only. Other migrated levels are preserved.</p></div><div class="syGrid" style="margin-top:14px"><label class="settingsField"><span>Migrate From SY</span><select id="migSourceYear" class="input">${sourceOptions||'<option value="">No other school year available</option>'}</select></label><label class="settingsField"><span>Level</span><select id="migLevel" class="input"><option>All Levels</option><option>Elementary</option><option>JHS</option><option>SHS</option></select></label></div><div class="note migrationDanger" style="margin-top:12px">If the selected level was migrated before, only that migrated level will be replaced. Different migrated levels will remain intact.</div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="migrateScheduleFromSchoolYear()">Migrate Schedule</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migration History for ${esc(target)}</h3><p>Shows active migrated levels saved under this school year.</p></div><div class="migrationHistory">${history.length?history.map(h=>`<div class="migrationHistoryItem"><div><span class="migrationBadge">${esc(h.level)}</span></div><b>From ${esc(h.sourceSchoolYear)} to ${esc(h.targetSchoolYear)}</b><div class="migrationNote">Migrated: ${esc(new Date(h.migratedAt).toLocaleString())}</div></div>`).join(''):'<div class="muted">No migration history for this school year yet.</div>'}</div></div>`}
 
+<<<<<<<< Updated upstream:index.html
 function teacherSettings(){let rows=loads();settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Teachers</h3><p>Add and update teacher profiles used in class programs.</p></div><button class="btn primary" onclick="openTeacherModal()">${ico('plus','#fff')} Add Teacher</button></div><div class="teacherSettingsList">${state.teachers.length?state.teachers.map(t=>{let c=teacherColor(t),load=rows.find(r=>r.teacher.id===t.id)||{blocks:0,minutes:0,adviserMinutes:0};let allSpecs=Array.from(new Set([...(t.specializations||[]),...(t.subjectsTaught||[])])).join(', ');let specsPill=allSpecs?`<span class="teacherProfilePill" style="background:var(--accent-light);color:var(--accent);border-color:var(--accent);font-weight:600" title="Specializations & History: ${esc(allSpecs)}">✨ ${esc(allSpecs)}</span>`:'';return `<div class="teacherProfileCard"><div class="teacherProfileAvatar" style="background:${c}">${initials(t.name)}</div><div><div class="teacherProfileName">${esc(t.name)}</div><div class="teacherProfileMeta"><span class="teacherProfilePill">Teaching Position: ${esc(t.position||'No teaching position set')}</span><span class="teacherProfilePill">Room: ${esc(t.room||'Not set')}</span>${specsPill}</div></div><div class="teacherProfileActions"><button class="btn" onclick="editTeacherProfile('${t.id}')">Edit</button><button class="btn danger" onclick="deleteResource('teachers','${t.id}')">Delete</button></div></div>`}).join(''):`<div class="empty">No teachers yet. Click <b>Add Teacher</b> to create a teacher profile.</div>`}</div>`}
+========
+function teacherSettings(){let rows=loads();settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Teachers</h3><p>Add and update teacher profiles used in class programs.</p></div><button class="btn primary" onclick="openTeacherModal()">${ico('plus','#fff')} Add Teacher</button></div><div class="teacherSettingsList">${state.teachers.length?state.teachers.map(t=>{let c=teacherColor(t),load=rows.find(r=>r.teacher.id===t.id)||{blocks:0,minutes:0,adviserMinutes:0};return `<div class="teacherProfileCard"><div class="teacherProfileAvatar" style="background:${c}">${initials(t.name)}</div><div><div class="teacherProfileName">${esc(t.name)}</div><div class="teacherProfileMeta"><span class="teacherProfilePill">Teaching Position: ${esc(t.position||'No teaching position set')}</span><span class="teacherProfilePill">Room: ${esc(t.room||'Not set')}</span></div><div class="teacherProfileLoad">${load.blocks} scheduled subjects${load.adviserMinutes?` + ${load.adviserMinutes} adviser min`:''} • ${(load.minutes/60).toFixed(1)} hrs</div></div><div class="teacherProfileActions"><button class="btn" onclick="editTeacherProfile('${t.id}')">Edit</button><button class="btn danger" onclick="deleteResource('teachers','${t.id}')">Delete</button></div></div>`}).join(''):`<div class="emptyState">${ico('users')}<h3>No teachers added</h3><p>Start by adding your teaching staff.</p><button class="btn primary" onclick="openTeacherModal()">Add Teacher</button></div>`}</div>`}
+>>>>>>>> Stashed changes:class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html
 
 function subjectActionIcon(type){return type==='delete'?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6M14 11v6"></path></svg>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>`}
 function subjectTags(s){return Array.isArray(s.tags)?s.tags.filter(t=>['Kinder','ES','JHS','SHS'].includes(t)):[]}
@@ -6735,7 +6921,7 @@ function openSubjectModal(id=''){editSubjectId=id;let s=state.subjects.find(x=>x
 function closeSubjectModal(){subjectModal.classList.remove('show');editSubjectId=null}
 function saveSubjectModal(){let name=(subjectNameModalInput.value||'').trim();if(!name){toastMsg('Enter a subject name.');return}let duplicate=state.subjects.find(s=>s.id!==editSubjectId&&String(s.name||'').trim().toLowerCase()===name.toLowerCase());if(duplicate){toastMsg('Subject already exists.');return}let tags=['Kinder','ES','JHS','SHS'].filter(tag=>document.getElementById('subjectModalTag_'+tag)?.checked),rec={id:editSubjectId||uid('s'),name,tags};state.defaultSubjectsInitialized=true;if(editSubjectId)state.subjects=state.subjects.map(s=>s.id===editSubjectId?rec:s);else state.subjects.unshift(rec);closeSubjectModal();save();settingsTab('subjects');toastMsg('Subject saved.')}
 function saveSubjectCard(id){let s=state.subjects.find(x=>x.id===id);if(!s)return;let tags=['Kinder','ES','JHS','SHS'].filter(tag=>document.getElementById(`subjectTag_${id}_${tag}`)?.checked);s.tags=tags;state.defaultSubjectsInitialized=true;save();settingsTab('subjects');toastMsg('Subject tags saved.')}
-function settingsList(type){if(type==='teachers')return teacherSettings();if(type==='subjects'){settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Subjects</h3><p>Subject tags are shown as read-only pills. Open the pencil icon to edit subject name or level tags.</p></div><button class="btn primary" onclick="openSubjectModal()">${ico('plus','#fff')} Add Subject</button></div><div class="subjectCardGrid">${state.subjects.map(s=>`<div class="subjectCard"><div class="subjectCardHead"><div><div class="subjectCardTitle">${esc(s.name)}</div>${subjectTagPills(s)}</div><div class="subjectIconActions"><button class="iconBtn edit" title="Edit subject" onclick="openSubjectModal('${s.id}')">${subjectActionIcon('edit')}</button><button class="iconBtn delete" title="Delete subject" onclick="deleteResource('subjects','${s.id}')">${subjectActionIcon('delete')}</button></div></div></div>`).join('')||`<div class="empty">No subjects yet.</div>`}</div>`;return}settingsContent.innerHTML=''}
+function settingsList(type){if(type==='teachers')return teacherSettings();if(type==='subjects'){settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Subjects</h3><p>Subject tags are shown as read-only pills. Open the pencil icon to edit subject name or level tags.</p></div><button class="btn primary" onclick="openSubjectModal()">${ico('plus','#fff')} Add Subject</button></div><div class="subjectCardGrid">${state.subjects.map(s=>`<div class="subjectCard"><div class="subjectCardHead"><div><div class="subjectCardTitle">${esc(s.name)}</div>${subjectTagPills(s)}</div><div class="subjectIconActions"><button class="iconBtn edit" title="Edit subject" onclick="openSubjectModal('${s.id}')">${subjectActionIcon('edit')}</button><button class="iconBtn delete" title="Delete subject" onclick="deleteResource('subjects','${s.id}')">${subjectActionIcon('delete')}</button></div></div></div>`).join('')||`<div class="emptyState">${ico('book')}<h3>No subjects found</h3><p>Subjects are required to build class programs.</p><button class="btn primary" onclick="openSubjectModal()">Add Subject</button></div>`}</div>`;return}settingsContent.innerHTML=''}
 let selectedTeacherColor = '#64748b';
 
 function renderTeacherColorChoices(selectedColor = '') {
@@ -7002,14 +7188,48 @@ setTimeout(() => {
   upgradeSelectsToCustomDropdowns();
 }, 200);
 // --- End Custom Select ---
+<<<<<<<< Updated upstream:index.html
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./service-worker.js')
       .then((reg) => console.log('Service Worker Registered'))
       .catch((err) => console.log('Service Worker Registration Failed', err));
   });
+========
+function openExportModal() { document.getElementById('exportModal').style.display='flex'; }
+function closeExportModal() { document.getElementById('exportModal').style.display='none'; }
+function exportTeacherLoad() {
+  document.getElementById('nav-summary').click();
+  setTimeout(() => window.print(), 300);
+}
+function exportConsolidated() {
+  alert('To print consolidated programs, ensure you are in the All Programs view before printing.');
+  window.print();
+>>>>>>>> Stashed changes:class_program_scheduler_v2026-06-15_0025_ISSUE15_COLLAPSIBLE_RAIL_PROGRAM_UI.html
 }
 </script></body></html>
+=======
+<script src="js/utils.js"></script>
+<script src="js/state.js"></script>
+<script src="js/components.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/app.js"></script></body></html>
+
+
+
+
+
+>>>>>>> Stashed changes
+
+
+
+
+
+
+
+
+
+
 
 
 
