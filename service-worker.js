@@ -1,4 +1,4 @@
-const CACHE_NAME = 'e-class-scheduler-v1.3.0';
+const CACHE_NAME = 'e-class-scheduler-v1.6.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
