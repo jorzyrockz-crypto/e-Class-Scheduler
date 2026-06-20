@@ -118,6 +118,51 @@ body.dark-theme {
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
 }
 
+/* ========================================================= */
+/*                   PERSONALIZATION THEMES                  */
+/* ========================================================= */
+
+body.theme-flower-rose {
+  --accent: #e11d48; --accent-hover: #be123c; 
+  --accent-light: rgba(225, 29, 72, 0.10); --accent-glow: rgba(225, 29, 72, 0.25);
+}
+
+body.theme-flower-lavender {
+  --accent: #7c3aed; --accent-hover: #6d28d9; 
+  --accent-light: rgba(124, 58, 237, 0.10); --accent-glow: rgba(124, 58, 237, 0.25);
+}
+
+body.theme-animal-bear {
+  --accent: #78350f; --accent-hover: #451a03; 
+  --accent-light: rgba(120, 53, 15, 0.10); --accent-glow: rgba(120, 53, 15, 0.25);
+}
+
+body.theme-animal-dolphin {
+  --accent: #0d9488; --accent-hover: #0f766e; 
+  --accent-light: rgba(13, 148, 136, 0.10); --accent-glow: rgba(13, 148, 136, 0.25);
+}
+
+body.theme-season-spring {
+  --accent: #65a30d; --accent-hover: #4d7c0f; 
+  --accent-light: rgba(101, 163, 13, 0.10); --accent-glow: rgba(101, 163, 13, 0.25);
+}
+
+body.theme-season-summer {
+  --accent: #d97706; --accent-hover: #b45309; 
+  --accent-light: rgba(217, 119, 6, 0.10); --accent-glow: rgba(217, 119, 6, 0.25);
+}
+
+body.theme-season-autumn {
+  --accent: #c2410c; --accent-hover: #9a3412; 
+  --accent-light: rgba(194, 65, 12, 0.10); --accent-glow: rgba(194, 65, 12, 0.25);
+}
+
+body.theme-season-winter {
+  --accent: #0284c7; --accent-hover: #0369a1; 
+  --accent-light: rgba(2, 132, 199, 0.10); --accent-glow: rgba(2, 132, 199, 0.25);
+}
+
+
 /* Base Styles */
 * {
   box-sizing: border-box;
@@ -218,7 +263,7 @@ select {
   width: 38px !important;
   height: 38px !important;
   border-radius: var(--radius-md) !important;
-  background: linear-gradient(135deg, var(--accent), #0d9488) !important;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover)) !important;
   color: #ffffff !important;
   display: grid;
   place-items: center;
@@ -2401,7 +2446,7 @@ thead .timecol {
 .db-hero {
   border-radius: var(--radius-lg);
   padding: 28px 36px;
-  background: linear-gradient(135deg, var(--accent) 0%, #0d9488 100%) !important;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%) !important;
   color: #ffffff;
   display: flex;
   justify-content: space-between;
@@ -2496,7 +2541,7 @@ thead .timecol {
 
 .db-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -3150,6 +3195,9 @@ thead .timecol {
 @media (max-width: 1024px) {
   .db-split-grid {
     grid-template-columns: 1fr;
+  }
+  .db-metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (max-width: 768px) {
@@ -4706,7 +4754,7 @@ input[type="checkbox"] {
   border-color: var(--text-muted2) !important;
 }
 .panelHead {
-  background: linear-gradient(135deg, rgba(15, 118, 110, 0.05) 0%, transparent 100%) !important;
+  background: linear-gradient(135deg, var(--accent-light) 0%, transparent 100%) !important;
   border-bottom: 1px solid var(--line-light) !important;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
   padding: 16px 20px !important;

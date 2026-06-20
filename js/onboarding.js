@@ -896,6 +896,15 @@
     if (ob.schoolYear)  state.schoolConfig.schoolYear       = ob.schoolYear;
     if (ob.logoDataUrl) {
       state.schoolConfig.logoDataUrl = ob.logoDataUrl;
+      if (typeof extractDominantColor === 'function') {
+        extractDominantColor(ob.logoDataUrl, (c) => {
+          if (c) {
+             state.schoolConfig.logoAccentColor = c;
+             save();
+             if (typeof applyTheme === 'function') applyTheme(localStorage.getItem('appTheme') || 'light');
+          }
+        });
+      }
       if (typeof renderSchoolLogo === 'function') renderSchoolLogo();
     }
     state.schoolConfig.schoolType = ob.types;

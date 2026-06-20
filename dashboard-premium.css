@@ -98,7 +98,7 @@
 
 .db-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
 }
 
@@ -675,6 +675,9 @@
 @media (max-width: 1024px) {
   .db-split-grid {
     grid-template-columns: 1fr;
+  }
+  .db-metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (max-width: 768px) {

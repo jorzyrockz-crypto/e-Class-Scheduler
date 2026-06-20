@@ -167,8 +167,51 @@ function deleteClass(id){askConfirm('Delete scheduled subject','This removes the
 function dragTeacher(e,id){dragTeacherId=id;dragId=null;e.dataTransfer.effectAllowed='copy';try{e.dataTransfer.setData('text/plain',id)}catch(err){}}
 function dragClass(e,id){dragId=id;dragTeacherId=null;e.dataTransfer.effectAllowed='move'} function allowDrop(e){e.preventDefault();if(dragTeacherId)e.currentTarget.classList.add('teacherReady')} function leaveDrop(e){e.currentTarget.classList.remove('teacherReady')} function dropClass(e,slot,grade,sectionId=''){e.preventDefault();e.currentTarget.classList.remove('teacherReady');if(dragTeacherId){let teacherId=dragTeacherId;dragTeacherId=null;openClassModal(slot,grade,sectionId,teacherId);return}let c=state.classes.find(x=>x.id===dragId);if(c){let p=state.programs.find(x=>x.id===state.activeProgramId);c.timeSlotId=slot;c.grade=grade;c.sectionId=(p&&p.type==='multigrade')?'':(sectionId||c.sectionId||'');save()}} function applySearch(){let q=(search?.value||'').trim().toLowerCase();let targets=[];if(activeView==='dashboard'||(activeView==='scheduler'&&!activeProgram()))targets=[...document.querySelectorAll('.programCard')];else if(activeView==='scheduler'&&activeProgram())targets=[...document.querySelectorAll('.block')];else targets=[...document.querySelectorAll('.teacherProfileCard,.subjectCard,.sectionGradeGroup,.adviserLiteGroup')];targets.forEach(el=>{let hay=(el.dataset.search||el.innerText||'').toLowerCase();el.classList.toggle('searchHidden',!!q&&!hay.includes(q))})}
 function openResetModal(){resetModal.classList.add('show')} function closeResetModal(){resetModal.classList.remove('show')} function confirmResetScheduleOnly(){askConfirm('Reset schedule only','This will clear all scheduled subjects from the schedule matrix. Teachers, subjects, school profile, sections, advisers, and custom time slots will remain.',()=>{state.classes=[];closeResetModal();toastMsg('Schedule cleared.');save()})} function confirmResetAllBlank(){askConfirm('Reset all to blank','This will clear all app data and return to a blank starter setup. Use Import Backup if you want to restore previous data.',()=>{state=migrate(JSON.parse(JSON.stringify(BLANK_STATE)));activeView='dashboard';state.schedulerExpanded=true;closeResetModal();toastMsg('App reset to blank.');save();if(typeof rerunOnboarding==='function')rerunOnboarding()})}
-function renderSettingsNav(){let tabs=[['school','School Profile','settings'],['schoolyear','School Year & Migration','calendar'],['teachers','Teachers','users'],['subjects','Subjects','book'],['sections','Sections','book'],['advisers','Advisers','users']];settingsNav.innerHTML=tabs.map(([id,label,ic])=>`<button class="settingsNavBtn ${activeSettingsTab===id?'active':''}" onclick="settingsTab('${id}')">${ico(ic,id==='school'?'#0f766e':'#52637a')}<span>${label}</span></button>`).join('')}
-function openSettings(){settingsModal.classList.add('show');settingsTab(activeSettingsTab||'school')} function closeSettings(){settingsModal.classList.remove('show')} function settingsTab(tab){if(tab==='slots')tab='school';activeSettingsTab=tab;renderSettingsNav();if(tab==='school')return schoolSettings();if(tab==='schoolyear')return schoolYearSettings();if(tab==='teachers')return teacherSettings();if(tab==='subjects')return settingsList('subjects');if(tab==='sections')return sectionSettings();if(tab==='advisers')return adviserSettings()}
+function renderSettingsNav(){let tabs=[['school','School Profile','settings'],['personalization','Personalization','brush'],['schoolyear','School Year & Migration','calendar'],['teachers','Teachers','users'],['subjects','Subjects','book'],['sections','Sections','book'],['advisers','Advisers','users']];settingsNav.innerHTML=tabs.map(([id,label,ic])=>`<button class="settingsNavBtn ${activeSettingsTab===id?'active':''}" onclick="settingsTab('${id}')">${ico(ic,id==='school'?'#0f766e':(id==='personalization'?'#d946ef':'#52637a'))}<span>${label}</span></button>`).join('')}
+function openSettings(){settingsModal.classList.add('show');settingsTab(activeSettingsTab||'school')} function closeSettings(){settingsModal.classList.remove('show')} function settingsTab(tab){if(tab==='slots')tab='school';activeSettingsTab=tab;renderSettingsNav();if(tab==='school')return schoolSettings();if(tab==='personalization')return personalizationSettings();if(tab==='schoolyear')return schoolYearSettings();if(tab==='teachers')return teacherSettings();if(tab==='subjects')return settingsList('subjects');if(tab==='sections')return sectionSettings();if(tab==='advisers')return adviserSettings()}
+
+function personalizationSettings() {
+  const currentTheme = localStorage.getItem('appTheme') || 'light';
+  
+  const themes = [
+    { id: 'light', name: 'Classic Light', colors: ['#f8fafc', '#ffffff', '#006b54'] },
+    { id: 'dark', name: 'Classic Dark', colors: ['#090d16', '#0f172a', '#10b981'] },
+    { id: 'flower-rose', name: 'Rose', colors: ['#fff1f2', '#ffe4e6', '#e11d48'] },
+    { id: 'flower-lavender', name: 'Lavender', colors: ['#f5f3ff', '#ede9fe', '#7c3aed'] },
+    { id: 'animal-bear', name: 'Forest Bear', colors: ['#fdf8f6', '#f5ebe6', '#4e342e'] },
+    { id: 'animal-dolphin', name: 'Ocean Dolphin', colors: ['#f0fdfa', '#ccfbf1', '#0d9488'] },
+    { id: 'season-spring', name: 'Spring', colors: ['#f7fee7', '#ecfccb', '#65a30d'] },
+    { id: 'season-summer', name: 'Summer', colors: ['#fffbeb', '#fef3c7', '#d97706'] },
+    { id: 'season-autumn', name: 'Autumn', colors: ['#fff7ed', '#ffedd5', '#c2410c'] },
+    { id: 'season-winter', name: 'Winter', colors: ['#f0f9ff', '#e0f2fe', '#0284c7'] }
+  ];
+
+  settingsContent.innerHTML = `
+    <div class="settingsSectionHead">
+      <div class="settingsSectionTitle">
+        <h3>Personalization</h3>
+        <p>Choose a global theme for the application. Your preference will be saved automatically.</p>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; margin-top:20px;">
+      ${themes.map(t => `
+        <div class="themeCard" 
+             style="cursor:pointer; padding:12px; border-radius:12px; border:2px solid ${t.id === currentTheme ? 'var(--accent)' : 'var(--line)'}; background:var(--panel); transition:transform 0.2s, box-shadow 0.2s; box-shadow:var(--shadow-sm);"
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow)'"
+             onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)'"
+             onclick="applyTheme('${t.id}'); setTimeout(()=>settingsTab('personalization'), 50);">
+          <div style="display:flex; height:48px; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin-bottom:12px;">
+            ${t.colors.map(c => `<div style="flex:1; background:${c};"></div>`).join('')}
+          </div>
+          <div style="font-weight:700; font-size:14px; text-align:center; color:var(--text); display:flex; align-items:center; justify-content:center; gap:6px;">
+            ${t.id === currentTheme ? '<svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+            ${t.name}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
 
 function schoolYearSettings(){let years=availableSchoolYears(),target=currentSchoolYearName(),sourceOptions=years.filter(y=>y!==target).map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join(''),history=(state.migrationHistory||[]).filter(h=>h.targetSchoolYear===target&&h.active!==false).sort((a,b)=>String(b.migratedAt).localeCompare(String(a.migratedAt)));settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>School Year & Migration</h3><p>Save schedules by school year and migrate selected levels without overwriting other migrated levels.</p></div></div><div class="settingsCard"><div class="syGrid"><label class="settingsField"><span>Active School Year</span><input id="syActiveInput" class="input" value="${esc(target)}" placeholder="e.g. 2026-2027"></label><label class="settingsField"><span>Switch to Available SY</span><select id="sySwitchSelect" class="input">${years.map(y=>`<option value="${esc(y)}" ${y===target?'selected':''}>${esc(y)}</option>`).join('')}</select></label></div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="switchSchoolYear(syActiveInput.value)">Create / Load School Year</button><button class="btn" onclick="switchSchoolYear(sySwitchSelect.value)">Switch to Selected</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migrate Schedule</h3><p>Same level migration replaces that level only. Other migrated levels are preserved.</p></div><div class="syGrid" style="margin-top:14px"><label class="settingsField"><span>Migrate From SY</span><select id="migSourceYear" class="input">${sourceOptions||'<option value="">No other school year available</option>'}</select></label><label class="settingsField"><span>Level</span><select id="migLevel" class="input"><option>All Levels</option><option>Elementary</option><option>JHS</option><option>SHS</option></select></label></div><div class="note migrationDanger" style="margin-top:12px">If the selected level was migrated before, only that migrated level will be replaced. Different migrated levels will remain intact.</div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="migrateScheduleFromSchoolYear()">Migrate Schedule</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migration History for ${esc(target)}</h3><p>Shows active migrated levels saved under this school year.</p></div><div class="migrationHistory">${history.length?history.map(h=>`<div class="migrationHistoryItem"><div><span class="migrationBadge">${esc(h.level)}</span></div><b>From ${esc(h.sourceSchoolYear)} to ${esc(h.targetSchoolYear)}</b><div class="migrationNote">Migrated: ${esc(new Date(h.migratedAt).toLocaleString())}</div></div>`).join(''):'<div class="muted">No migration history for this school year yet.</div>'}</div></div>`}
 
@@ -271,7 +314,48 @@ function schoolSettings(){let sc=state.schoolConfig,fields=[['schoolName','Schoo
 function renderSchoolLogo(){if(typeof schoolLogoMark==='undefined'||!schoolLogoMark)return;let data=state.schoolConfig&&state.schoolConfig.logoDataUrl;if(data)schoolLogoMark.innerHTML=`<img src="${esc(data)}" alt="">`;else schoolLogoMark.innerHTML='<span>OES</span>'}
 function renderSchoolLogoPreview(){let el=document.getElementById('schoolLogoPreview');if(!el)return;let data=state.schoolConfig&&state.schoolConfig.logoDataUrl;el.innerHTML=data?`<img src="${esc(data)}" alt="School logo preview">`:'<span class="logoPreviewFallback">OES</span>'}
 function triggerSchoolLogoUpload(){let input=document.getElementById('schoolLogoInput');if(input)input.click()}
-function handleSchoolLogoUpload(input){let file=input&&input.files&&input.files[0];if(!file)return;if(!/^image\//.test(file.type)){toastMsg('Please upload an image file.');input.value='';return}let reader=new FileReader();reader.onload=e=>{if(typeof openCropModal==='function'){openCropModal(e.target.result, (croppedDataUrl) => {if(typeof resizeImage==='function'){resizeImage(croppedDataUrl, 1.5, (resizedDataUrl)=>{state.schoolConfig=state.schoolConfig||{};state.schoolConfig.logoDataUrl=resizedDataUrl;syncActiveSchoolYear();localStorage.setItem(STORE,JSON.stringify(state));renderSchoolLogo();renderSchoolLogoPreview();toastMsg('School logo uploaded.');});}else{state.schoolConfig=state.schoolConfig||{};state.schoolConfig.logoDataUrl=croppedDataUrl;syncActiveSchoolYear();localStorage.setItem(STORE,JSON.stringify(state));renderSchoolLogo();renderSchoolLogoPreview();toastMsg('School logo uploaded.');}});}else{if(typeof resizeImage==='function'){resizeImage(e.target.result, 1.5, (resized)=>{state.schoolConfig.logoDataUrl=resized;syncActiveSchoolYear();localStorage.setItem(STORE,JSON.stringify(state));renderSchoolLogo();renderSchoolLogoPreview();toastMsg('School logo uploaded.');});}else{state.schoolConfig.logoDataUrl=e.target.result;syncActiveSchoolYear();localStorage.setItem(STORE,JSON.stringify(state));renderSchoolLogo();renderSchoolLogoPreview();toastMsg('School logo uploaded.');}}};reader.readAsDataURL(file)}
+function handleSchoolLogoUpload(input){
+  let file=input&&input.files&&input.files[0];
+  if(!file)return;
+  if(!/^image\//.test(file.type)){toastMsg('Please upload an image file.');input.value='';return}
+  let reader=new FileReader();
+  reader.onload=e=>{
+    const processImage = (dataUrl) => {
+      if(typeof resizeImage==='function'){
+        resizeImage(dataUrl, 1.5, (resized)=>{ saveLogoAndExtractColor(resized); });
+      } else { saveLogoAndExtractColor(dataUrl); }
+    };
+    if(typeof openCropModal==='function') { openCropModal(e.target.result, processImage); }
+    else { processImage(e.target.result); }
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveLogoAndExtractColor(dataUrl) {
+  state.schoolConfig=state.schoolConfig||{};
+  state.schoolConfig.logoDataUrl=dataUrl;
+  if (typeof extractDominantColor === 'function') {
+    extractDominantColor(dataUrl, (color) => {
+      if (color) state.schoolConfig.logoAccentColor = color;
+      else delete state.schoolConfig.logoAccentColor;
+      finishLogoSave();
+    });
+  } else {
+    delete state.schoolConfig.logoAccentColor;
+    finishLogoSave();
+  }
+}
+
+function finishLogoSave() {
+  syncActiveSchoolYear();
+  localStorage.setItem(STORE,JSON.stringify(state));
+  renderSchoolLogo();
+  renderSchoolLogoPreview();
+  if (typeof applyTheme === 'function') {
+      applyTheme(localStorage.getItem('appTheme') || 'light');
+  }
+  toastMsg('School logo uploaded.');
+}
 function removeSchoolLogo(){state.schoolConfig=state.schoolConfig||{};delete state.schoolConfig.logoDataUrl;syncActiveSchoolYear();localStorage.setItem(STORE,JSON.stringify(state));renderSchoolLogo();renderSchoolLogoPreview();toastMsg('Default school logo restored.')}
 function saveSchoolProfileSettings(){let fields=['schoolName','schoolYear','division','region','district','schoolAddress','signatory1Name','signatory1Title','signatory2Name','signatory2Title'],oldSy=currentSchoolYearName();state.schoolConfig=state.schoolConfig||{};fields.forEach(k=>{let el=document.getElementById('schoolField_'+k);if(el)state.schoolConfig[k]=el.value});let newSy=(state.schoolConfig.schoolYear||oldSy||'Current School Year').trim()||'Current School Year';if(newSy!==oldSy){syncActiveSchoolYear();state.activeSchoolYear=newSy;state.schoolConfig.schoolYear=newSy;state.schoolYears=state.schoolYears||{};state.schoolYears[newSy]=yearSnapshotFrom(state)}else syncActiveSchoolYear();localStorage.setItem(STORE,JSON.stringify(state));toastMsg('School profile saved.');render();settingsTab('school')}
 function slotSettings(){activeSettingsTab='school';return schoolSettings()}

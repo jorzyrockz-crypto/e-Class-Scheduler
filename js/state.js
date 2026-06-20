@@ -1,27 +1,62 @@
-
 function initTheme() {
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark-theme');
-  } else {
-    document.body.classList.remove('dark-theme');
-  }
+  const savedTheme = localStorage.getItem('appTheme') || 'light';
+  const isDark = localStorage.getItem('appDarkMode') === 'true';
+  applyTheme(savedTheme, isDark);
 }
-function toggleTheme() {
-  const isDark = document.body.classList.toggle('dark-theme');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+function applyTheme(themeName, isDark) {
+  if (isDark === undefined) isDark = localStorage.getItem('appDarkMode') === 'true';
+  else localStorage.setItem('appDarkMode', isDark);
+
+  document.body.classList.remove('dark-theme', 'theme-flower-rose', 'theme-flower-lavender', 'theme-animal-bear', 'theme-animal-dolphin', 'theme-season-spring', 'theme-season-summer', 'theme-season-autumn', 'theme-season-winter');
+  
+  if (isDark) {
+    document.body.classList.add('dark-theme');
+  }
+  
+  if (themeName && themeName !== 'light') {
+    document.body.classList.add('theme-' + themeName);
+  }
+  
+  localStorage.setItem('appTheme', themeName);
+  
+  applyLogoColorsToTheme(themeName);
   renderThemeIcon();
 }
-function renderThemeIcon() {
-  const isDark = document.body.classList.contains('dark-theme');
-  const iconSpan = document.getElementById('themeIcon');
-  if (iconSpan) {
-    iconSpan.innerHTML = isDark 
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:#fbbf24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text)"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+
+function applyLogoColorsToTheme(themeName) {
+  if (themeName === 'light') {
+    if (typeof state !== 'undefined' && state.schoolConfig && state.schoolConfig.logoAccentColor) {
+      document.documentElement.style.setProperty('--accent', state.schoolConfig.logoAccentColor);
+      document.documentElement.style.setProperty('--accent-hover', state.schoolConfig.logoAccentColor);
+    }
+  } else {
+    document.documentElement.style.removeProperty('--accent');
   }
 }
-initTheme();
+
+function openPersonalization() {
+  if (typeof openSettings === 'function') {
+    activeSettingsTab = 'personalization';
+    openSettings();
+  }
+}
+
+function toggleTheme() {
+  const isDark = localStorage.getItem('appDarkMode') === 'true';
+  applyTheme(localStorage.getItem('appTheme') || 'light', !isDark);
+}
+
+function renderThemeIcon() {
+  const iconSpan = document.getElementById('themeIcon');
+  if (iconSpan) {
+    const isDark = localStorage.getItem('appDarkMode') === 'true';
+    iconSpan.innerHTML = isDark ? 
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text)"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>` : 
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text)"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+  }
+}
+
 const BLANK_STATE={"subjects": [], "teachers": [], "classes": [], "advisers": {}, "timeSlots": [], "schoolConfig": {"region": "", "division": "", "district": "", "schoolName": "", "schoolAddress": "", "schoolYear": "", "signatory1Name": "", "signatory1Title": "", "signatory2Name": "", "signatory2Title": "", "schoolType": []}, "grades": ["Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10"], "sections": [], "programs": [], "activeProgramId": "", "schedulerExpanded": true, "activeTab": "dashboard", "gradelevelFilter": "Grade 4", "gradelevelDayFilter": "master", "onboardingComplete": false};
 function rerunOnboarding() {
   if (typeof state !== 'undefined') {
@@ -58,4 +93,6 @@ function runScheduleMigration(source,target,level){syncActiveSchoolYear();let sa
 
 let state=migrate(JSON.parse(localStorage.getItem(STORE)||'null')||BLANK_STATE), activeView=state.activeTab||'dashboard', activeGrade=state.gradelevelFilter||'Grade 4', selectedTeacher='', editId=null, editProgramId=null, editSlotId=null, editTeacherId=null, editSubjectId=null, activeSettingsTab='school', dragId=null, dragTeacherId=null, dragProgramId=null, combineBaseProgramId='', currentGroup='g36', pendingConfirm=null, menuRegistry={}, menuCounter=0, activeMenuId=null, closeTimer=null, summarySearch='', summaryLevel='all', summaryStatus='all', summaryAdviser='all', summarySort='advisory';
 const VIEWS=[['dashboard','Dashboard','chart','#14b8a6'],['scheduler','Class Scheduler','calendar','#3b82f6'],['summary','Summary','chart','#8b5cf6'],['analytics','Analytics','chart','#0ea5e9']];
+
+initTheme();
 

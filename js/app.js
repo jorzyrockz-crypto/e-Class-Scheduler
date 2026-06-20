@@ -1,6 +1,33 @@
-const APP_VERSION = "1.3.0";
+const APP_VERSION = "1.6.0";
 
 const CHANGELOG = [
+  {
+    version: "1.6.0",
+    date: "June 20, 2026",
+    changes: [
+      { type: "New", text: "Decoupled Dark Mode from the Theme Engine. You can now toggle Dark Mode independently from your chosen Personalization Theme!" },
+      { type: "Improved", text: "The Top Header now features both a Dark Mode toggle (Sun/Moon icon) and a Personalization Palette icon side-by-side for instant access." },
+      { type: "Fixed", text: "Fixed an issue where the KPI cards on the dashboard would wrap to a second row on large screens." }
+    ]
+  },
+  {
+    version: "1.5.0",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Improved", text: "Dashboard decluttered! The large Setup Readiness Checklist has been cleanly integrated into the Schedule Health Diagnostics." },
+      { type: "New", text: "The Schedule Health Monitor is now smarter! It will prompt you for missing setup items (like no teachers or no class programs) before checking for double-bookings." },
+      { type: "Improved", text: "Added a new 'Class Programs' KPI card to the dashboard row to replace the visual weight of the old checklist." }
+    ]
+  },
+  {
+    version: "1.4.0",
+    date: "June 20, 2026",
+    changes: [
+      { type: "New", text: "Added a massive Global Personalization Engine! You can now choose between 10 beautiful, cohesive themes including Flower, Animal, and Seasonal palettes." },
+      { type: "New", text: "Added an automated Color Extraction feature. The system now intelligently scans your uploaded school logo and applies its dominant color as the global accent color for the default Light and Dark themes!" },
+      { type: "Improved", text: "The Dark/Light top-bar toggle has been upgraded to a 'Personalization' palette icon that opens the new theme selection grid." }
+    ]
+  },
   {
     version: "1.3.0",
     date: "June 20, 2026",

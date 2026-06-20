@@ -138,7 +138,7 @@ function countedTeachingMinutesForTeacher(items){let total=0,seen=new Set();item
 function countedTeachingBlocksForTeacher(items){let seen=new Set(),count=0;items.forEach(c=>{let p=state.programs.find(x=>x.id===c.programId);if(p&&isMultigradeProgram(p)){let key=[c.teacherId,c.programId,c.timeSlotId,c.day||'master'].join('|');if(seen.has(key))return;seen.add(key)}count++});return count}
 function loads(){let list=workloadSourceClasses();return state.teachers.map(t=>{let assigned=list.filter(c=>c.teacherId===t.id),scheduledMinutes=countedTeachingMinutesForTeacher(assigned),adviserEntries=adviserEntriesForTeacher(t.id),adviserMinutes=adviserEntries.reduce((a,x)=>a+x.minutes,0),base={teacher:t,items:assigned,blocks:countedTeachingBlocksForTeacher(assigned),scheduledMinutes,adviserMinutes,adviserCount:adviserEntries.length,adviserEntries,minutes:scheduledMinutes+adviserMinutes};base.levelTags=teacherLevelTagsFromLoad(base);return base})}
 function loadStatus(total,target=360){let diff=total-target;if(diff>0)return{label:'OVERLOADED',detail:`${diff} min over`,kind:'overload'};if(diff<0)return{label:'UNDERLOADED',detail:`${Math.abs(diff)} min short`,kind:'underload'};return{label:'MET LOAD',detail:'6 hours met',kind:'met'}}
-function diag(){let list=((activeView==='scheduler'&&activeProgram())?scopedClasses():state.classes).filter(classCountsTowardLoad),conflicts=[];for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){let a=list[i],b=list[j];let teacherConflict=(a.teacherId&&a.teacherId===b.teacherId&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master'));let sectionConflict=(a.grade===b.grade&&(a.sectionId||'')===(b.sectionId||'')&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master'));if(teacherConflict||sectionConflict){let pa=state.programs.find(p=>p.id===a.programId),pb=state.programs.find(p=>p.id===b.programId);if(teacherConflict&&!sectionConflict&&pa&&pb&&pa.id===pb.id&&isMultigradeProgram(pa))continue;let ts=get(state.timeSlots,a.timeSlotId),tea=get(state.teachers,a.teacherId),sa=get(state.subjects,a.subjectId),sb=get(state.subjects,b.subjectId);conflicts.push({a,b,teacher:tea.name,time:`${to12(ts.start)}–${to12(ts.end)}`,slot:ts,subjectA:sa.name,subjectB:sb.name,gradeA:a.grade,gradeB:b.grade,sectionA:a.sectionId?get(state.sections,a.sectionId).name:'',sectionB:b.sectionId?get(state.sections,b.sectionId).name:'',day:(a.day||'master'),type:sectionConflict?'section':'teacher'})}}return{conflicts}}
+function diag(){let list=((activeView==='scheduler'&&activeProgram())?scopedClasses():state.classes).filter(classCountsTowardLoad),conflicts=[];if(state.teachers.length===0) conflicts.push({setupIssue:true,msg:'Setup Required: Encode Faculty Members',action:"openSettingsModal();settingsTab('teachers')"});if(state.subjects.length===0) conflicts.push({setupIssue:true,msg:'Setup Required: Build Subject Bank',action:"openSettingsModal();settingsTab('subjects')"});if((state.programs||[]).length===0) conflicts.push({setupIssue:true,msg:'Setup Required: Create Class Programs',action:"openProgramModal()"});let adviserCount=Object.values(state.advisers||{}).filter(Boolean).length+Object.values(state.sectionAdvisers||{}).filter(Boolean).length+(state.programs||[]).reduce((a,p)=>a+(p.advisers||[]).filter(x=>x.name).length,0);if(adviserCount===0 && state.teachers.length>0 && (state.programs||[]).length>0) conflicts.push({setupIssue:true,msg:'Setup Required: Assign Grade Advisers',action:"openSettingsModal();settingsTab('advisers')"});for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){let a=list[i],b=list[j];let teacherConflict=(a.teacherId&&a.teacherId===b.teacherId&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master'));let sectionConflict=(a.grade===b.grade&&(a.sectionId||'')===(b.sectionId||'')&&a.timeSlotId===b.timeSlotId&&(a.day||'master')===(b.day||'master'));if(teacherConflict||sectionConflict){let pa=state.programs.find(p=>p.id===a.programId),pb=state.programs.find(p=>p.id===b.programId);if(teacherConflict&&!sectionConflict&&pa&&pb&&pa.id===pb.id&&isMultigradeProgram(pa))continue;let ts=get(state.timeSlots,a.timeSlotId),tea=get(state.teachers,a.teacherId),sa=get(state.subjects,a.subjectId),sb=get(state.subjects,b.subjectId);conflicts.push({a,b,teacher:tea.name,time:`${to12(ts.start)}–${to12(ts.end)}`,slot:ts,subjectA:sa.name,subjectB:sb.name,gradeA:a.grade,gradeB:b.grade,sectionA:a.sectionId?get(state.sections,a.sectionId).name:'',sectionB:b.sectionId?get(state.sections,b.sectionId).name:'',day:(a.day||'master'),type:sectionConflict?'section':'teacher'})}}return{conflicts}}
 function renderMetrics(){
   let d=diag();
   let overall=overallTimeCompliance();
@@ -155,7 +155,7 @@ function renderMetrics(){
 }
 function renderFaculty(){faculty.innerHTML=loads().length?loads().sort((a,b)=>b.minutes-a.minutes).map(x=>{let c=teacherColor(x.teacher),pos=x.teacher.position?esc(x.teacher.position):'No teaching position set',room=x.teacher.room?` • Room: ${esc(x.teacher.room)}`:'',st=loadStatus(x.minutes);let pill=`<button type="button" class="workloadStatusPill status-${st.kind}" onclick="event.stopPropagation();openSummaryForStatus('${st.kind}')" title="Open Teaching Load Summary filtered by ${st.label}">${st.label}</button>`;return`<div class="teacher ${selectedTeacher===x.teacher.id?'active':''}" data-status="${st.kind}" draggable="true" ondragstart="dragTeacher(event,'${x.teacher.id}')" onclick="selectedTeacher='${x.teacher.id}';render()" title="Drag this teacher to an empty schedule cell to add a scheduled subject"><div class="avatar" style="background:${c}">${initials(x.teacher.name)}</div><div style="min-width:0"><div class="teacherTop"><div class="teacherName">${esc(x.teacher.name)}</div><button class="btn teacherEditBtn" onclick="event.stopPropagation();editTeacherProfile('${x.teacher.id}')" title="Edit teacher profile">Edit</button></div><div class="teacherMeta"><span class="dot" style="background:${c}"></span>${pos}${room}</div><div class="teacherStatusRow">${pill}</div></div></div>`}).join(''):'<div class="emptyState">'+ico('users')+'<h3>No teachers added</h3><p>Start by adding your teaching staff.</p><button class="btn primary" onclick="openSettingsModal();settingsTab(\'teachers\');openTeacherModal()">Add Teacher</button></div>'}
 function openSummaryForStatus(kind){summaryStatus=kind||'all';activeView='summary';state.activeTab='summary';save()}
-function clearTeacher(){selectedTeacher='';search.value='';render()} function renderDiag(){let d=diag();diagnostics.innerHTML=d.conflicts.length?`<div class="alert badbg"><b>${d.conflicts.length} conflict(s) detected.</b><br>${d.conflicts.slice(0,2).map(conflictJumpButton).join('<br>')}</div>`:`<div class="alert ok">No teacher double-booking detected.</div>`}
+function clearTeacher(){selectedTeacher='';search.value='';render()} function renderDiag(){let d=diag();let issues=d.conflicts;if(issues.length){let msg=issues.some(c=>c.setupIssue)?`${issues.length} setup issue(s) and conflict(s) detected.`:`${issues.length} conflict(s) detected.`;diagnostics.innerHTML=`<div class="alert badbg"><b>${msg}</b><br>${issues.slice(0,4).map(conflictJumpButton).join('<br>')}</div>`}else{diagnostics.innerHTML=`<div class="alert ok">Schedule is healthy and ready.</div>`}}
 function groupForView(){return activeView==='master_kinder'?'kinder':activeView==='master_g12'?'g12':'g36'} function gradesForGroup(g){return g==='kinder'?['Kindergarten']:g==='g12'?['Grade 1','Grade 2']:['Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10']} function slotsForGroup(g){g=normGroup(g);return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&!ts.programId).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function slotsForProgram(p){let g=normGroup(p?.group||'g36'),pid=p?.id||'';return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&(!ts.programId||ts.programId===pid)).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function renderContent(){if(activeView==='dashboard')return renderDashboard();if(activeView==='summary')return renderSummary();if(activeView==='analytics')return renderAnalytics();if(activeView==='scheduler')return renderScheduler();renderMatrix(groupForView())}
 function safePct(n,d){return d>0?Math.round((n/d)*100):0}
 function analyticsStars(score){let filled=score>=90?5:score>=75?4:score>=50?3:score>=25?2:score>0?1:0;return '★'.repeat(filled)+'☆'.repeat(5-filled)}
@@ -199,8 +199,8 @@ function readinessRowsHtml(rows){return rows.map(r=>`<div class="readyCheckLine"
 function firstAnalyticsIssueText(data){if(data.conflicts.length){let c=data.conflicts[0];return `${c.gradeA} ${c.subjectA} — teacher conflict at ${c.time}.`}if(data.missingTeacher)return`${data.missingTeacher} scheduled subject(s) have no assigned teacher.`;if(data.missingSubject)return`${data.missingSubject} scheduled class(es) have no subject selected.`;let incomplete=data.programRows.find(r=>r.expected&&r.scheduled<r.expected);if(incomplete)return`${incomplete.p.name} has ${incomplete.expected-incomplete.scheduled} missing schedule slot(s).`;return'No active issue found.'}
 function analyticsInfoDate(){let d=new Date();return d.toLocaleString([], {year:'numeric',month:'long',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
 function renderAnalytics(){let overall=overallTimeCompliance();viewTitle.textContent='Analytics';viewSub.textContent='Grade-level weekly time-allotment checker.';viewControls.innerHTML='';let gradeCards=overall.summaries.map(g=>`<section class="gradeCheckerCard"><div class="gradeCheckerHead"><div class="gradeCheckerTitle">${esc(g.grade)} Time Allotment</div><span class="gradeCompliancePill ${g.kind}">${g.score}% • ${esc(g.label)}</span></div><table class="timeAllotmentTable"><thead><tr><th>Learning Area</th><th>Required (mins/wk)</th><th>Scheduled (mins/week)</th><th>Compliance Status</th></tr></thead><tbody>${timeAllotmentTableRows(g.rows)}</tbody></table><div class="levelComplianceBox"><b>Level of Compliance</b><span>${g.score}% — ${esc(g.label)}${g.missing?` • ${g.missing} missing area(s)`:''}</span></div>${g.aral||''}</section>`).join('')||`<section class="gradeCheckerCard"><div class="empty">No scheduled class program data available for checking.</div></section>`;content.innerHTML=`<div class="analyticsPage cleanAnalytics"><section class="timeHero ${overall.kind}"><div><h2>${esc(overall.label)}</h2><p>${esc(overall.message)}</p><div style="margin-top:12px; display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:99px; font-size:12px; font-weight:600; cursor:help;" title="Required subjects are listed per grade level, including JHS profiles. ARAL is shown separately as an intervention block."><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><path stroke-width="2" d="M12 16v-4M12 8h.01"></path></svg> Basis: ${esc(curriculumScopeLabel())}</div></div><div class="timeHeroScore"><div><b>${overall.score}%</b><br><span>Overall Compliance</span></div></div></section><div class="gradeCheckerGrid">${gradeCards}</div><div class="analyticsTimestamp">ⓘ Time allotment analytics are based on the latest saved load-counted/master class programs as of ${esc(analyticsInfoDate())}.</div></div>`}
-function conflictLabel(c){let secA=c.sectionA?` - ${c.sectionA}`:'',secB=c.sectionB?` - ${c.sectionB}`:'';if(c.type==='section')return `${esc(c.gradeA)}${esc(secA)} is double-booked at ${esc(c.time)}: ${esc(c.subjectA)} and ${esc(c.subjectB)}.`;return `${esc(c.teacher)} is assigned twice at ${esc(c.time)}: ${esc(c.subjectA)} (${esc(c.gradeA)}${esc(secA)}) and ${esc(c.subjectB)} (${esc(c.gradeB)}${esc(secB)}).`}
-function conflictJumpButton(c){return `<button class="conflictJump" onclick="highlightConflict('${c.a.id}','${c.b.id}')" title="Open and highlight this conflict">${conflictLabel(c)}</button>`}
+function conflictLabel(c){if(c.setupIssue) return esc(c.msg);let secA=c.sectionA?` - ${c.sectionA}`:'',secB=c.sectionB?` - ${c.sectionB}`:'';if(c.type==='section')return `${esc(c.gradeA)}${esc(secA)} is double-booked at ${esc(c.time)}: ${esc(c.subjectA)} and ${esc(c.subjectB)}.`;return `${esc(c.teacher)} is assigned twice at ${esc(c.time)}: ${esc(c.subjectA)} (${esc(c.gradeA)}${esc(secA)}) and ${esc(c.subjectB)} (${esc(c.gradeB)}${esc(secB)}).`}
+function conflictJumpButton(c){if(c.setupIssue) return `<button class="conflictJump setup" onclick="${c.action}" title="Click to resolve this setup requirement">${conflictLabel(c)}</button>`;return `<button class="conflictJump" onclick="highlightConflict('${c.a.id}','${c.b.id}')" title="Open and highlight this conflict">${conflictLabel(c)}</button>`}
 function highlightConflict(aId,bId){let c=state.classes.find(x=>x.id===aId)||state.classes.find(x=>x.id===bId);if(c&&c.programId){state.activeProgramId=c.programId;state.schedulerExpanded=true;activeView='scheduler';state.activeTab='scheduler';selectedTeacher=c.teacherId||selectedTeacher;localStorage.setItem(STORE,JSON.stringify(state));render()}setTimeout(()=>{[aId,bId].forEach(id=>{let el=document.querySelector(`.block[data-class-id="${id}"]`);if(el){el.classList.add('conflictFocus');el.scrollIntoView({behavior:'smooth',block:'center',inline:'center'});setTimeout(()=>el.classList.remove('conflictFocus'),2600)}})},120)}
 function inlineDiagnostics(){let d=diag();if(!d.conflicts.length)return `<div class="alert ok inlineDiag"><div class="diagTitle">No schedule double-booking detected.</div></div>`;let shown=d.conflicts.slice(0,3).map(c=>`<li>${conflictJumpButton(c)}</li>`).join(''),more=d.conflicts.length>3?`<li>${d.conflicts.length-3} more conflict(s). Use Teacher Workload or search by teacher name to review remaining entries.</li>`:'';return `<div class="alert badbg inlineDiag"><div class="diagTitle">${d.conflicts.length} conflict(s) detected.</div><ul class="diagDetails">${shown}${more}</ul><div class="diagHint">Guide: change the teacher, move one scheduled subject to another time slot, or remove the duplicate scheduled subject.</div></div>`}
 function programAdviserLine(p){let lines=programAdviserDetails(p);return lines.length?'Adviser(s): '+lines.join('; '):''}
@@ -242,17 +242,14 @@ function dashboardMetricsHtml(){
   let score=data.score;
   let hasIssues = (d.conflicts.length + data.missingTeacher + data.missingSubject) > 0;
   
-  let healthLabel = 'Excellent Health';
-  let healthClass = 'ready';
-  if (score < 50) { healthLabel = 'Critical Issues'; healthClass = 'conflict'; }
-  else if (score < 80) { healthLabel = 'Needs Review'; healthClass = 'progress'; }
-  else if (score < 100) { healthLabel = 'Good Health'; healthClass = 'ready'; }
-
+  let healthLabel = analyticsStatusText(score);
+  
   let metrics = [
     { cls: 'teachers', label: 'Teachers', value: state.teachers.length, sub: 'Faculty encodes', icon: 'users', color: '#0f766e', onclick: "openSettings(); settingsTab('teachers')" },
     { cls: 'subjects', label: 'Subjects', value: state.subjects.length, sub: 'Subject bank catalog', icon: 'book', color: '#3b82f6', onclick: "openSettings(); settingsTab('subjects')" },
+    { cls: 'programs', label: 'Class Programs', value: (state.programs||[]).length, sub: 'Schedule groupings', icon: 'grid', color: '#eab308', onclick: "openProgramModal()" },
     { cls: 'scheduled', label: 'Scheduled Classes', value: state.classes.length, sub: 'Blocks encoded', icon: 'calendar', color: '#8b5cf6', onclick: "openSchedulerHome()" },
-    { cls: 'health ' + (hasIssues ? 'has-issues' : ''), label: 'Schedule Health', value: score + '%', sub: healthLabel, icon: 'chart', color: hasIssues ? '#ef4444' : '#10b981', onclick: "openSchedulerHome()" }
+    { cls: 'health ' + (hasIssues ? 'has-issues' : ''), label: 'Completion Score', value: score + '%', sub: healthLabel, icon: 'chart', color: hasIssues ? '#ef4444' : '#10b981', onclick: "openAnalyticsView()" }
   ];
 
   return `<div class="db-metrics-grid">
@@ -271,37 +268,7 @@ function dashboardMetricsHtml(){
   </div>`;
 }
 
-function dashboardReadinessHtml(){
-  let adviserCount=Object.values(state.advisers||{}).filter(Boolean).length+Object.values(state.sectionAdvisers||{}).filter(Boolean).length+(state.programs||[]).reduce((a,p)=>a+(p.advisers||[]).filter(x=>x.name).length,0);
-  let checks=[
-    { label: 'Teachers', count: state.teachers.length, done: state.teachers.length > 0, hint: 'Assign schedules & workload', onclick: "openSettings(); settingsTab('teachers')" },
-    { label: 'Subjects Bank', count: state.subjects.length, done: state.subjects.length > 0, hint: 'Configure subject catalog', onclick: "openSettings(); settingsTab('subjects')" },
-    { label: 'Class Programs', count: (state.programs||[]).length, done: (state.programs||[]).length > 0, hint: 'Setup class timetable groups', onclick: "openProgramModal()" },
-    { label: 'Scheduled Subjects', count: state.classes.length, done: state.classes.length > 0, hint: 'Place classes in schedule matrix', onclick: "openSchedulerHome()" },
-    { label: 'Advisers Assigned', count: adviserCount, done: adviserCount > 0, hint: 'Assign grade advisory positions', onclick: "openSettings(); settingsTab('advisers')" }
-  ];
-  let doneCount = checks.filter(x => x.done).length;
-  let pct = Math.round((doneCount / checks.length) * 100);
 
-  return `<div class="db-card">
-    <div class="db-card-header">
-      <div class="db-card-title">${ico('refresh', 'var(--accent)')}<span>Setup Readiness Checklist</span></div>
-      <span class="db-prog-status-badge ${doneCount === checks.length ? 'ready' : 'progress'}">${doneCount}/${checks.length} Steps (${pct}%)</span>
-    </div>
-    <div class="db-readiness-checklist">
-      ${checks.map(c => `
-        <div class="db-check-item ${c.done ? 'done' : 'todo'}" onclick="${c.onclick}">
-          <div class="db-check-status-icon">${c.done ? '✓' : '!'}</div>
-          <div class="db-check-info">
-            <div class="db-check-label">${esc(c.label)}</div>
-            <div class="db-check-hint">${esc(c.hint)}</div>
-          </div>
-          <span class="db-check-count-badge">${c.count}</span>
-        </div>
-      `).join('')}
-    </div>
-  </div>`;
-}
 
 function dashboardProgramsHtml(){
   let programs=sortedPrograms();
@@ -539,7 +506,6 @@ function renderDashboard(){
     ${dashboardMetricsHtml()}
     <div class="db-split-grid">
       <div class="db-main-col" style="display:flex; flex-direction:column; gap:24px;">
-        ${dashboardReadinessHtml()}
         ${dashboardProgramsHtml()}
       </div>
       <div class="db-side-col" style="display:flex; flex-direction:column; gap:24px;">
