@@ -261,9 +261,9 @@
 .obSubjectMatrix th:first-child { border-left: none; width: auto; text-align: left; padding-left: 14px; }
 .obSubjectMatrix td { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); text-align: center; padding: 6px; }
 .obSubjectMatrix tr:last-child td { border-bottom: none; }
-.obSubjectMatrix td.obSubjectCell { border-left: none; text-align: left; padding: 8px 14px; cursor: pointer; transition: background 0.2s; border-left: 3px solid transparent; user-select: none; }
+.obSubjectMatrix td.obSubjectCell { border-left: none; text-align: left; padding: 8px 14px; cursor: pointer; transition: background 0.2s; user-select: none; }
 .obSubjectMatrix tr:hover td.obSubjectCell { background: var(--panel); }
-.obSubjectMatrix tr.active td.obSubjectCell { border-left-color: var(--accent); background: var(--accent-light); }
+.obSubjectMatrix tr.active td.obSubjectCell { background: var(--accent-light); }
 .obSubjectMatrix td.obSubjectCell span { font-size: 12px; font-weight: 700; color: var(--text); }
 .obSubjectMatrix td.obSubjectCell .subIndicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--text-muted2); margin-right: 8px; vertical-align: middle; transition: all 0.2s; }
 .obSubjectMatrix tr.active td.obSubjectCell .subIndicator { background: var(--accent); border-color: var(--accent); }

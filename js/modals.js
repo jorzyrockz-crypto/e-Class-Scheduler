@@ -352,11 +352,39 @@ function selectTeacherColor(color) {
 
 function openTeacherModal(id=''){
   editTeacherId=id;
-  let t=state.teachers.find(x=>x.id===id)||{name:'',position:'',room:'',color:palette[state.teachers.length%palette.length]};
+  let t=state.teachers.find(x=>x.id===id)||{name:'',position:'',room:'',color:palette[state.teachers.length%palette.length],schoolLevel:[],subjectIds:[]};
   teacherModalTitle.textContent=id?'Edit Teacher':'Add Teacher';
   teacherNameInput.value=t.name||'';
   teacherPositionInput.value=t.position||'';
   teacherRoomInput.value=t.room||'';
+  
+  const typeMap = { 'kinder': 'Kindergarten', 'elem': 'Elementary School', 'jhs': 'Junior High School', 'shs': 'Senior High School' };
+  let types = (state.schoolConfig && state.schoolConfig.schoolType) || [];
+  let availLevels = types.length > 0 ? types.map(k => ({ key: k, label: typeMap[k] || k })) : [{ key: 'All', label: 'All Levels' }];
+  
+  let ml = document.getElementById('teacherModalLevels');
+  if(ml) {
+    ml.innerHTML = availLevels.map(l => {
+      let isChecked = t.schoolLevel && t.schoolLevel.includes(l.key);
+      return `<label class="obLevelTag ${isChecked ? 'checked' : ''}">
+        <input type="checkbox" data-level="${l.key}" ${isChecked ? 'checked' : ''} onchange="this.parentElement.classList.toggle('checked', this.checked)">
+        ${l.label}
+      </label>`;
+    }).join('');
+  }
+
+  let ms = document.getElementById('teacherModalSubjects');
+  if(ms) {
+    let subs = state.subjects.filter(s => s.name);
+    ms.innerHTML = subs.length ? subs.map(s => {
+      let isChecked = t.subjectIds && t.subjectIds.includes(s.id);
+      return `<label class="obSubjectTaughtChip ${isChecked ? 'checked' : ''}">
+        <input type="checkbox" data-subjectid="${s.id}" ${isChecked ? 'checked' : ''} onchange="this.parentElement.classList.toggle('checked', this.checked)">
+        ${esc(s.name)}
+      </label>`;
+    }).join('') : '<span class="obSubjectsTaughtEmpty">No subjects found in system.</span>';
+  }
+
   renderTeacherColorChoices(t.color || palette[0]);
   updateTeacherAvatarPreview();
   teacherModal.classList.add('show');
@@ -368,6 +396,13 @@ function saveTeacherProfile(){
   let name=(teacherNameInput.value||'').trim(),position=(teacherPositionInput.value||'').trim(),room=(teacherRoomInput.value||'').trim();
   if(!name){toastMsg('Teacher name is required.');teacherNameInput.focus();return}
   if(!position){toastMsg('Teaching Position is required.');teacherPositionInput.focus();return}
+  
+  let schoolLevel = [];
+  document.querySelectorAll('#teacherModalLevels input:checked').forEach(el => schoolLevel.push(el.dataset.level));
+  
+  let subjectIds = [];
+  document.querySelectorAll('#teacherModalSubjects input:checked').forEach(el => subjectIds.push(el.dataset.subjectid));
+
   if(editTeacherId){
     let t=state.teachers.find(x=>x.id===editTeacherId);
     if(t){
@@ -375,9 +410,11 @@ function saveTeacherProfile(){
       t.position=position;
       t.room=room;
       t.color=selectedTeacherColor;
+      t.schoolLevel=schoolLevel;
+      t.subjectIds=subjectIds;
     }
   } else {
-    state.teachers.push({id:uid('t'),name,position,room,color:selectedTeacherColor});
+    state.teachers.push({id:uid('t'),name,position,room,color:selectedTeacherColor,schoolLevel,subjectIds});
   }
   closeTeacherModal();
   save();

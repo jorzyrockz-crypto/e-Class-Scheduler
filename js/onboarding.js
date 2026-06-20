@@ -801,7 +801,42 @@
         <div class="obTeacherFormPane">
           <div class="obTeacherRowTop">
             <input id="obTFormName" class="obTeacherInput" placeholder="Teacher Name *" maxlength="100">
-            <input id="obTFormPos" class="obTeacherInput" placeholder="Position (e.g. Teacher I)" maxlength="80">
+            <select id="obTFormPos" class="obTeacherInput">
+              <option value="">Select Position...</option>
+              <optgroup label="Teacher">
+                <option value="Teacher I">Teacher I</option>
+                <option value="Teacher II">Teacher II</option>
+                <option value="Teacher III">Teacher III</option>
+                <option value="Teacher IV">Teacher IV</option>
+                <option value="Teacher V">Teacher V</option>
+                <option value="Teacher VI">Teacher VI</option>
+                <option value="Teacher VII">Teacher VII</option>
+              </optgroup>
+              <optgroup label="Master Teacher">
+                <option value="Master Teacher I">Master Teacher I</option>
+                <option value="Master Teacher II">Master Teacher II</option>
+                <option value="Master Teacher III">Master Teacher III</option>
+                <option value="Master Teacher IV">Master Teacher IV</option>
+                <option value="Master Teacher V">Master Teacher V</option>
+              </optgroup>
+              <optgroup label="Special Education (SPED) Teacher">
+                <option value="SPED Teacher I">SPED Teacher I</option>
+                <option value="SPED Teacher II">SPED Teacher II</option>
+                <option value="SPED Teacher III">SPED Teacher III</option>
+                <option value="SPED Teacher IV">SPED Teacher IV</option>
+              </optgroup>
+              <optgroup label="Special Science Teacher">
+                <option value="Special Science Teacher I">Special Science Teacher I</option>
+              </optgroup>
+              <optgroup label="Head Teacher">
+                <option value="Head Teacher I">Head Teacher I</option>
+                <option value="Head Teacher II">Head Teacher II</option>
+                <option value="Head Teacher III">Head Teacher III</option>
+                <option value="Head Teacher IV">Head Teacher IV</option>
+                <option value="Head Teacher V">Head Teacher V</option>
+                <option value="Head Teacher VI">Head Teacher VI</option>
+              </optgroup>
+            </select>
           </div>
           
           <div class="obSubLabel">School Level</div>

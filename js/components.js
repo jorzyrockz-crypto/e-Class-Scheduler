@@ -1,4 +1,4 @@
-function render(){hideContextMenu();menuRegistry={};menuCounter=0;renderHead();renderNav();renderSchedulerRail();renderMetrics();renderFaculty();renderDiag();populateModal();renderContent();applyLayoutMode();hydrateStaticIcons();renderThemeIcon();applySearch();updateUndoRedoButtons();} function applyLayoutMode(){let g=document.querySelector('.grid');g?.classList.toggle('full',activeView!=='scheduler'||!state.activeProgramId);g?.classList.toggle('dashboardView',activeView==='dashboard');g?.classList.toggle('analyticsView',activeView==='analytics');g?.classList.toggle('schedulerView',activeView==='scheduler');document.querySelector('.kpis')?.classList.toggle('hideForAnalytics',activeView==='analytics' || activeView==='dashboard' || activeView==='scheduler');document.querySelector('.shell')?.classList.toggle('schedulerRailMode',activeView==='scheduler');let rail=document.getElementById('schedulerRail');rail?.classList.toggle('visible',activeView==='scheduler');rail?.classList.toggle('collapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed);document.querySelector('.shell')?.classList.toggle('schedulerRailCollapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed)} function formatSchoolYearLabel(sy){sy=String(sy||'').trim();if(!sy)return 'No school year set';return /^S\.?Y\.?/i.test(sy)?sy:'S.Y. '+sy}
+function render(){hideContextMenu();menuRegistry={};menuCounter=0;renderHead();renderNav();renderSchedulerRail();renderMetrics();renderFaculty();renderDiag();populateModal();renderContent();applyLayoutMode();hydrateStaticIcons();renderThemeIcon();applySearch();updateUndoRedoButtons();} function applyLayoutMode(){let g=document.querySelector('.grid');g?.classList.toggle('full',activeView!=='scheduler'||!state.activeProgramId);g?.classList.toggle('dashboardView',activeView==='dashboard');g?.classList.toggle('analyticsView',activeView==='analytics');g?.classList.toggle('reportsView',activeView==='reports');g?.classList.toggle('schedulerView',activeView==='scheduler');document.querySelector('.kpis')?.classList.toggle('hideForAnalytics',activeView==='analytics' || activeView==='dashboard' || activeView==='scheduler' || activeView==='reports');document.querySelector('.shell')?.classList.toggle('schedulerRailMode',activeView==='scheduler');let rail=document.getElementById('schedulerRail');rail?.classList.toggle('visible',activeView==='scheduler');rail?.classList.toggle('collapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed);document.querySelector('.shell')?.classList.toggle('schedulerRailCollapsed',activeView==='scheduler'&&!!state.schedulerRailCollapsed)} function formatSchoolYearLabel(sy){sy=String(sy||'').trim();if(!sy)return 'No school year set';return /^S\.?Y\.?/i.test(sy)?sy:'S.Y. '+sy}
 function toggleSchoolYearDropdown(e){e.stopPropagation();let wrap=document.getElementById('topSchoolYearDropdown'),menu=document.getElementById('topSchoolYearMenu');if(wrap&&menu){let show=menu.classList.toggle('show');wrap.classList.toggle('active',show)}}
 function renderTopSchoolYearDropdown(){let menu=document.getElementById('topSchoolYearMenu'),label=document.getElementById('topSchoolYearLabel');if(!menu||!label)return;let years=availableSchoolYears(),current=currentSchoolYearName();if(!years.includes(current))years.unshift(current);label.textContent=formatSchoolYearLabel(current);let html=years.map(y=>`<button class="topSyMenuItem ${y===current?'active':''}" onclick="handleTopSchoolYearChange('${esc(y)}')">${esc(formatSchoolYearLabel(y))}</button>`).join('');html+=`<button class="topSyMenuItem addMenuBtn" onclick="handleTopSchoolYearChange('__add_new_sy__')">＋ Add New School Year</button>`;menu.innerHTML=html}
 function handleTopSchoolYearChange(value){let wrap=document.getElementById('topSchoolYearDropdown'),menu=document.getElementById('topSchoolYearMenu');if(wrap&&menu){menu.classList.remove('show');wrap.classList.remove('active')}if(value==='__add_new_sy__'){let sy=prompt('Enter new school year, e.g. 2027–2028');if(!sy){renderTopSchoolYearDropdown();return}switchSchoolYear(sy.trim());return}switchSchoolYear(value)}
@@ -117,7 +117,7 @@ function renderSchedulerRail(){
       </div>`;
   }
 }
-function renderNav(){let activeScheduler=activeView==='scheduler';nav.innerHTML=`<button class="nav ${activeView==='dashboard'?'active':''}" onclick="openDashboard()" title="Dashboard">${ico('chart','currentColor')}<span>Dashboard</span></button><button class="nav ${activeScheduler?'active':''}" onclick="openSchedulerHome()" title="Class Scheduler">${ico('calendar','currentColor')}<span>Class Scheduler</span></button><button class="nav ${activeView==='summary'?'active':''}" onclick="openSummaryView()" title="Summary">${ico('chart','currentColor')}<span>Summary</span></button><button class="nav ${activeView==='analytics'?'active':''}" onclick="goAnalytics()" title="Time Check">${ico('clock','currentColor')}<span>Time Check</span></button>`}
+function renderNav(){let activeScheduler=activeView==='scheduler';nav.innerHTML=`<button class="nav ${activeView==='dashboard'?'active':''}" onclick="openDashboard()" title="Dashboard">${ico('chart','currentColor')}<span>Dashboard</span></button><button class="nav ${activeScheduler?'active':''}" onclick="openSchedulerHome()" title="Class Scheduler">${ico('calendar','currentColor')}<span>Class Scheduler</span></button><button class="nav ${activeView==='summary'?'active':''}" onclick="openSummaryView()" title="Summary">${ico('chart','currentColor')}<span>Summary</span></button><button class="nav ${activeView==='analytics'?'active':''}" onclick="goAnalytics()" title="Time Check">${ico('clock','currentColor')}<span>Time Check</span></button><button class="nav ${activeView==='reports'?'active':''}" onclick="openReportsView()" title="Reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg><span>Reports</span></button>`}
 function activeProgram(){return state.programs.find(p=>p.id===state.activeProgramId)||null}
 function scopedClasses(){let p=activeView==='scheduler'?activeProgram():null;return activeView==='scheduler'?(p?state.classes.filter(c=>classBelongsToProgram(c,p)):[]):state.classes}
 function adviserGradeLabel(grade){let secs=state.sections.filter(s=>s.grade===grade);if(!secs.length)return grade;return secs.map(s=>`${grade} - ${s.name}`).join(', ')}
@@ -154,10 +154,10 @@ function renderMetrics(){
   ];
   metrics.innerHTML=data.map(x=>'<div class="card metric '+x.cls+'"><div class="metricIcon">'+ico(x.icon,x.color)+'</div><div class="metricVal">'+x.value+'</div><div class="metricLab">'+x.label+'</div><div class="metricSub">'+x.sub+'</div></div>').join('');
 }
-function renderFaculty(){faculty.innerHTML=loads().length?loads().sort((a,b)=>b.minutes-a.minutes).map(x=>{let c=teacherColor(x.teacher),pos=x.teacher.position?esc(x.teacher.position):'No teaching position set',room=x.teacher.room?` • Room: ${esc(x.teacher.room)}`:'',st=loadStatus(x.minutes);let pill=`<button type="button" class="workloadStatusPill status-${st.kind}" onclick="event.stopPropagation();openSummaryForStatus('${st.kind}')" title="Open Teaching Load Summary filtered by ${st.label}">${st.label}</button>`;return`<div class="teacher compact ${selectedTeacher===x.teacher.id?'active':''}" data-status="${st.kind}" draggable="true" ondragstart="dragTeacher(event,'${x.teacher.id}')" onclick="selectedTeacher='${x.teacher.id}';render()" title="Drag this teacher to an empty schedule cell to add a scheduled subject"><div class="avatar" style="background:${c}">${initials(x.teacher.name)}</div><div class="teacherInfo"><div class="teacherTop"><div class="teacherName">${esc(x.teacher.name)}</div>${pill}</div><div class="teacherMeta"><div class="teacherDetails"><span class="dot" style="background:${c}"></span>${pos}${room}</div><button class="btn teacherEditBtn" onclick="event.stopPropagation();editTeacherProfile('${x.teacher.id}')" title="Edit teacher profile">Edit</button></div></div></div>`}).join(''):'<div class="emptyState">'+ico('users')+'<h3>No teachers added</h3><p>Start by adding your teaching staff.</p><button class="btn primary" onclick="openSettingsModal();settingsTab(\'teachers\');openTeacherModal()">Add Teacher</button></div>'}
+function renderFaculty(){faculty.innerHTML=loads().length?loads().sort((a,b)=>b.minutes-a.minutes).map(x=>{let c=teacherColor(x.teacher),pos=x.teacher.position?esc(x.teacher.position):'No teaching position set',room=x.teacher.room?` • Room: ${esc(x.teacher.room)}`:'',st=loadStatus(x.minutes);let pill=`<button type="button" class="workloadStatusPill status-${st.kind}" onclick="event.stopPropagation();openSummaryForStatus('${st.kind}')" title="Open Teaching Load Summary filtered by ${st.label}">${st.label}</button>`;return`<div class="teacher compact ${selectedTeacher===x.teacher.id?'active':''}" data-status="${st.kind}" draggable="true" ondragstart="dragTeacher(event,'${x.teacher.id}')" onclick="selectedTeacher='${x.teacher.id}';render()" title="Drag this teacher to an empty schedule cell to add a scheduled subject"><div class="teacherInfo" style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;"><div style="display:flex; gap:8px;"><span class="dot" style="background:${c}; margin-top:5px; flex-shrink:0; width:10px; height:10px; box-shadow:none;"></span><div style="display:flex; flex-direction:column; gap:4px;"><div class="teacherName" style="text-transform:uppercase; font-size:12.5px; font-weight:900; white-space:normal; line-height:1.2;">${esc(x.teacher.name)}</div><div style="display:flex; align-items:center;">${pill}</div></div></div><button class="btn btn-icon" style="padding:0; height:auto; color:var(--text-muted2); border:none; background:transparent;" onclick="event.stopPropagation();editTeacherProfile('${x.teacher.id}')" title="Edit teacher profile">${ico('chevron-down')}</button></div></div>`}).join(''):'<div class="emptyState">'+ico('users')+'<h3>No teachers added</h3><p>Start by adding your teaching staff.</p><button class="btn primary" onclick="openSettingsModal();settingsTab(\'teachers\');openTeacherModal()">Add Teacher</button></div>'}
 function openSummaryForStatus(kind){summaryStatus=kind||'all';activeView='summary';state.activeTab='summary';save()}
 function clearTeacher(){selectedTeacher='';search.value='';render()} function renderDiag(){let d=diag();let issues=d.conflicts;if(issues.length){let msg=issues.some(c=>c.setupIssue)?`${issues.length} setup issue(s) and conflict(s) detected.`:`${issues.length} conflict(s) detected.`;diagnostics.innerHTML=`<div class="alert badbg"><b>${msg}</b><br>${issues.slice(0,4).map(conflictJumpButton).join('<br>')}</div>`}else{diagnostics.innerHTML=`<div class="alert ok">Schedule is healthy and ready.</div>`}}
-function groupForView(){return activeView==='master_kinder'?'kinder':activeView==='master_g12'?'g12':'g36'} function gradesForGroup(g){return g==='kinder'?['Kindergarten']:g==='g12'?['Grade 1','Grade 2']:['Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10']} function slotsForGroup(g){g=normGroup(g);return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&!ts.programId).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function slotsForProgram(p){let g=normGroup(p?.group||'g36'),pid=p?.id||'';return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&(!ts.programId||ts.programId===pid)).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function renderContent(){if(activeView==='dashboard')return renderDashboard();if(activeView==='summary')return renderSummary();if(activeView==='analytics')return renderAnalytics();if(activeView==='scheduler')return renderScheduler();renderMatrix(groupForView())}
+function groupForView(){return activeView==='master_kinder'?'kinder':activeView==='master_g12'?'g12':'g36'} function gradesForGroup(g){return g==='kinder'?['Kindergarten']:g==='g12'?['Grade 1','Grade 2']:['Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10']} function slotsForGroup(g){g=normGroup(g);return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&!ts.programId).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function slotsForProgram(p){let g=normGroup(p?.group||'g36'),pid=p?.id||'';return state.timeSlots.filter(ts=>(normGroup(ts.group)==='all'||normGroup(ts.group)===g)&&(!ts.programId||ts.programId===pid)).sort((a,b)=>(a.start||'').localeCompare(b.start||''))} function renderContent(){if(activeView==='dashboard')return renderDashboard();if(activeView==='summary')return renderSummary();if(activeView==='analytics')return renderAnalytics();if(activeView==='scheduler')return renderScheduler();if(activeView==='reports')return renderReports();renderMatrix(groupForView())}
 function safePct(n,d){return d>0?Math.round((n/d)*100):0}
 function analyticsStars(score){let filled=score>=90?5:score>=75?4:score>=50?3:score>=25?2:score>0?1:0;return '★'.repeat(filled)+'☆'.repeat(5-filled)}
 function analyticsStatusText(score){if(score>=90)return'Ready for Opening of Classes';if(score>=75)return'Nearly Ready';if(score>=50)return'Needs Review';if(score>0)return'Major Setup Needed';return'No Scheduling Data Yet'}
@@ -577,3 +577,134 @@ function openProgram(id){state.activeProgramId=id;state.schedulerExpanded=true;a
 function backToPrograms(){state.activeProgramId='';state.schedulerExpanded=true; if (window.innerWidth > 1024) document.getElementById('sidebar')?.classList.remove('collapsed'); save()}
 function defaultGroupForGrade(g){if(g==='Kindergarten')return 'kinder';if(['Grade 1','Grade 2'].includes(g))return 'g12';return 'g36'}
 window.toggleWorkload = function() { document.body.classList.toggle('drawer-open'); };
+
+function openReportsView() {
+  activeView = 'reports';
+  state.activeTab = 'reports';
+  save();
+}
+
+function renderReports() {
+  viewTitle.textContent = 'Reports & Exports';
+  viewSub.textContent = 'Select a report to generate and print individually.';
+  
+  let html = `
+    <style>
+      @media print {
+        #reportsMenu { display: none !important; }
+        #reportContainer { border: none !important; margin: 0 !important; padding: 0 !important; }
+        #reportPreview { border: none !important; padding: 0 !important; }
+        #reportTitle, #reportContainer > div:first-child { display: none !important; }
+      }
+    </style>
+    <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+      <div id="reportsMenu" style="background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; text-align: center; margin-bottom: 24px;">
+        <div style="display:flex; justify-content:center; align-items:center; margin-bottom: 16px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="48" height="48">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <h2 style="margin: 0 0 8px; font-size: 24px;">Printable Reports</h2>
+        <p style="color: var(--text-muted); margin-bottom: 32px; font-size: 15px;">Generate print-ready data reports for your school.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; text-align: left;">
+          <button class="btn" style="padding: 20px; height: auto; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);" onclick="generateReport('summary')">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; color: var(--text);">${ico('chart', 'var(--text)')} School Summary</div>
+            <div style="font-size: 13px; color: var(--text-muted); font-weight: normal; white-space: normal; line-height: 1.4;">School statistics, teacher load overview, and completion rates.</div>
+          </button>
+          
+          <button class="btn" style="padding: 20px; height: auto; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);" onclick="generateReport('teacher')">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; color: var(--text);">${ico('users', 'var(--text)')} Teacher Workload</div>
+            <div style="font-size: 13px; color: var(--text-muted); font-weight: normal; white-space: normal; line-height: 1.4;">A comprehensive table of all teaching loads and advisory assignments.</div>
+          </button>
+        </div>
+      </div>
+      
+      <div id="reportContainer" style="display: none; flex-direction: column; gap: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg); padding: 12px 16px; border-radius: var(--radius); border: 1px solid var(--line);">
+          <div id="reportTitle" style="font-weight: 600; font-size: 15px;">Generated Report</div>
+          <button class="btn primary" onclick="window.print()">${ico('document', '#fff')} Print Report</button>
+        </div>
+        <div id="reportPreview" style="padding: 40px; border-radius: var(--radius); border: 1px solid var(--line); min-height: 500px; background: #fff; color: #000; overflow-x: auto;">
+          <!-- Report content injected here -->
+        </div>
+      </div>
+    </div>
+  `;
+  content.innerHTML = html;
+}
+
+window.generateReport = function(type) {
+  let container = document.getElementById('reportContainer');
+  let preview = document.getElementById('reportPreview');
+  let title = document.getElementById('reportTitle');
+  if(!container || !preview) return;
+  
+  container.style.display = 'flex';
+  
+  const tableStyle = 'width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 12px; text-align: left; margin-bottom: 24px;';
+  const thStyle = 'border: 1px solid #000; padding: 8px; background-color: #f3f4f6; font-weight: bold; color: #000;';
+  const tdStyle = 'border: 1px solid #000; padding: 8px; color: #000;';
+  
+  if (type === 'teacher') {
+    title.textContent = 'Teacher Workload Report';
+    let rows = loads().sort((a,b)=>b.minutes-a.minutes);
+    
+    let html = `<h1 style="font-size: 24px; font-weight: bold; margin-bottom: 4px; color: #000; text-align: center;">${state.schoolConfig?.schoolName || 'School Name'}</h1>
+      <h2 style="font-size: 18px; font-weight: normal; margin-bottom: 24px; color: #333; text-align: center;">Teacher Workload Report ${state.activeSchoolYear ? '— S.Y. ' + state.activeSchoolYear : ''}</h2>
+      
+      <table style="${tableStyle}">
+        <thead>
+          <tr>
+            <th style="${thStyle}">Teacher Name</th>
+            <th style="${thStyle}">Position</th>
+            <th style="${thStyle}">Scheduled Minutes</th>
+            <th style="${thStyle}">Advisory Minutes</th>
+            <th style="${thStyle}">Total Load (Minutes)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(r => `
+            <tr>
+              <td style="${tdStyle}"><strong>${esc(r.teacher.name)}</strong></td>
+              <td style="${tdStyle}">${esc(r.teacher.position || '-')}</td>
+              <td style="${tdStyle}">${r.scheduledMinutes}</td>
+              <td style="${tdStyle}">${r.adviserMinutes > 0 ? r.adviserMinutes : '-'}</td>
+              <td style="${tdStyle}"><strong>${r.minutes}</strong></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    preview.innerHTML = html;
+    
+  } else if (type === 'summary') {
+    title.textContent = 'School Summary Report';
+    let summaryHtml = `<h1 style="font-size: 24px; font-weight: bold; margin-bottom: 4px; color: #000; text-align: center;">${state.schoolConfig?.schoolName || 'School Name'}</h1>
+      <h2 style="font-size: 18px; font-weight: normal; margin-bottom: 24px; color: #333; text-align: center;">School Master Summary ${state.activeSchoolYear ? '— S.Y. ' + state.activeSchoolYear : ''}</h2>
+      
+      <div style="display: flex; gap: 20px; margin-bottom: 24px;">
+        <div style="flex: 1; border: 1px solid #000; padding: 16px;">
+          <h3 style="margin-top: 0; font-size: 14px; margin-bottom: 8px;">Total Teachers</h3>
+          <p style="font-size: 24px; font-weight: bold; margin: 0;">${state.teachers.length}</p>
+        </div>
+        <div style="flex: 1; border: 1px solid #000; padding: 16px;">
+          <h3 style="margin-top: 0; font-size: 14px; margin-bottom: 8px;">Total Programs</h3>
+          <p style="font-size: 24px; font-weight: bold; margin: 0;">${state.programs.length}</p>
+        </div>
+        <div style="flex: 1; border: 1px solid #000; padding: 16px;">
+          <h3 style="margin-top: 0; font-size: 14px; margin-bottom: 8px;">Subjects Scheduled</h3>
+          <p style="font-size: 24px; font-weight: bold; margin: 0;">${state.classes.length}</p>
+        </div>
+      </div>
+      
+      <p style="font-size: 12px; color: #666;">For a detailed breakdown of Class Programs, Time Matrices, and Diagnostics, please navigate to their respective views and print them directly.</p>
+    `;
+    
+    preview.innerHTML = summaryHtml;
+  }
+};

@@ -1,6 +1,17 @@
-const APP_VERSION = "1.8.0";
+const APP_VERSION = "1.9.0";
 
 const CHANGELOG = [
+  {
+    version: "1.9.0",
+    date: "June 21, 2026",
+    changes: [
+      { type: "New", text: "Introduced a dedicated Reports module in the sidebar, replacing the top-bar export button with a centralized hub for all printable reports." },
+      { type: "Improved", text: "Redesigned the Teacher Workload UI, removing large avatars in favor of a sleek, compact chip-based layout." },
+      { type: "Improved", text: "Overhauled the Teacher Settings Modal to use interactive chip-selection for Grade Levels and Subject Specializations instead of text inputs." },
+      { type: "Improved", text: "Updated the Onboarding Wizard to use standardized dropdown menus for position and grade level selections." },
+      { type: "Improved", text: "Streamlined application-wide styling by removing heavy left-borders for a flatter, more modern aesthetic." }
+    ]
+  },
   {
     version: "1.8.0",
     date: "June 21, 2026",
