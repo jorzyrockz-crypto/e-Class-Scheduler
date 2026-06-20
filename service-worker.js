@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'e-class-scheduler-';
-const CACHE_NAME = `${CACHE_PREFIX}v1.6.10-r2`;
+const CACHE_NAME = `${CACHE_PREFIX}v1.6.13`;
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

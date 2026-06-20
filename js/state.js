@@ -25,13 +25,32 @@ function applyTheme(themeName, isDark) {
 }
 
 function applyLogoColorsToTheme(themeName) {
+  document.documentElement.style.removeProperty('--accent');
+  document.documentElement.style.removeProperty('--accent-hover');
+
   if (themeName === 'light') {
     if (typeof state !== 'undefined' && state.schoolConfig && state.schoolConfig.logoAccentColor) {
-      document.documentElement.style.setProperty('--accent', state.schoolConfig.logoAccentColor);
-      document.documentElement.style.setProperty('--accent-hover', state.schoolConfig.logoAccentColor);
+      const isDark = localStorage.getItem('appDarkMode') === 'true';
+      if (typeof adjustColorForTheme === 'function') {
+        const adjusted = adjustColorForTheme(state.schoolConfig.logoAccentColor, isDark);
+        if (adjusted) {
+          document.body.style.setProperty('--accent', adjusted.accent);
+          document.body.style.setProperty('--accent-hover', adjusted.accentHover);
+          document.body.style.setProperty('--accent-light', adjusted.accentLight);
+          document.body.style.setProperty('--accent-glow', adjusted.accentGlow);
+          return;
+        }
+      }
+      document.body.style.setProperty('--accent', state.schoolConfig.logoAccentColor);
+      document.body.style.setProperty('--accent-hover', state.schoolConfig.logoAccentColor);
+      document.body.style.removeProperty('--accent-light');
+      document.body.style.removeProperty('--accent-glow');
     }
   } else {
-    document.documentElement.style.removeProperty('--accent');
+    document.body.style.removeProperty('--accent');
+    document.body.style.removeProperty('--accent-hover');
+    document.body.style.removeProperty('--accent-light');
+    document.body.style.removeProperty('--accent-glow');
   }
 }
 

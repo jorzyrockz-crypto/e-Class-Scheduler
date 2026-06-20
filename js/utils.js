@@ -148,3 +148,89 @@ function extractDominantColor(dataUrl, callback) {
   };
   img.src = dataUrl;
 }
+
+function adjustColorForTheme(rgbStr, isDark) {
+  const match = rgbStr.match(/\d+/g);
+  if (!match || match.length < 3) return null;
+  const r = parseInt(match[0]);
+  const g = parseInt(match[1]);
+  const b = parseInt(match[2]);
+
+  let rNorm = r / 255, gNorm = g / 255, bNorm = b / 255;
+  const max = Math.max(rNorm, gNorm, bNorm), min = Math.min(rNorm, gNorm, bNorm);
+  let h, s, l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0;
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case rNorm: h = (gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0); break;
+      case gNorm: h = (bNorm - rNorm) / d + 2; break;
+      case bNorm: h = (rNorm - gNorm) / d + 4; break;
+    }
+    h /= 6;
+  }
+  h *= 360;
+  s *= 100;
+  l *= 100;
+
+  let finalH = h;
+  let finalS = s;
+  let finalL = l;
+  let hoverL;
+  let lightAlpha = 0.06;
+  let glowAlpha = 0.15;
+
+  if (isDark) {
+    if (finalL < 65) finalL = 65;
+    if (finalS < 60) finalS = 60;
+    hoverL = Math.min(finalL + 10, 100);
+    lightAlpha = 0.15;
+    glowAlpha = 0.3;
+  } else {
+    if (finalL > 45) finalL = 45;
+    hoverL = Math.max(finalL - 10, 0);
+    lightAlpha = 0.06;
+    glowAlpha = 0.15;
+  }
+
+  const hslToRgb = (hVal, sVal, lVal, alpha) => {
+    let hNorm = hVal / 360;
+    let sNorm = sVal / 100;
+    let lNorm = lVal / 100;
+    let rVal, gVal, bVal;
+    if (sNorm === 0) {
+      rVal = gVal = bVal = lNorm;
+    } else {
+      const hue2rgb = (p, q, t) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+      };
+      const q = lNorm < 0.5 ? lNorm * (1 + sNorm) : lNorm + sNorm - lNorm * sNorm;
+      const p = 2 * lNorm - q;
+      rVal = hue2rgb(p, q, hNorm + 1/3);
+      gVal = hue2rgb(p, q, hNorm);
+      bVal = hue2rgb(p, q, hNorm - 1/3);
+    }
+    const rRound = Math.round(rVal * 255);
+    const gRound = Math.round(gVal * 255);
+    const bRound = Math.round(bVal * 255);
+    if (alpha !== undefined) {
+      return `rgba(${rRound}, ${gRound}, ${bRound}, ${alpha})`;
+    }
+    return `rgb(${rRound}, ${gRound}, ${bRound})`;
+  };
+
+  return {
+    accent: hslToRgb(finalH, finalS, finalL),
+    accentHover: hslToRgb(finalH, finalS, hoverL),
+    accentLight: hslToRgb(finalH, finalS, finalL, lightAlpha),
+    accentGlow: hslToRgb(finalH, finalS, finalL, glowAlpha)
+  };
+}

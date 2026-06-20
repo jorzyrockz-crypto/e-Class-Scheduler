@@ -1,6 +1,27 @@
-const APP_VERSION = "1.6.10";
+const APP_VERSION = "1.6.13";
 
 const CHANGELOG = [
+  {
+    version: "1.6.13",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Improved", text: "Enhanced the image cropping tool! Added a circular guide overlay for framing circular logos, expanded touch target handles to 40px for mobile devices, and fixed an alignment bug for non-square images." }
+    ]
+  },
+  {
+    version: "1.6.12",
+    date: "June 20, 2026",
+    changes: [
+      { type: "New", text: "Integrated the uploaded school logo's accent color into Dark Mode! The color is now dynamically adapted using HSL space to ensure high contrast and legibility under both Light and Dark themes." }
+    ]
+  },
+  {
+    version: "1.6.11",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Improved", text: "Cleaned up the codebase by removing obsolete, unused scratch files and stylesheets from the root directory." }
+    ]
+  },
   {
     version: "1.6.10",
     date: "June 20, 2026",
