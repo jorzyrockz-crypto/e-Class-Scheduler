@@ -1,4 +1,4 @@
-const CACHE_NAME = 'e-class-scheduler-v1.6.1';
+const CACHE_NAME = 'e-class-scheduler-v1.6.7';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -17,6 +17,7 @@ const ASSETS_TO_CACHE = [
 
 // Install Event - Cache Core Assets
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[Service Worker] Caching App Shell');
@@ -81,3 +82,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+

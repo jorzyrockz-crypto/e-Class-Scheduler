@@ -56,12 +56,9 @@
   /* ── Should run? ────────────────────────────────── */
   function shouldRun() {
     if (typeof state === 'undefined') return false;
-    if (state.onboardingComplete) return false;
-    const hasData = (state.teachers && state.teachers.length > 0) ||
-                    (state.subjects && state.subjects.length > 0 && state.defaultSubjectsInitialized === false) ||
-                    (state.programs && state.programs.length > 0) ||
-                    (state.schoolConfig && state.schoolConfig.schoolName && state.schoolConfig.schoolName.trim() !== '');
-    return !hasData;
+    // Show the wizard whenever onboardingComplete is not explicitly true.
+    // This ensures a refresh mid-wizard still shows the wizard.
+    return state.onboardingComplete !== true;
   }
 
   /* ── Public entry point ─────────────────────────── */

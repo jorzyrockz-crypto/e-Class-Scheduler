@@ -1,6 +1,36 @@
-const APP_VERSION = "1.6.0";
+const APP_VERSION = "1.6.7";
 
 const CHANGELOG = [
+  {
+    version: "1.6.7",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Removed", text: "Removed the 'Time Slot Group' dropdown from the Add/Edit Class Program modal. Time slots are now fully managed from the schedule matrix directly." }
+    ]
+  },
+  {
+    version: "1.6.6",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Fixed", text: "After resetting to blank, the header no longer shows the old school name, division, or district. It now correctly shows generic placeholder text." }
+    ]
+  },
+  {
+    version: "1.6.5",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Fixed", text: "Refreshing the page mid-onboarding now correctly keeps you in the Onboarding Wizard instead of jumping to the main UI." },
+      { type: "Fixed", text: "Reset to Blank now fully wipes all historical school year snapshots so the Onboarding Wizard reliably opens after a reset." }
+    ]
+  },
+  {
+    version: "1.6.2",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Fixed", text: "Fixed infinite loop bug where the Check for Updates modal would continuously pop up even after applying the update." },
+      { type: "Fixed", text: "Fixed an issue where resetting the app to blank would not immediately trigger the Onboarding Wizard popup." }
+    ]
+  },
   {
     version: "1.6.0",
     date: "June 20, 2026",
@@ -66,7 +96,12 @@ function checkVersionAndChangelog() {
     // Don't interrupt onboarding with the changelog
     if (!obActive || obActive.classList.contains('hidden')) {
       setTimeout(() => {
-        if (typeof checkForUpdatesFlow === 'function') checkForUpdatesFlow();
+        if (sessionStorage.getItem('justUpdated') === 'true') {
+          sessionStorage.removeItem('justUpdated');
+          if (typeof openWhatsNewModal === 'function') openWhatsNewModal();
+        } else {
+          if (typeof checkForUpdatesFlow === 'function') checkForUpdatesFlow();
+        }
       }, 600);
     }
   }
@@ -84,15 +119,5 @@ setTimeout(() => {
   upgradeSelectsToCustomDropdowns();
 }, 200);
 // --- End Custom Select ---
-function openExportModal() { document.getElementById('exportModal').style.display='flex'; }
-function closeExportModal() { document.getElementById('exportModal').style.display='none'; }
-function exportTeacherLoad() {
-  document.getElementById('nav-summary').click();
-  setTimeout(() => window.print(), 300);
-}
-function exportConsolidated() {
-  alert('To print consolidated programs, ensure you are in the All Programs view before printing.');
-  window.print();
-}
 
 
