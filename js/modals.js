@@ -8,6 +8,14 @@ function classBelongsToProgram(c,p){if(!p)return false;if(c.programId)return c.p
 function programScheduledCount(p){return state.classes.filter(c=>classBelongsToProgram(c,p)).length}
 function deleteProgram(id){let p=state.programs.find(x=>x.id===id),count=programScheduledCount(p);askConfirm('Delete class program',`This will delete the class program setup and ${count} scheduled subject(s) connected to it. Teacher workload will be updated automatically. Continue?`,()=>{state.programs=state.programs.filter(x=>x.id!==id);normalizeProgramOrder();state.classes=state.classes.filter(c=>!classBelongsToProgram(c,p));if(state.activeProgramId===id)state.activeProgramId='';toastMsg('Class program and connected scheduled subjects deleted.');save()})}
 function columnsForProgram(p){if(p.useSections){let secs=(p.sectionIds&&p.sectionIds.length?state.sections.filter(s=>p.sectionIds.includes(s.id)):state.sections.filter(s=>p.grades.includes(s.grade)));return secs.map(s=>({label:`${s.grade} - ${s.name}`,grade:s.grade,sectionId:s.id}))}return (p.grades||[]).map(g=>({label:g,grade:g,sectionId:''}))}
+function matrixTh(label, name) {
+  name = name && !name.includes('undefined') ? name.replace(/^Adviser:\s*/, '') : '';
+  if (!name || name === 'No adviser set') {
+    return `<th><div class="thGrade">${esc(label)}</div><div class="thAdviser empty">Adviser: NONE</div></th>`;
+  }
+  return `<th><div class="thGrade">${esc(label)}</div><div class="thAdviser">Adviser: ${esc(name)}</div></th>`;
+}
+
 function renderProgramMatrix(p){
   p.group=normGroup(p.group||'g36');
   if(!slotsForProgram(p).length)ensureGroupDefaults(p.group);
@@ -63,16 +71,11 @@ function renderProgramMatrix(p){
           </div>
         </div>
       </div>
-      ${adviserElements?`
-        <div class="schedulerHeaderAdvisers">
-          <div class="schedulerAdvisersTitle">Advisory Assignments</div>
-          <div class="schedulerAdvisersList">${adviserElements}</div>
-        </div>`:''}
     </div>`;
   
-  let html=`${inlineDiagnostics()}${headerCardHtml}<table><thead><tr><th class="timecol">Time</th>${cols.map(c=>`<th>${esc(c.label)}<div class="muted" style="text-transform:none;letter-spacing:0;margin-top:4px">${esc(adviserForColumn(p,c.grade,c.sectionId)||'No adviser set')}</div></th>`).join('')}</tr></thead><tbody>`;
+  let html=`${inlineDiagnostics()}${headerCardHtml}<table><thead><tr><th class="timecol"><div class="thTime">TIME SLOT</div></th><th class="minscol"><div class="thTime">MINS</div></th>${cols.map(c=>matrixTh(c.label, adviserForColumn(p,c.grade,c.sectionId))).join('')}</tr></thead><tbody>`;
   slots.forEach(ts=>{
-    html+=`<tr><td class="timecol"><div class="timeCell">${timeCell(ts,p.group||'g36',p.id)}</div></td>`;
+    html+=`<tr><td class="timecol"><div class="timeCell">${timeCell(ts,p.group||'g36',p.id)}</div></td><td class="minscol"><div class="minsCell">${ts.mins||0}m</div></td>`;
     if(ts.type==='universal')html+=`<td colspan="${cols.length}">${universalActivityHtml(ts.label)}</td>`;
     else cols.forEach(col=>{
       let items=state.classes.filter(c=>classBelongsToProgram(c,p)&&c.grade===col.grade&&c.timeSlotId===ts.id&&(!c.day||c.day==='master')&&(p.useSections?(c.sectionId||'')===col.sectionId:true));
@@ -97,9 +100,9 @@ function renderMatrix(g){
     content.innerHTML=`<div class="empty">No time slots yet. Click <b>Add Time Slot</b> to start building the timetable, or use <b>Import Backup</b>.</div>`;
     return;
   }
-  let html=`<table><thead><tr><th class="timecol">Time</th>${grades.map(gr=>`<th>${esc(gr)}<div class="muted" style="text-transform:none;letter-spacing:0;margin-top:4px">Adviser: ${esc(get(state.teachers,state.advisers[gr]).name)}</div></th>`).join('')}</tr></thead><tbody>`;
+  let html=`<table><thead><tr><th class="timecol"><div class="thTime">TIME SLOT</div></th><th class="minscol"><div class="thTime">MINS</div></th>${grades.map(gr=>matrixTh(gr, get(state.teachers,state.advisers[gr])?.name)).join('')}</tr></thead><tbody>`;
   slots.forEach(ts=>{
-    html+=`<tr><td class="timecol"><div class="timeCell">${timeCell(ts,g)}</div></td>`;
+    html+=`<tr><td class="timecol"><div class="timeCell">${timeCell(ts,g)}</div></td><td class="minscol"><div class="minsCell">${ts.mins||0}m</div></td>`;
     if(ts.type==='universal')html+=`<td colspan="${grades.length}">${universalActivityHtml(ts.label)}</td>`;
     else grades.forEach(gr=>{
       let items=state.classes.filter(c=>c.grade===gr&&c.timeSlotId===ts.id&&(!c.day||c.day==='master'));
@@ -113,31 +116,59 @@ function renderMatrix(g){
   content.innerHTML=html+'</tbody></table>';
   applySearch();
 }
-function timeCell(ts,g,programId=''){let items=[{label:'Edit time slot',action:()=>openSlotModal(ts.id)},{label:'Add row below',action:()=>addSlotAfter(ts.id,g,programId)},{label:'Delete row',danger:true,action:()=>deleteSlot(ts.id,g)}];return `<div class="timeLine"><div><div class="timeTitle">${to12(ts.start)}–${to12(ts.end)}</div><div class="timeMeta">${ts.mins} min · ${esc(ts.type)}</div></div>${menuButton(items)}</div>`}
+function timeCell(ts,g,programId=''){let items=[{label:'Edit time slot',action:()=>openSlotModal(ts.id)},{label:'Add row below',action:()=>addSlotAfter(ts.id,g,programId)},{label:'Delete row',danger:true,action:()=>deleteSlot(ts.id,g)}];return `<div class="timeLine"><div class="timeTitle">${to12(ts.start)} - ${to12(ts.end)}</div>${menuButton(items)}</div>`}
 function openSlotModal(id){let ts=state.timeSlots.find(x=>x.id===id);if(!ts)return;editSlotId=id;slotStart.value=ts.start||'07:30';slotMins.value=ts.mins||40;slotLabel.value=ts.label||'';slotType.value=ts.type||'academic';slotGroup.value=normGroup(ts.group||'g36');updateSlotEndPreview();slotModal.classList.add('show')}
 function slotSequenceForCascade(ts){let p=ts.programId?state.programs.find(x=>x.id===ts.programId):null,seq=p?slotsForProgram(p):slotsForGroup(normGroup(ts.group||'g36'));let indexMap=new Map(state.timeSlots.map((x,i)=>[x.id,i]));return seq.slice().sort((a,b)=>(a.start||'').localeCompare(b.start||'')||(indexMap.get(a.id)||0)-(indexMap.get(b.id)||0))}
 function cascadeFollowingSlots(slotId){let ts=state.timeSlots.find(x=>x.id===slotId);if(!ts)return;let seq=slotSequenceForCascade(ts),idx=seq.findIndex(x=>x.id===slotId);if(idx<0)return;seq[idx].end=addMins(seq[idx].start||'07:30',Number(seq[idx].mins)||0);for(let i=idx+1;i<seq.length;i++){seq[i].start=seq[i-1].end;seq[i].end=addMins(seq[i].start,Number(seq[i].mins)||0)}} function closeSlotModal(){slotModal.classList.remove('show');editSlotId=null} function updateSlotEndPreview(){let end=addMins(slotStart.value||'07:30',Number(slotMins.value)||0);if(typeof slotEndPreview!=='undefined'&&slotEndPreview)slotEndPreview.textContent=`Auto end time: ${to12(end)}`} function saveSlotEdit(){let ts=state.timeSlots.find(x=>x.id===editSlotId);if(!ts)return closeSlotModal();let m=Number(slotMins.value)||40;ts.start=slotStart.value||'07:30';ts.mins=m;ts.end=addMins(ts.start,m);ts.label=slotLabel.value||'';ts.type=slotType.value||'academic';ts.group=normGroup(slotGroup.value||'g36');cascadeFollowingSlots(ts.id);closeSlotModal();toastMsg('Time slot updated. Following time slots auto-adjusted.');save()} function addSlotAfter(id,g,programId=''){g=normGroup(g);let p=programId?state.programs.find(x=>x.id===programId):null,seq=p?slotsForProgram(p):slotsForGroup(g),idx=seq.findIndex(x=>x.id===id),base=seq[idx]||seq.at(-1),m=40,start=base?base.end:defaultStartForGroup(g),slot={id:uid('ts'),start,mins:m,end:addMins(start,m),label:'',type:'academic',group:g,programId:programId||''};let real=state.timeSlots.findIndex(x=>x.id===id);if(real>=0)state.timeSlots.splice(real+1,0,slot);else state.timeSlots.push(slot);cascadeFollowingSlots(slot.id);toastMsg('Time slot added and following time slots auto-adjusted.');save()} function addSlotAtEnd(g,programId=''){g=normGroup(g);let p=programId?state.programs.find(x=>x.id===programId):null,seq=p?slotsForProgram(p):slotsForGroup(g),last=seq.at(-1),start=last?last.end:defaultStartForGroup(g),m=40;state.timeSlots.push({id:uid('ts'),start,mins:m,end:addMins(start,m),label:'',type:'academic',group:g,programId:programId||''});if(p)p.group=g;toastMsg(programId?'Time slot added to this class program.':'Time slot added.');save()} function deleteSlot(id,g){askConfirm('Delete time slot','Classes assigned to this time slot will also be cleared.',()=>{state.timeSlots=state.timeSlots.filter(x=>x.id!==id);state.classes=state.classes.filter(c=>c.timeSlotId!==id);save()})}
-function getSubjectColor(name) { let n = (name || '').toLowerCase(); if (n.includes('english')) return '#3b82f6'; if (n.includes('filipino')) return '#06b6d4'; if (n.includes('math')) return '#10b981'; if (n.includes('science')) return '#8b5cf6'; if (n.includes('ap') || n.includes('araling panlipunan')) return '#f97316'; if (n.includes('mapeh')) return '#ec4899'; if (n.includes('esp') || n.includes('edukasyon sa pagpapakatao')) return '#eab308'; if (n.includes('homeroom')) return '#64748b'; return '#94a3b8'; }
+function getSubjectColor(name) { 
+  let n = (name || '').toLowerCase(); 
+  if (n.includes('english')) return '#3b82f6'; 
+  if (n.includes('filipino')) return '#06b6d4'; 
+  if (n.includes('math')) return '#10b981'; 
+  if (n.includes('science')) return '#8b5cf6'; 
+  if (n.includes('ap') || n.includes('araling panlipunan')) return '#f97316'; 
+  if (n.includes('mapeh')) return '#ec4899'; 
+  if (n.includes('esp') || n.includes('edukasyon sa pagpapakatao')) return '#eab308'; 
+  if (n.includes('homeroom')) return '#64748b'; 
+  
+  // Assign a deterministic unique vibrant color to custom subjects (excluding colors already used by core subjects)
+  let vibrantPalette = ['#ef4444', '#6366f1', '#14b8a6', '#84cc16', '#f43f5e', '#0ea5e9', '#d946ef', '#b45309', '#be123c', '#4338ca'];
+  
+  // Get all custom subjects to assign them unique colors
+  let customSubjects = Array.from(new Set(
+    (typeof state !== 'undefined' && state.subjects ? state.subjects : [])
+      .map(s => (s.name || '').trim())
+      .filter(sName => {
+        let ln = sName.toLowerCase();
+        return !(ln.includes('english') || ln.includes('filipino') || ln.includes('math') || ln.includes('science') || ln.includes('ap') || ln.includes('araling panlipunan') || ln.includes('mapeh') || ln.includes('esp') || ln.includes('edukasyon sa pagpapakatao') || ln.includes('homeroom'));
+      })
+  )).sort();
+  
+  let idx = customSubjects.findIndex(s => s.toLowerCase() === n);
+  if (idx === -1) {
+    // Fallback if not found in state
+    idx = Array.from(name || '').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  }
+  return vibrantPalette[idx % vibrantPalette.length];
+}
 function block(c,slotId,grade,sectionId=''){
   let sub=get(state.subjects,c.subjectId),tea=get(state.teachers,c.teacherId),ts=get(state.timeSlots,c.timeSlotId),tc=teacherColor(tea),sc=getSubjectColor(sub.name),muted=selectedTeacher&&selectedTeacher!==c.teacherId?'opacity:.25':'';
-  let init=initials(tea.name)||'--';
-  let roomLabel=c.room||tea.room?`Room: ${esc(c.room||tea.room)}`:'';
+  let roomLabel=c.room||tea.room||'';
   let posLabel=tea.position?esc(tea.position):'';
   let items=[{label:'Add another subject',action:()=>openClassModal(slotId,grade,sectionId)},{label:'Edit class',action:()=>editClass(c.id)},{label:'Delete class',danger:true,action:()=>deleteClass(c.id)}];
-  return `<div class="block" data-class-id="${c.id}" draggable="true" ondragstart="dragClass(event,'${c.id}')" style="--card-color:${sc};border-color:${sc};background:${rgba(sc,.07)} !important;${muted}">
+  return `<div class="block" data-class-id="${c.id}" draggable="true" ondragstart="dragClass(event,'${c.id}')" style="--card-color:${sc};${muted}">
+    <div class="cardMenu">${menuButton(items)}</div>
     <div class="classHead">
-      <div class="classSubject" style="color:${sc}; font-weight:700;">${esc(sub.name)}</div>
-      ${menuButton(items)}
+      <div class="classSubject" style="color:${sc};">${esc(sub.name)}</div>
     </div>
     <div class="blockTeacherRow">
-      <div class="blockTeacherAvatar" style="background:${tc}">${esc(init)}</div>
+      ${ico('users', 'var(--text-muted)')}
       <div class="blockTeacherName" title="${esc(tea.name)}">${esc(tea.name)}</div>
     </div>
-    <div class="blockMetaRow">
-      ${posLabel?`<span class="blockMetaPill" title="${esc(posLabel)}">${ico('users','currentColor')}${esc(posLabel)}</span>`:''}
-      ${roomLabel?`<span class="blockMetaPill" title="${esc(roomLabel)}">${ico('home','currentColor')}${esc(roomLabel)}</span>`:''}
+    <div class="blockMetaRow2">
+      ${posLabel?`<div class="posPill" style="background:${sc};">${esc(posLabel)}</div>`:''}
+      ${roomLabel?`<div class="roomOutline" style="color:${sc};">Room: ${esc(roomLabel)}</div>`:''}
     </div>
-    <div class="blockMinsBadge">${ts.mins||0}m</div>
   </div>`;
 }
 function renderLevelPills(tags){return tags.length?`<div class="levelPills">${tags.map(t=>`<span class="levelPill level-${t}">${t}</span>`).join('')}</div>`:'—'}

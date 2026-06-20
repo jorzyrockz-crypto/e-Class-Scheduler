@@ -1,6 +1,16 @@
-const APP_VERSION = "1.7.0";
+const APP_VERSION = "1.8.0";
 
 const CHANGELOG = [
+  {
+    version: "1.8.0",
+    date: "June 21, 2026",
+    changes: [
+      { type: "Improved", text: "Redesigned the Class Matrix to a highly-structured 'boxed' layout: separated Time into distinct 'TIME SLOT' and 'MINS' columns, and removed avatars from column headers for a cleaner aesthetic." },
+      { type: "Improved", text: "Overhauled the Class Card design: class cards are now fully bordered in their subject color. The top Grade pill was removed to reduce redundancy, teacher avatars were swapped for simple icons, and the footer now features the Teacher's Position in a solid pill and Room assignments in a smart outlined container." },
+      { type: "Improved", text: "Enhanced Custom Subject Colors: the system no longer defaults custom subjects to slate gray. Instead, it deterministically assigns each custom subject a guaranteed unique, vibrant color that does not clash with core subject colors." },
+      { type: "Improved", text: "Streamlined the Class Program header by hiding the 'Advisory Assignments' list." }
+    ]
+  },
   {
     version: "1.7.0",
     date: "June 20, 2026",
