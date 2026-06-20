@@ -1,3 +1,16 @@
+const PRESENCE_SEEDS = {
+  'light': '#006b54',
+  'dark': '#10b981',
+  'flower-rose': '#e11d48',
+  'flower-lavender': '#7c3aed',
+  'animal-bear': '#78350f',
+  'animal-dolphin': '#0d9488',
+  'season-spring': '#65a30d',
+  'season-summer': '#d97706',
+  'season-autumn': '#c2410c',
+  'season-winter': '#0284c7'
+};
+
 function initTheme() {
   const savedTheme = localStorage.getItem('appTheme') || 'light';
   const isDark = localStorage.getItem('appDarkMode') === 'true';
@@ -8,50 +21,30 @@ function applyTheme(themeName, isDark) {
   if (isDark === undefined) isDark = localStorage.getItem('appDarkMode') === 'true';
   else localStorage.setItem('appDarkMode', isDark);
 
-  document.body.classList.remove('dark-theme', 'theme-flower-rose', 'theme-flower-lavender', 'theme-animal-bear', 'theme-animal-dolphin', 'theme-season-spring', 'theme-season-summer', 'theme-season-autumn', 'theme-season-winter');
-  
+  localStorage.setItem('appTheme', themeName);
+
+  let seedColor = null;
+  const hasLogoColor = typeof state !== 'undefined' && state.schoolConfig && state.schoolConfig.logoAccentColor;
+
+  if (themeName === 'logo' || ((themeName === 'light' || themeName === 'dark') && hasLogoColor)) {
+    seedColor = state.schoolConfig.logoAccentColor;
+  } else if (themeName === 'custom') {
+    seedColor = localStorage.getItem('appCustomThemeColor') || '#7c3aed';
+  } else {
+    seedColor = PRESENCE_SEEDS[themeName] || (isDark ? '#10b981' : '#006b54');
+  }
+
+  if (typeof generateDynamicTheme === 'function') {
+    generateDynamicTheme(seedColor, isDark);
+  }
+
   if (isDark) {
     document.body.classList.add('dark-theme');
-  }
-  
-  if (themeName && themeName !== 'light') {
-    document.body.classList.add('theme-' + themeName);
-  }
-  
-  localStorage.setItem('appTheme', themeName);
-  
-  applyLogoColorsToTheme(themeName);
-  renderThemeIcon();
-}
-
-function applyLogoColorsToTheme(themeName) {
-  document.documentElement.style.removeProperty('--accent');
-  document.documentElement.style.removeProperty('--accent-hover');
-
-  if (themeName === 'light') {
-    if (typeof state !== 'undefined' && state.schoolConfig && state.schoolConfig.logoAccentColor) {
-      const isDark = localStorage.getItem('appDarkMode') === 'true';
-      if (typeof adjustColorForTheme === 'function') {
-        const adjusted = adjustColorForTheme(state.schoolConfig.logoAccentColor, isDark);
-        if (adjusted) {
-          document.body.style.setProperty('--accent', adjusted.accent);
-          document.body.style.setProperty('--accent-hover', adjusted.accentHover);
-          document.body.style.setProperty('--accent-light', adjusted.accentLight);
-          document.body.style.setProperty('--accent-glow', adjusted.accentGlow);
-          return;
-        }
-      }
-      document.body.style.setProperty('--accent', state.schoolConfig.logoAccentColor);
-      document.body.style.setProperty('--accent-hover', state.schoolConfig.logoAccentColor);
-      document.body.style.removeProperty('--accent-light');
-      document.body.style.removeProperty('--accent-glow');
-    }
   } else {
-    document.body.style.removeProperty('--accent');
-    document.body.style.removeProperty('--accent-hover');
-    document.body.style.removeProperty('--accent-light');
-    document.body.style.removeProperty('--accent-glow');
+    document.body.classList.remove('dark-theme');
   }
+
+  renderThemeIcon();
 }
 
 function openPersonalization() {

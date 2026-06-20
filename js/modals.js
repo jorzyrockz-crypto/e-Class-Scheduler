@@ -172,10 +172,11 @@ function openSettings(){settingsModal.classList.add('show');settingsTab(activeSe
 
 function personalizationSettings() {
   const currentTheme = localStorage.getItem('appTheme') || 'light';
+  const customColor = localStorage.getItem('appCustomThemeColor') || '#7c3aed';
   
   const themes = [
-    { id: 'light', name: 'Classic Light', colors: ['#f8fafc', '#ffffff', '#006b54'] },
-    { id: 'dark', name: 'Classic Dark', colors: ['#090d16', '#0f172a', '#10b981'] },
+    { id: 'light', name: 'Classic Teal', colors: ['#f8fafc', '#ffffff', '#006b54'] },
+    { id: 'dark', name: 'Classic Emerald', colors: ['#090d16', '#0f172a', '#10b981'] },
     { id: 'flower-rose', name: 'Rose', colors: ['#fff1f2', '#ffe4e6', '#e11d48'] },
     { id: 'flower-lavender', name: 'Lavender', colors: ['#f5f3ff', '#ede9fe', '#7c3aed'] },
     { id: 'animal-bear', name: 'Forest Bear', colors: ['#fdf8f6', '#f5ebe6', '#4e342e'] },
@@ -185,6 +186,34 @@ function personalizationSettings() {
     { id: 'season-autumn', name: 'Autumn', colors: ['#fff7ed', '#ffedd5', '#c2410c'] },
     { id: 'season-winter', name: 'Winter', colors: ['#f0f9ff', '#e0f2fe', '#0284c7'] }
   ];
+
+  if (typeof state !== 'undefined' && state.schoolConfig && state.schoolConfig.logoAccentColor) {
+    themes.unshift({
+      id: 'logo',
+      name: 'School Identity',
+      colors: ['#f8fafc', '#ffffff', state.schoolConfig.logoAccentColor]
+    });
+  }
+
+  themes.push({
+    id: 'custom',
+    name: 'Custom Color',
+    colors: ['#f8fafc', '#ffffff', customColor]
+  });
+
+  let pickerHtml = '';
+  if (currentTheme === 'custom') {
+    pickerHtml = `
+      <div style="margin-top:20px; padding:16px; border-radius:12px; border:1px solid var(--line); background:var(--line-light); animation:obFadeIn 0.25s ease;">
+        <h4 style="margin:0 0 6px 0; color:var(--text); font-size:14px; font-weight:700;">Configure Custom Theme Color</h4>
+        <p style="margin:0 0 12px 0; color:var(--text-muted); font-size:12.5px;">Pick a color or input a custom hex code. The interface adjusts instantly.</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <input type="color" id="customColorPickerInput" value="${customColor}" onchange="changeCustomThemeColor(this.value)" style="width:40px; height:40px; border-radius:8px; border:1px solid var(--line); cursor:pointer; padding:0; background:none; flex-shrink:0;">
+          <input type="text" id="customColorTextInput" value="${customColor}" oninput="changeCustomThemeColor(this.value)" placeholder="#HEXCODE" class="input" style="width:120px; font-weight:700; text-align:center; text-transform:uppercase;">
+        </div>
+      </div>
+    `;
+  }
 
   settingsContent.innerHTML = `
     <div class="settingsSectionHead">
@@ -201,7 +230,9 @@ function personalizationSettings() {
              onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)'"
              onclick="applyTheme('${t.id}'); setTimeout(()=>settingsTab('personalization'), 50);">
           <div style="display:flex; height:48px; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin-bottom:12px;">
-            ${t.colors.map(c => `<div style="flex:1; background:${c};"></div>`).join('')}
+            <div style="flex:1; background:${t.colors[0]};"></div>
+            <div style="flex:1; background:${t.colors[1]};"></div>
+            <div id="${t.id === 'custom' ? 'customThemeSwatch' : ''}" style="flex:1; background:${t.colors[2]};"></div>
           </div>
           <div style="font-weight:700; font-size:14px; text-align:center; color:var(--text); display:flex; align-items:center; justify-content:center; gap:6px;">
             ${t.id === currentTheme ? '<svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
@@ -210,7 +241,28 @@ function personalizationSettings() {
         </div>
       `).join('')}
     </div>
+    ${pickerHtml}
   `;
+}
+
+function changeCustomThemeColor(hexColor) {
+  const picker = document.getElementById('customColorPickerInput');
+  const txt = document.getElementById('customColorTextInput');
+  
+  if (picker && picker.value !== hexColor && /^#[0-9a-f]{6}$/i.test(hexColor)) picker.value = hexColor;
+  if (txt && txt.value !== hexColor) txt.value = hexColor;
+
+  if (!/^#[0-9a-f]{6}$/i.test(hexColor) && !/^#[0-9a-f]{3}$/i.test(hexColor)) {
+    return;
+  }
+  
+  localStorage.setItem('appCustomThemeColor', hexColor);
+  if (typeof applyTheme === 'function') {
+    applyTheme('custom');
+  }
+  
+  const swatch = document.getElementById('customThemeSwatch');
+  if (swatch) swatch.style.background = hexColor;
 }
 
 function schoolYearSettings(){let years=availableSchoolYears(),target=currentSchoolYearName(),sourceOptions=years.filter(y=>y!==target).map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join(''),history=(state.migrationHistory||[]).filter(h=>h.targetSchoolYear===target&&h.active!==false).sort((a,b)=>String(b.migratedAt).localeCompare(String(a.migratedAt)));settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>School Year & Migration</h3><p>Save schedules by school year and migrate selected levels without overwriting other migrated levels.</p></div></div><div class="settingsCard"><div class="syGrid"><label class="settingsField"><span>Active School Year</span><input id="syActiveInput" class="input" value="${esc(target)}" placeholder="e.g. 2026-2027"></label><label class="settingsField"><span>Switch to Available SY</span><select id="sySwitchSelect" class="input">${years.map(y=>`<option value="${esc(y)}" ${y===target?'selected':''}>${esc(y)}</option>`).join('')}</select></label></div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="switchSchoolYear(syActiveInput.value)">Create / Load School Year</button><button class="btn" onclick="switchSchoolYear(sySwitchSelect.value)">Switch to Selected</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migrate Schedule</h3><p>Same level migration replaces that level only. Other migrated levels are preserved.</p></div><div class="syGrid" style="margin-top:14px"><label class="settingsField"><span>Migrate From SY</span><select id="migSourceYear" class="input">${sourceOptions||'<option value="">No other school year available</option>'}</select></label><label class="settingsField"><span>Level</span><select id="migLevel" class="input"><option>All Levels</option><option>Elementary</option><option>JHS</option><option>SHS</option></select></label></div><div class="note migrationDanger" style="margin-top:12px">If the selected level was migrated before, only that migrated level will be replaced. Different migrated levels will remain intact.</div><div class="syActions" style="margin-top:12px"><button class="btn primary" onclick="migrateScheduleFromSchoolYear()">Migrate Schedule</button></div></div><div class="settingsCard"><div class="settingsSectionTitle"><h3>Migration History for ${esc(target)}</h3><p>Shows active migrated levels saved under this school year.</p></div><div class="migrationHistory">${history.length?history.map(h=>`<div class="migrationHistoryItem"><div><span class="migrationBadge">${esc(h.level)}</span></div><b>From ${esc(h.sourceSchoolYear)} to ${esc(h.targetSchoolYear)}</b><div class="migrationNote">Migrated: ${esc(new Date(h.migratedAt).toLocaleString())}</div></div>`).join(''):'<div class="muted">No migration history for this school year yet.</div>'}</div></div>`}
@@ -310,7 +362,7 @@ function saveSectionSetting(id){let s=state.sections.find(x=>x.id===id);if(!s)re
 function deleteSectionSetting(id){let s=state.sections.find(x=>x.id===id);if(!s)return;askConfirm('Delete section',`Delete ${s.grade} - ${s.name}? Existing class programs will remove this section reference. Scheduled subjects in this section will be cleared from the section field.`,()=>{state.sections=state.sections.filter(x=>x.id!==id);if(state.sectionAdvisers)delete state.sectionAdvisers[id];state.programs=(state.programs||[]).map(p=>({...p,sectionIds:(p.sectionIds||[]).filter(sid=>sid!==id)}));state.classes=(state.classes||[]).map(c=>c.sectionId===id?{...c,sectionId:''}:c);save();settingsTab('sections');toastMsg('Section deleted.')})}
 function addSectionFromProgramModal(grade){let val=(quickSectionName?.value||'').trim();let rec=addSectionRecord(grade,val);if(rec){let checked=[...pSections.querySelectorAll('input:checked')].map(i=>i.value);checked.push(rec.id);let existing={sectionIds:checked};updateProgramForm(existing);toastMsg('Section added. Select it before saving the program.')}}
 function sectionSettings(){let grouped=state.grades.map(g=>({grade:g,sections:state.sections.filter(s=>s.grade===g).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||'')))}));settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>Sections</h3><p>Create class sections first, then assign advisers in Settings → Advisers and select sections in Class Programs.</p></div></div><div class="sectionAddPanel"><label class="settingsField"><span>Grade Level</span><select id="sectionGradeInput" class="input">${state.grades.map(g=>`<option>${esc(g)}</option>`).join('')}</select></label><label class="settingsField"><span>Section Name</span><input id="sectionNameInput" class="input" placeholder="e.g. A, B, Mabini"></label><button class="btn primary" onclick="addSectionSetting()">Add Section</button></div><div class="adviserWorkflow">Recommended workflow: <b>1)</b> Add sections here. <b>2)</b> Assign advisers in Advisers. <b>3)</b> Create a Class Program and select the sections to include.</div>${grouped.map(g=>`<div class="sectionGradeGroup"><div class="sectionGradeHeader"><b>${esc(g.grade)}</b><button class="btn" onclick="sectionGradeInput.value='${esc(g.grade)}';sectionNameInput.value='${esc(nextSectionNameForGrade(g.grade))}';sectionNameInput.focus()">+ Add to ${esc(g.grade)}</button></div><div class="sectionRows">${g.sections.length?g.sections.map(s=>`<div class="sectionRow"><div class="sectionRowLabel">${esc(s.grade)} - ${esc(s.name)}</div><select id="sectionGrade_${s.id}" class="input">${state.grades.map(gr=>`<option ${gr===s.grade?'selected':''}>${esc(gr)}</option>`).join('')}</select><input id="sectionName_${s.id}" class="input" value="${esc(s.name)}"><div style="display:flex;gap:8px"><button class="btn primary" onclick="saveSectionSetting('${s.id}')">Save</button><button class="btn danger" onclick="deleteSectionSetting('${s.id}')">Delete</button></div></div>`).join(''):'<div class="emptySmall">No sections yet. Use Add Section above.</div>'}</div></div>`).join('')}`}
-function schoolSettings(){let sc=state.schoolConfig,fields=[['schoolName','School Name'],['schoolYear','School Year'],['division','Division'],['region','Region'],['district','District'],['schoolAddress','School Address'],['signatory1Name','Prepared by'],['signatory1Title','Prepared by Title'],['signatory2Name','Approved by'],['signatory2Title','Approved by Title']];settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>School Profile</h3><p>Basic information printed or displayed in the class program. Click Save to record changes under the active school year.</p></div></div><div class="settingsCard"><div class="logoUploadCard"><div id="schoolLogoPreview" class="logoPreview">${sc.logoDataUrl?`<img src="${esc(sc.logoDataUrl)}" alt="School logo preview">`:`<span class="logoPreviewFallback">OES</span>`}</div><div class="logoUploadInfo"><h4>School Logo</h4><p>Upload the official school logo. The logo will appear in the top navigation bar and is saved with the active school profile.</p><div class="logoUploadActions"><input id="schoolLogoInput" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" style="display:none" onchange="handleSchoolLogoUpload(this)"><button class="btn" onclick="triggerSchoolLogoUpload()">${ico('upload','#0f766e')}Upload Logo</button><button class="btn" onclick="removeSchoolLogo()">${ico('refresh','#f59e0b')}Use Default</button></div></div></div><div class="settingsFormGrid">${fields.map(([k,l])=>`<label class="settingsField"><span>${l}</span><input id="schoolField_${k}" class="input" value="${esc(sc[k]||'')}"></label>`).join('')}</div><div class="schoolProfileHint">The School Year field is linked to the active School Year. Saving with a new school year stores the current schedule under that school year.</div><div class="schoolProfileSaveBar"><button class="btn primary" onclick="saveSchoolProfileSettings()">Save School Profile</button><button class="btn" onclick="closeSettings();rerunOnboarding();" style="margin-left:8px">${ico('refresh','currentColor')} Re-run Setup Wizard</button></div></div>`;renderSchoolLogoPreview()}
+function schoolSettings(){let sc=state.schoolConfig,fields=[['schoolName','School Name'],['schoolYear','School Year'],['division','Division'],['region','Region'],['district','District'],['schoolAddress','School Address'],['signatory1Name','Prepared by'],['signatory1Title','Prepared by Title'],['signatory2Name','Approved by'],['signatory2Title','Approved by Title']];settingsContent.innerHTML=`<div class="settingsSectionHead"><div class="settingsSectionTitle"><h3>School Profile</h3><p>Basic information printed or displayed in the class program. Click Save to record changes under the active school year.</p></div></div><div class="settingsCard"><div class="logoUploadCard"><div id="schoolLogoPreview" class="logoPreview">${sc.logoDataUrl?`<img src="${esc(sc.logoDataUrl)}" alt="School logo preview">`:`<span class="logoPreviewFallback">OES</span>`}</div><div class="logoUploadInfo"><h4>School Logo</h4><p>Upload the official school logo. The logo will appear in the top navigation bar and is saved with the active school profile.</p><div class="logoUploadActions"><input id="schoolLogoInput" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" style="display:none" onchange="handleSchoolLogoUpload(this)"><button class="btn" onclick="triggerSchoolLogoUpload()">${ico('upload','#0f766e')}Upload Logo</button><button class="btn" onclick="removeSchoolLogo()">${ico('refresh','#f59e0b')}Use Default</button></div></div></div><div class="settingsFormGrid">${fields.map(([k,l])=>`<label class="settingsField"><span>${l}</span><input id="schoolField_${k}" class="input" value="${esc(sc[k]||'')}"></label>`).join('')}</div><div class="schoolProfileHint">The School Year field is linked to the active School Year. Saving with a new school year stores the current schedule under that school year.</div><div class="schoolProfileSaveBar"><button class="btn primary" onclick="saveSchoolProfileSettings()">Save School Profile</button></div></div>`;renderSchoolLogoPreview()}
 function renderSchoolLogo(){if(typeof schoolLogoMark==='undefined'||!schoolLogoMark)return;let data=state.schoolConfig&&state.schoolConfig.logoDataUrl;if(data)schoolLogoMark.innerHTML=`<img src="${esc(data)}" alt="">`;else schoolLogoMark.innerHTML='<span>OES</span>'}
 function renderSchoolLogoPreview(){let el=document.getElementById('schoolLogoPreview');if(!el)return;let data=state.schoolConfig&&state.schoolConfig.logoDataUrl;el.innerHTML=data?`<img src="${esc(data)}" alt="School logo preview">`:'<span class="logoPreviewFallback">OES</span>'}
 function triggerSchoolLogoUpload(){let input=document.getElementById('schoolLogoInput');if(input)input.click()}

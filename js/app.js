@@ -1,6 +1,51 @@
-const APP_VERSION = "1.6.13";
+const APP_VERSION = "1.7.0";
 
 const CHANGELOG = [
+  {
+    version: "1.7.0",
+    date: "June 20, 2026",
+    changes: [
+      { type: "New", text: "Implemented a dynamic Android-style theming engine (Material You) that generates full tonal light and dark palettes from a seed color." },
+      { type: "New", text: "Added support for styling the app dynamically based on the uploaded school logo identity or a custom hex color picker." },
+      { type: "Improved", text: "Polished the light mode background to be more colorful by boosting saturation derived from the seed theme color." },
+      { type: "Improved", text: "Increased workspace horizontal padding from 16px to 48px to prevent content from stretching too wide on large screens." }
+    ]
+  },
+  {
+    version: "1.6.18",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Improved", text: "Transformed the sidebar toggle behavior! Instead of completely disappearing, toggling the sidebar now gracefully collapses it into a sleek 'mini' state that displays only the navigation icons." }
+    ]
+  },
+  {
+    version: "1.6.17",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Improved", text: "Moved the 'Re-run Setup Wizard' button from the Settings menu to the Reset menu for better discoverability and organization." }
+    ]
+  },
+  {
+    version: "1.6.16",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Fixed", text: "Fixed an issue in Dark Mode where Class Program cards had blindingly white backgrounds, making text unreadable. Cards now properly adapt to the dark theme." }
+    ]
+  },
+  {
+    version: "1.6.15",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Fixed", text: "Resolved an issue where the dashboard content was being clipped at the bottom by removing the inner fixed-height scrolling box and enabling full-page scrolling." }
+    ]
+  },
+  {
+    version: "1.6.14",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Improved", text: "Refreshed the dashboard layout for a modern, container-less aesthetic! Removed the outer bounding boxes from the main schedule and workload panels, and subtly deepened the background contrast to make white cards pop beautifully." }
+    ]
+  },
   {
     version: "1.6.13",
     date: "June 20, 2026",

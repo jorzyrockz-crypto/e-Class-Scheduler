@@ -1,11 +1,12 @@
 # Workspace Rules
 
 ## Automatic Changelog Updates
-Whenever you complete a task that adds a new feature, makes a significant improvement, or fixes a bug, you **MUST automatically update the changelog** before finishing your turn.
+Do not bump the version or update the changelog after every small feature or fix. 
+Instead, **only bump the version and update the changelog when preparing to `git commit` and `push`**. 
+When the user asks you to commit and push, follow these steps before committing:
 1. Open `js/app.js`.
-2. Bump the `APP_VERSION` string appropriately (e.g., semantic versioning: minor bump for features, patch bump for fixes).
-3. Add a new entry to the top of the `CHANGELOG` array documenting the changes.
-4. Do not wait for the user to ask you to do this. Consider it a mandatory final step of any feature development or bug fix.
+2. Bump the `APP_VERSION` string appropriately based on the total changes since the last commit (e.g., semantic versioning).
+3. Add a single new entry to the top of the `CHANGELOG` array summarizing all the changes made in this commit.
 
 ## Git Operations
 Do not automatically run `git commit` or `git push` after making changes. Only save the files locally and wait for the user's explicit command to push or commit changes.
