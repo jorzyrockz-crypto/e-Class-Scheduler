@@ -1,6 +1,13 @@
-const APP_VERSION = "1.6.7";
+const APP_VERSION = "1.6.8";
 
 const CHANGELOG = [
+  {
+    version: "1.6.8",
+    date: "Oct 26, 2023",
+    changes: [
+      { type: "Fixed", text: "Ensured Onboarding Wizard reliably shows after resetting all data to blank." }
+    ]
+  },
   {
     version: "1.6.7",
     date: "June 20, 2026",
@@ -114,6 +121,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof initOnboarding === 'function') initOnboarding();
   checkVersionAndChangelog();
 });
+
+// Fallback to ensure onboarding runs even if DOMContentLoaded is missed
+setTimeout(() => {
+  if (typeof state !== 'undefined' && state && state.onboardingComplete !== true) {
+    const el = document.getElementById('onboardingWizard');
+    if (el && el.classList.contains('hidden')) {
+      if (typeof initOnboarding === 'function') initOnboarding();
+    }
+  }
+}, 500);
 setTimeout(() => {
   selectObserver.observe(document.body, { childList: true, subtree: true });
   upgradeSelectsToCustomDropdowns();
