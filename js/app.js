@@ -66,7 +66,7 @@ function checkVersionAndChangelog() {
     // Don't interrupt onboarding with the changelog
     if (!obActive || obActive.classList.contains('hidden')) {
       setTimeout(() => {
-        if (typeof openWhatsNewModal === 'function') openWhatsNewModal();
+        if (typeof checkForUpdatesFlow === 'function') checkForUpdatesFlow();
       }, 600);
     }
   }

@@ -424,6 +424,67 @@ window.closeWhatsNewModal = function() {
   if (modal) modal.classList.remove('show');
 };
 
+window.checkForUpdatesFlow = function() {
+  const modal = document.getElementById('updateCheckModal');
+  if (!modal) return;
+  
+  const stLoading = document.getElementById('updateCheckState-loading');
+  const stFound = document.getElementById('updateCheckState-found');
+  const stInstalling = document.getElementById('updateCheckState-installing');
+  const stUpToDate = document.getElementById('updateCheckState-uptodate');
+  const versionText = document.getElementById('updateFoundVersion');
+  
+  stLoading.style.display = 'flex';
+  stFound.style.display = 'none';
+  stInstalling.style.display = 'none';
+  stUpToDate.style.display = 'none';
+  
+  modal.classList.add('show');
+  
+  setTimeout(() => {
+    stLoading.style.display = 'none';
+    const lastSeen = localStorage.getItem('lastSeenVersion');
+    if (typeof APP_VERSION !== 'undefined' && lastSeen !== APP_VERSION) {
+      if (versionText) versionText.textContent = 'v' + APP_VERSION;
+      stFound.style.display = 'flex';
+      stFound.classList.add('fade-in');
+    } else {
+      stUpToDate.style.display = 'flex';
+      stUpToDate.classList.add('fade-in');
+      setTimeout(() => {
+        closeUpdateCheckModal();
+        if (typeof openWhatsNewModal === 'function') openWhatsNewModal();
+      }, 1500);
+    }
+  }, 1200);
+};
+
+window.applyFakeUpdate = function() {
+  const stFound = document.getElementById('updateCheckState-found');
+  const stInstalling = document.getElementById('updateCheckState-installing');
+  const bar = document.getElementById('fakeInstallBar');
+  
+  stFound.style.display = 'none';
+  stInstalling.style.display = 'flex';
+  stInstalling.classList.add('fade-in');
+  
+  if (bar) {
+    bar.style.width = '0%';
+    setTimeout(() => { bar.style.width = '40%'; }, 100);
+    setTimeout(() => { bar.style.width = '70%'; }, 600);
+    setTimeout(() => { bar.style.width = '100%'; }, 1200);
+  }
+  
+  setTimeout(() => {
+    window.location.reload(true);
+  }, 1500);
+};
+
+window.closeUpdateCheckModal = function() {
+  const modal = document.getElementById('updateCheckModal');
+  if (modal) modal.classList.remove('show');
+};
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeAllModals();
