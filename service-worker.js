@@ -1,4 +1,5 @@
-const CACHE_NAME = 'e-class-scheduler-v1.6.8';
+const CACHE_PREFIX = 'e-class-scheduler-';
+const CACHE_NAME = `${CACHE_PREFIX}v1.6.10-r2`;
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -15,9 +16,8 @@ const ASSETS_TO_CACHE = [
   './js/app.js'
 ];
 
-// Install Event - Cache Core Assets
+// Cache the app shell, then wait for the user to approve updates.
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[Service Worker] Caching App Shell');
@@ -26,13 +26,13 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate Event - Clean Up Old Caches
+// Remove only caches owned by this app.
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
+          if (cache.startsWith(CACHE_PREFIX) && cache !== CACHE_NAME) {
             console.log('[Service Worker] Clearing Old Cache:', cache);
             return caches.delete(cache);
           }
@@ -42,44 +42,46 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Message Listener for Skip Waiting (Triggered by user clicking "Update Now")
+// Activate an installed update only after the user clicks "Update Now".
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
 
-// Fetch Event - Cache First, fallback to Network
+// Prefer current files from the network and use the cache while offline.
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      // 1. Return cached response if found
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+    fetch(event.request)
+      .then(async (networkResponse) => {
+        if (networkResponse && networkResponse.ok) {
+          try {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(event.request, networkResponse.clone());
+          } catch (error) {
+            console.warn('[Service Worker] Could not update cache:', error);
+          }
+        }
+        return networkResponse;
+      })
+      .catch(async () => {
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) return cachedResponse;
 
-      // 2. Fallback to network
-      return fetch(event.request)
-        .then((networkResponse) => {
-          // If valid response, cache it for future
-          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          // 3. If network fails and no cache, fallback to index.html if it's a navigation request
-          if (event.request.headers.get('accept').includes('text/html')) {
-            return caches.match('./index.html');
-          }
+        if (event.request.mode === 'navigate') {
+          const appShell = await caches.match('./index.html');
+          if (appShell) return appShell;
+        }
+
+        return new Response('Offline', {
+          status: 503,
+          statusText: 'Service Unavailable'
         });
-    })
+      })
   );
 });
 

@@ -345,7 +345,18 @@ function dashboardConflictsHtml(){
   if (conflicts.length > 0) {
     let list = conflicts.slice(0, 4);
     body = `<div class="db-conflict-list">
-      ${list.map(c => `
+      ${list.map(c => c.setupIssue ? `
+        <div class="db-conflict-item" onclick="${c.action}" style="border-color:var(--warning-border); background:var(--warning-bg);">
+          <div class="db-conflict-title-row" style="color:var(--warning-text);">
+            ${ico('alert', 'var(--warning)')}
+            <span>Setup Required</span>
+          </div>
+          <div class="db-conflict-desc" style="color:var(--warning-text);">
+            ${esc(c.msg)}
+          </div>
+          <div class="db-conflict-jump-hint" style="color:var(--warning-text);">Click to complete setup &rarr;</div>
+        </div>
+      ` : `
         <div class="db-conflict-item" onclick="highlightConflict('${c.a.id}', '${c.b.id}')">
           <div class="db-conflict-title-row">
             ${ico('alert', 'var(--danger)')}
@@ -357,7 +368,7 @@ function dashboardConflictsHtml(){
           <div class="db-conflict-jump-hint">Click to resolve in matrix →</div>
         </div>
       `).join('')}
-      ${conflicts.length > 4 ? `<div style="text-align:center; font-size:11.5px; color:var(--text-muted); font-weight:700;">+ ${conflicts.length - 4} more conflict(s) detected.</div>` : ''}
+      ${conflicts.length > 4 ? `<div style="text-align:center; font-size:11.5px; color:var(--text-muted); font-weight:700;">+ ${conflicts.length - 4} more issue(s) detected.</div>` : ''}
     </div>`;
   } else if (data.missingTeacher > 0 || data.missingSubject > 0) {
     let warnings = [];
@@ -403,7 +414,7 @@ function dashboardConflictsHtml(){
   return `<div class="db-card">
     <div class="db-card-header">
       <div class="db-card-title">${ico('alert', 'var(--danger)')}<span>Schedule Health Monitor</span></div>
-      ${conflicts.length > 0 ? `<span class="statusPill status-bad">${conflicts.length} conflict(s)</span>` : `<span class="statusPill status-good">Healthy</span>`}
+      ${conflicts.length > 0 ? `<span class="statusPill status-bad">${conflicts.length} issue(s)</span>` : `<span class="statusPill status-good">Healthy</span>`}
     </div>
     ${body}
   </div>`;

@@ -972,9 +972,12 @@
     state.onboardingComplete = true;
     state.defaultSubjectsInitialized = state.defaultSubjectsInitialized || false;
 
-    /* Save & close */
-    save();
-    showDoneScreen(ob);
+    /* Always release the overlay, even if fresh data exposes a render error. */
+    try {
+      save();
+    } finally {
+      closeOnboarding();
+    }
   }
 
   function gradeTagsFromGrades(grades) {

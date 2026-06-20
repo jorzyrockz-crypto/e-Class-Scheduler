@@ -388,14 +388,19 @@ document.getElementById('updateNowBtn').addEventListener('click', () => {
   if (newWorker) newWorker.postMessage({ type: 'SKIP_WAITING' });
 });
 
-if ('serviceWorker' in navigator) {
+const canRegisterServiceWorker = 'serviceWorker' in navigator &&
+  (location.protocol === 'https:' ||
+    (location.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)));
+
+if (canRegisterServiceWorker) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./service-worker.js')
       .then((reg) => {
         reg.addEventListener('updatefound', () => {
-          newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          const installingWorker = reg.installing;
+          newWorker = installingWorker;
+          installingWorker.addEventListener('statechange', () => {
+            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
               document.getElementById('updatePrompt').style.display = 'flex';
             }
           });
@@ -406,8 +411,8 @@ if ('serviceWorker' in navigator) {
     let refreshing;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (refreshing) return;
-      window.location.reload();
       refreshing = true;
+      window.location.reload();
     });
   });
 }

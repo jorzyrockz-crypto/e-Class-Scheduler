@@ -1,6 +1,20 @@
-const APP_VERSION = "1.6.8";
+const APP_VERSION = "1.6.10";
 
 const CHANGELOG = [
+  {
+    version: "1.6.10",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Fixed", text: "Clicking 'Finish Setup' now immediately closes the wizard and initializes the dashboard without requiring an extra click on the Done screen." }
+    ]
+  },
+  {
+    version: "1.6.9",
+    date: "June 20, 2026",
+    changes: [
+      { type: "Fixed", text: "Fixed an issue where completing the Onboarding Wizard did not properly close the UI and initialize the dashboard." }
+    ]
+  },
   {
     version: "1.6.8",
     date: "Oct 26, 2023",
