@@ -1,0 +1,458 @@
+/* ====================================================
+   ONBOARDING WIZARD — e-Class Scheduler
+   ==================================================== */
+
+/* Overlay */
+.onboardingOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(9, 13, 22, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: obFadeIn 0.35s ease;
+}
+.onboardingOverlay.hidden { display: none; }
+@keyframes obFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Wizard Card */
+.obCard {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.25), 0 8px 20px rgba(0,0,0,0.15);
+  width: 100%;
+  max-width: 880px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: obSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes obSlideUp {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Progress Bar */
+.obProgress {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px 28px 0;
+  flex-shrink: 0;
+}
+.obProgressStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.obProgressStep:hover {
+  opacity: 0.8;
+}
+.obProgressStep:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: calc(50% + 16px);
+  right: calc(-50% + 16px);
+  height: 2px;
+  background: var(--line);
+  transition: background 0.4s ease;
+  z-index: 0;
+}
+.obProgressStep.done:not(:last-child)::after { background: var(--accent); }
+.obStepDot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+  z-index: 1;
+  position: relative;
+}
+.obProgressStep.active .obStepDot {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+.obProgressStep.done .obStepDot {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.obStepLabel {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--text-muted2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color 0.3s;
+  text-align: center;
+}
+.obProgressStep.active .obStepLabel,
+.obProgressStep.done .obStepLabel { color: var(--accent); }
+
+/* Step Body */
+.obBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 28px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.obBody::-webkit-scrollbar { width: 4px; }
+.obBody::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+/* Step animations */
+.obStep { animation: obStepIn 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes obStepIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.obStep.reverse { animation: obStepInRev 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes obStepInRev {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Step 1 — Welcome */
+.obWelcomeHero { text-align: center; padding: 4px 0 20px; }
+.obWelcomeBadge {
+  width: 76px; height: 76px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+  box-shadow: 0 12px 32px var(--accent-glow);
+  font-family: var(--font-title);
+  font-size: 26px; font-weight: 900; color: #fff; letter-spacing: -1px;
+}
+.obWelcomeTitle {
+  font-family: var(--font-title);
+  font-size: 26px; font-weight: 900; color: var(--text);
+  margin-bottom: 8px; letter-spacing: -0.02em; line-height: 1.2;
+}
+.obWelcomeSub {
+  font-size: 13.5px; color: var(--text-muted);
+  line-height: 1.6; max-width: 440px; margin: 0 auto 24px;
+}
+.obFeatures {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.obFeature {
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 10px; text-align: center;
+}
+.obFeatureIcon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 8px;
+}
+.obFeatureIcon svg { width: 18px !important; height: 18px !important; }
+.obFeatureLabel { font-size: 11.5px; font-weight: 700; color: var(--text); line-height: 1.3; }
+
+/* Section headers */
+.obSectionTitle {
+  font-family: var(--font-title);
+  font-size: 19px; font-weight: 800; color: var(--text);
+  margin-bottom: 3px; letter-spacing: -0.01em;
+}
+.obSectionSub {
+  font-size: 12.5px; color: var(--text-muted);
+  margin-bottom: 18px; line-height: 1.5;
+}
+.obSubLabel {
+  font-size: 11px; font-weight: 800; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
+}
+.obDivider { height: 1px; background: var(--line); margin: 16px 0; }
+
+/* Form */
+.obFormGrid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 14px;
+}
+.obFormGrid.full { grid-template-columns: 1fr; }
+.obLabel {
+  display: flex; flex-direction: column; gap: 4px;
+  font-size: 11.5px; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.obLabel .req { color: var(--danger); }
+.obInput {
+  width: 100%; height: 38px; padding: 0 11px;
+  background: var(--bg); border: 1.5px solid var(--line);
+  border-radius: 9px; font-size: 13px; font-weight: 600; color: var(--text);
+  font-family: var(--font-body); transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.obInput:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+/* School Type Chips */
+.obSchoolTypeGrid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 4px;
+}
+.obSchoolTypeChip {
+  display: flex; align-items: center; gap: 10px; padding: 11px 13px;
+  background: var(--bg); border: 2px solid var(--line); border-radius: 11px;
+  cursor: pointer; transition: all 0.2s ease; user-select: none;
+}
+.obSchoolTypeChip:hover { border-color: var(--accent); background: var(--accent-light); }
+.obSchoolTypeChip.selected { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 3px var(--accent-glow); }
+.obSchoolTypeChip input[type="checkbox"] { width: 15px !important; height: 15px !important; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+.obSchoolTypeChipIcon {
+  width: 30px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.obSchoolTypeChipText b { display: block; font-size: 12.5px; font-weight: 800; color: var(--text); }
+.obSchoolTypeChipText span { font-size: 10.5px; color: var(--text-muted); font-weight: 500; }
+
+/* Step 3 — Grades */
+.obGradeList { display: flex; flex-direction: column; gap: 7px; }
+.obGradeRow {
+  display: flex; align-items: center; gap: 10px; padding: 9px 13px;
+  background: var(--bg); border: 1.5px solid var(--line); border-radius: 9px; transition: border-color 0.2s;
+}
+.obGradeRow.checked { border-color: var(--accent); background: var(--accent-light); }
+.obGradeRow input[type="checkbox"] { width: 15px !important; height: 15px !important; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+.obGradeName { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; cursor: pointer; }
+.obSectionInput {
+  width: 155px; height: 28px; padding: 0 9px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 7px;
+  font-size: 11.5px; font-weight: 600; color: var(--text); font-family: var(--font-body); transition: border-color 0.2s;
+}
+.obSectionInput:focus { outline: none; border-color: var(--accent); }
+.obSectionHint { font-size: 10.5px; color: var(--text-muted2); font-weight: 500; }
+
+/* Step 4 — Subjects (Matrix & Tiles) */
+.obSubjectSection { margin-bottom: 24px; }
+.obSubjectSectionLabel { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.obSubjectSectionLabel h4 { font-family: var(--font-title); font-size: 14px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px; margin: 0; }
+.obSectionActions { display: flex; gap: 8px; }
+.obSectionActions button { background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
+.obSectionActions button:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+/* Matrix Table */
+.obSubjectMatrixWrap { border: 1.5px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg); }
+.obSubjectMatrix { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.obSubjectMatrix th { background: var(--panel); border-bottom: 1.5px solid var(--line); border-left: 1px solid var(--line); padding: 8px 4px; font-size: 10.5px; font-weight: 700; color: var(--text-muted2); text-align: center; width: 44px; }
+.obSubjectMatrix th:first-child { border-left: none; width: auto; text-align: left; padding-left: 14px; }
+.obSubjectMatrix td { border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); text-align: center; padding: 6px; }
+.obSubjectMatrix tr:last-child td { border-bottom: none; }
+.obSubjectMatrix td.obSubjectCell { border-left: none; text-align: left; padding: 8px 14px; cursor: pointer; transition: background 0.2s; border-left: 3px solid transparent; user-select: none; }
+.obSubjectMatrix tr:hover td.obSubjectCell { background: var(--panel); }
+.obSubjectMatrix tr.active td.obSubjectCell { border-left-color: var(--accent); background: var(--accent-light); }
+.obSubjectMatrix td.obSubjectCell span { font-size: 12px; font-weight: 700; color: var(--text); }
+.obSubjectMatrix td.obSubjectCell .subIndicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--text-muted2); margin-right: 8px; vertical-align: middle; transition: all 0.2s; }
+.obSubjectMatrix tr.active td.obSubjectCell .subIndicator { background: var(--accent); border-color: var(--accent); }
+.obSubjectMatrix input[type="checkbox"] { width: 16px !important; height: 16px !important; accent-color: var(--accent); cursor: pointer; margin: 0; }
+
+/* Kinder Tiles */
+.obSubjectTileGrid { display: flex; flex-wrap: wrap; gap: 8px; }
+.obSubjectTile { display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--bg); border: 1.5px solid var(--line); border-radius: 20px; font-size: 11.5px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.2s; user-select: none; }
+.obSubjectTile:hover { border-color: var(--text-muted); color: var(--text); }
+.obSubjectTile.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+.obSubjectTile.selected::before { content: '✓'; font-weight: 900; }
+
+/* Custom Subjects */
+.obSubjectList { display: flex; flex-direction: column; gap: 9px; }
+.obSubjectRow {
+  background: var(--bg); border: 1.5px solid var(--line); border-radius: 11px; padding: 11px 13px; transition: border-color 0.2s;
+}
+.obSubjectRow:focus-within { border-color: var(--accent); }
+.obSubjectRowTop { display: flex; align-items: center; gap: 9px; }
+.obSubjectNameInput {
+  flex: 1; height: 34px; padding: 0 11px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 8px;
+  font-size: 12.5px; font-weight: 700; color: var(--text); font-family: var(--font-body);
+  text-transform: uppercase; transition: border-color 0.2s;
+}
+.obSubjectNameInput:focus { outline: none; border-color: var(--accent); }
+.obSubjectNameInput::placeholder { text-transform: none; font-weight: 500; }
+.obRemoveBtn {
+  width: 26px; height: 26px; border-radius: 7px;
+  background: var(--danger-bg); border: 1px solid var(--danger-border);
+  color: var(--danger); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; font-weight: 700; transition: all 0.2s;
+  flex-shrink: 0; line-height: 1;
+}
+.obRemoveBtn:hover { background: var(--danger); color: #fff; }
+.obGradeChips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.obGradeChip {
+  display: flex; align-items: center; gap: 4px; padding: 3px 9px 3px 5px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 20px;
+  font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer;
+  transition: all 0.15s; user-select: none;
+}
+.obGradeChip input[type="checkbox"] { width: 11px !important; height: 11px !important; accent-color: var(--accent); cursor: pointer; margin: 0; }
+.obGradeChip:hover { border-color: var(--accent); color: var(--accent); }
+.obGradeChip.checked { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+
+/* Step 5 — Teachers (Split Layout) */
+.obTeacherSplit { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin-top: 12px; }
+@media (max-width: 600px) { .obTeacherSplit { grid-template-columns: 1fr; } }
+
+.obTeacherFormPane { background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px; padding: 14px; position: sticky; top: 0; }
+.obTeacherFormPane:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.obTeacherListPane { display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; padding-right: 4px; }
+.obTeacherListPane::-webkit-scrollbar { width: 6px; }
+.obTeacherListPane::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+.obTeacherRowTop { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; align-items: center; margin-bottom: 12px; }
+.obTeacherInput {
+  height: 34px; padding: 0 11px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 8px;
+  font-size: 12.5px; font-weight: 600; color: var(--text); font-family: var(--font-body); transition: border-color 0.2s;
+  width: 100%; box-sizing: border-box;
+}
+.obTeacherInput:focus { outline: none; border-color: var(--accent); }
+.obTeacherDivider { height: 1px; background: var(--line); margin: 12px 0; }
+
+.obSubjectsTaughtLabel { font-size: 10.5px; font-weight: 700; color: var(--text-muted2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+.obSubjectsTaught { display: flex; flex-wrap: wrap; gap: 5px; }
+.obSubjectTaughtChip {
+  display: flex; align-items: center; gap: 4px; padding: 3px 9px 3px 6px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 20px;
+  font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer;
+  transition: all 0.15s; user-select: none;
+}
+.obSubjectTaughtChip input[type="checkbox"] { width: 11px !important; height: 11px !important; accent-color: var(--accent); cursor: pointer; margin: 0; }
+.obSubjectTaughtChip:hover { border-color: var(--accent); color: var(--accent); }
+.obSubjectTaughtChip.checked { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+.obSubjectsTaughtEmpty { font-size: 12px; color: var(--text-muted2); font-style: italic; padding: 3px 0; }
+.obLevelTags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
+.obLevelTag {
+  display: flex; align-items: center; gap: 4px; padding: 3px 8px 3px 5px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 20px;
+  font-size: 10.5px; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none; transition: all 0.15s;
+}
+.obLevelTag input[type="checkbox"] { width: 11px !important; height: 11px !important; accent-color: var(--accent); cursor: pointer; margin: 0; }
+.obLevelTag.checked { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+
+/* Mini Teacher Card (Right Column) */
+.obMiniTeacherCard {
+  display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+}
+.obMiniTeacherInfo { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.obMiniTeacherAvatar {
+  width: 28px; height: 28px; border-radius: 6px; background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.obMiniTeacherText { flex: 1; min-width: 0; }
+.obMiniTeacherName { font-size: 12.5px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+.obMiniTeacherActions { display: flex; gap: 6px; flex-shrink: 0; }
+.obMiniActionBtn {
+  background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px;
+  font-size: 11px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+}
+.obMiniActionBtn:hover { border-color: var(--text-muted); color: var(--text); }
+.obMiniActionBtn.danger:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
+.obSaveTeacherBtn {
+  width: 100%; height: 38px; background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  font-size: 12.5px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-body); margin-top: 14px;
+}
+.obSaveTeacherBtn:hover { filter: brightness(1.1); }
+.obTeacherListHeader { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+
+/* Add Row */
+.obAddRowBtn {
+  width: 100%; height: 38px;
+  border: 2px dashed var(--line); border-radius: 9px;
+  background: transparent; color: var(--text-muted);
+  font-size: 12.5px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all 0.2s; margin-top: 8px; font-family: var(--font-body);
+}
+.obAddRowBtn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+/* Completion Screen */
+.obDoneScreen { text-align: center; padding: 16px 0 24px; }
+.obDoneIcon {
+  width: 76px; height: 76px; border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #006b54);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+  box-shadow: 0 12px 32px rgba(16, 185, 129, 0.35);
+  animation: obPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s both;
+}
+@keyframes obPop {
+  from { transform: scale(0.4); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.obDoneTitle { font-family: var(--font-title); font-size: 24px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+.obDoneSub { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; max-width: 380px; margin: 0 auto; }
+.obDoneSummary { display: flex; justify-content: center; gap: 28px; margin-top: 20px; }
+.obDoneStat { text-align: center; }
+.obDoneStat b { display: block; font-size: 30px; font-weight: 900; font-family: var(--font-title); color: var(--accent); }
+.obDoneStat span { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* Footer */
+.obFooter {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 28px 18px; border-top: 1px solid var(--line); gap: 10px; flex-shrink: 0;
+}
+.obFooterLeft { display: flex; align-items: center; gap: 10px; }
+.obBackBtn {
+  height: 38px; padding: 0 16px;
+  background: transparent; border: 1.5px solid var(--line); border-radius: 9px;
+  font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer;
+  font-family: var(--font-body); transition: all 0.2s;
+}
+.obBackBtn:hover { border-color: var(--text-muted); color: var(--text); }
+.obSkipBtn {
+  height: 34px; padding: 0 12px;
+  background: transparent; border: none;
+  font-size: 12px; font-weight: 700; color: var(--text-muted2); cursor: pointer;
+  font-family: var(--font-body); transition: color 0.2s;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.obSkipBtn:hover { color: var(--text-muted); }
+.obNextBtn {
+  height: 38px; padding: 0 22px;
+  background: var(--accent); border: none; border-radius: 9px;
+  font-size: 13px; font-weight: 800; color: #fff; cursor: pointer;
+  font-family: var(--font-body); transition: all 0.2s;
+  display: flex; align-items: center; gap: 7px;
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+.obNextBtn:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 16px var(--accent-glow); }
+.obNextBtn:active { transform: translateY(0); }
+.obNextBtn svg { width: 15px !important; height: 15px !important; }
+.obValidationMsg { font-size: 11.5px; color: var(--danger); font-weight: 600; min-height: 16px; transition: opacity 0.2s; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .obCard { max-height: 100dvh; border-radius: 0; max-width: 100%; }
+  .obProgress { padding: 14px 14px 0; }
+  .obStepLabel { display: none; }
+  .obBody { padding: 14px; }
+  .obFooter { padding: 10px 14px 14px; }
+  .obFormGrid { grid-template-columns: 1fr; }
+  .obSchoolTypeGrid { grid-template-columns: 1fr 1fr; }
+  .obTeacherRowTop { grid-template-columns: 1fr; }
+  .obFeatures { grid-template-columns: 1fr; }
+  .obWelcomeTitle { font-size: 20px; }
+}

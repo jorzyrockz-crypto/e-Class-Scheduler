@@ -1,4 +1,4 @@
-﻿
+
 function initTheme() {
   const savedTheme = localStorage.getItem('theme') || 'light';
   if (savedTheme === 'dark') {
@@ -22,7 +22,21 @@ function renderThemeIcon() {
   }
 }
 initTheme();
-const BLANK_STATE={"subjects": [], "teachers": [], "classes": [], "advisers": {}, "timeSlots": [], "schoolConfig": {"region": "", "division": "", "district": "", "schoolName": "", "schoolAddress": "", "schoolYear": "", "signatory1Name": "", "signatory1Title": "", "signatory2Name": "", "signatory2Title": ""}, "grades": ["Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10"], "sections": [], "programs": [], "activeProgramId": "", "schedulerExpanded": true, "activeTab": "dashboard", "gradelevelFilter": "Grade 4", "gradelevelDayFilter": "master"}; const STORE='class-program-premium-lucide-v1'; const palette=['#f59e0b','#ef4444','#3b82f6','#0f766e','#10b981','#65a30d','#8b5cf6','#0284c7','#64748b','#ec4899'];
+const BLANK_STATE={"subjects": [], "teachers": [], "classes": [], "advisers": {}, "timeSlots": [], "schoolConfig": {"region": "", "division": "", "district": "", "schoolName": "", "schoolAddress": "", "schoolYear": "", "signatory1Name": "", "signatory1Title": "", "signatory2Name": "", "signatory2Title": "", "schoolType": []}, "grades": ["Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10"], "sections": [], "programs": [], "activeProgramId": "", "schedulerExpanded": true, "activeTab": "dashboard", "gradelevelFilter": "Grade 4", "gradelevelDayFilter": "master", "onboardingComplete": false};
+function rerunOnboarding() {
+  if (typeof state !== 'undefined') {
+    state.onboardingComplete = false;
+    localStorage.setItem(STORE, JSON.stringify(state));
+  }
+  const el = document.getElementById('onboardingWizard');
+  if (el) {
+    el.classList.remove('hidden');
+    window._ob = { step:1, dir:'fwd', types: (state.schoolConfig && state.schoolConfig.schoolType) || [], grades:[], sections:{}, subjects:[], teachers:[] };
+    if (typeof window._obRenderStep === 'function') window._obRenderStep(1, 'fwd');
+    else if (typeof initOnboarding === 'function') initOnboarding();
+  }
+}
+const STORE='class-program-premium-lucide-v1'; const palette=['#f59e0b','#ef4444','#3b82f6','#0f766e','#10b981','#65a30d','#8b5cf6','#0284c7','#64748b','#ec4899'];
 
 const YEAR_KEYS=['backupVersions','subjects','defaultSubjectsInitialized','teachers','classes','advisers','sectionAdvisers','timeSlots','grades','sections','programs','activeProgramId','schedulerExpanded','activeTab','gradelevelFilter','gradelevelDayFilter'];
 function clone(v){return JSON.parse(JSON.stringify(v??null))}
